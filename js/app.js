@@ -1,3 +1,6 @@
+import Template from 'template';
+import { getData } from 'data';
+
 var root = null;
 var useHash = true; 
 var hash = '#!'; 
@@ -8,6 +11,9 @@ router.on({
     '/' : () => {router.navigate('/home');},
     '/home' : function() {
         console.log('Yeey!');
+        getData().then(function(d){
+            console.log(typeof d)
+        });
     },
     '/products' : function() {
         console.log('opa');
