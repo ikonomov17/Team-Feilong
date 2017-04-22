@@ -1,6 +1,7 @@
 import { getTemplate } from 'template';
 import { getData } from 'data';
 import 'jquery';
+import { toUpperHb } from 'hb_helper';
 
 var root = null;
 var useHash = true; 
@@ -23,6 +24,7 @@ router.on({
                 var template = Handlebars.compile(html);
                 //var input = [{"resource":{"classname":"Quote","fields":{"name":"USD/KRW","price":"1133.069946","symbol":"KRW=X","ts":"1492832553","type":"currency","utctime":"2017-04-22T03:42:33+0000","volume":"0"}}},{"resource":{"classname":"Quote","fields":{"name":"USD/KRW","price":"1133.069946","symbol":"KRW=X","ts":"1492832553","type":"currency","utctime":"2017-04-22T03:42:33+0000","volume":"0"}}}];
                 var input = {obj: data};
+                toUpperHb();
                 $('#main').html(template(input));
             })
         })

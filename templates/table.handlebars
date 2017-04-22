@@ -2,7 +2,7 @@
     <thead>
         {{#with obj.[0]}}
             {{#each resource.fields}}
-                <th>{{@key}}</th>
+                <th class="text-center">{{firstUpper @key}}</th>
             {{/each}}
             
         {{/with}}
@@ -10,8 +10,9 @@
     {{#each obj}}
         <tr>
             {{#each resource.fields}}
-                <td>{{this}}</td>
+                <td class="text-center">{{this}}</td>
             {{/each}}
         </tr>
     {{/each}}
 </table>
+
