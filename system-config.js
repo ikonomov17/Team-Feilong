@@ -11,10 +11,12 @@ SystemJS.config({
   // files
   'main': 'js/app.js',
   'routing' : 'js/routing.js',
+  'data': 'js/data.js',
+  'template': 'js/template.js',
 
   // libraries
   'jquery' : './node_modules/jquery/dist/jquery.js',
-
+  'handlebars': './node_modules/handlebars/dist/handlebars.js',
  }
 });
 
