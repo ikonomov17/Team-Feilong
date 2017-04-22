@@ -1,0 +1,17 @@
+<table class="table table-striped">
+    <thead>
+        {{#with obj.[0]}}
+            {{#each resource.fields}}
+                <th>{{@key}}</th>
+            {{/each}}
+            
+        {{/with}}
+    </thead>
+    {{#each obj}}
+        <tr>
+            {{#each resource.fields}}
+                <td>{{this}}</td>
+            {{/each}}
+        </tr>
+    {{/each}}
+</table>

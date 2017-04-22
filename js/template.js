@@ -7,15 +7,13 @@ export function getTemplate (name){
         return cached[name];
     }
 
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve) => {
         $.ajax({
-            url: 'templates/' + name + '.handlebars',
+            url: `../templates/${name}.handlebars`,
             success: function (html) {
                 cached[name] = html;
                 resolve(html);
-            },
-            error: reject()
-            
+            }
         });
     });
 }

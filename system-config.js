@@ -16,7 +16,6 @@ SystemJS.config({
 
   // libraries
   'jquery' : './node_modules/jquery/dist/jquery.js',
-  'handlebars': './node_modules/handlebars/dist/handlebars.js',
   
  }
 });

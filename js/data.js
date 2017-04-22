@@ -4,13 +4,11 @@ var yql = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%
 
 export function getData(){
     return new Promise((resolve) => {
-        let rawData;
         fetchData().done((d) => {
-            rawData = parseData(d);
-            console.log('done')
+            const rawData = parseData(d);
+            console.log('done');
             resolve(rawData);
-    });
-        
+        });
     });
 }
 
@@ -22,6 +20,6 @@ function fetchData() {
 function parseData(jsonString){
     const listOfObjects = JSON.parse(jsonString.query.results.body);
     const objects = listOfObjects.list.resources;
-    console.log('2.parse Data');
+    console.log('2.parse data');
     return objects;
 }
