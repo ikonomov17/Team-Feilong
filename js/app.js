@@ -4,6 +4,7 @@ import { toUpperHb } from 'hb_helper';
 import { startUpdatingTime } from 'time';
 import { attachListFilterToInput,attachTableFilterToInput } from 'filter';
 import 'jquery';
+import 'tablesorter';
 
 var root = null;
 var useHash = true; 
@@ -32,6 +33,8 @@ router.on({
 
                 $('#main').html(template(data));
                 attachTableFilterToInput();
+                // jQuery plugin to make the table sortable
+                $(function(){$("#main-table").tablesorter();});
             })
         })
     },

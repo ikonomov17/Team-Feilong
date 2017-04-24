@@ -19,7 +19,7 @@ SystemJS.config({
 
   // libraries
   'jquery' : './node_modules/jquery/dist/jquery.js',
-  
+  'tablesorter': './node_modules/tablesorter/dist/js/jquery.tablesorter.js',
  }
 });
 

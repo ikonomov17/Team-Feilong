@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-xs-12">
-        <input type="text" class="input-lg my-input" id="table-input">
+        <input type="text" class="input-lg my-input" id="table-input" placeholder="Search by name..">
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-12">
-        <table class="table table-striped">
+    <div class="table-responsive">
+        <table class="table table-striped" id="main-table">
         <thead>
             {{#with obj.[0]}}
                 {{#each resource.fields}}
