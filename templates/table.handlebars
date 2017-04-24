@@ -1,18 +1,28 @@
-<table class="table table-striped">
-    <thead>
-        {{#with obj.[0]}}
-            {{#each resource.fields}}
-                <th class="text-center">{{firstUpper @key}}</th>
-            {{/each}}
-            
-        {{/with}}
-    </thead>
-    {{#each obj}}
-        <tr>
-            {{#each resource.fields}}
-                <td class="text-center">{{this}}</td>
-            {{/each}}
-        </tr>
-    {{/each}}
-</table>
+<div class="row">
+    <div class="col-xs-12">
+        <input type="text" class="input-lg my-input" id="table-input">
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-striped">
+        <thead>
+            {{#with obj.[0]}}
+                {{#each resource.fields}}
+                    <th class="text-center">{{firstUpper @key}}</th>
+                {{/each}}
+                
+            {{/with}}
+        </thead>
+        {{#each obj}}
+            <tr>
+                {{#each resource.fields}}
+                    <td class="text-center">{{this}}</td>
+                {{/each}}
+            </tr>
+        {{/each}}
+        </table>
+    </div>
+</div>
+
 

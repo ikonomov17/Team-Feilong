@@ -2,7 +2,7 @@ import { getTemplate } from 'template';
 import { getData, getOnlyNames } from 'data';
 import { toUpperHb } from 'hb_helper';
 import { startUpdatingTime } from 'time';
-import { attachFilterToInput } from 'filter';
+import { attachListFilterToInput,attachTableFilterToInput } from 'filter';
 import 'jquery';
 
 var root = null;
@@ -31,6 +31,7 @@ router.on({
                 data = {obj: data};
 
                 $('#main').html(template(data));
+                attachTableFilterToInput();
             })
         })
     },
@@ -44,7 +45,7 @@ router.on({
                 //let name = ['a','b','c'];
                 //console.log(namesData);
                 $('#main').html(buttonTemplate({name : namesData}));
-                attachFilterToInput();
+                attachListFilterToInput();
             })
         })
         
