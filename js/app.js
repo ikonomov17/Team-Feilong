@@ -1,7 +1,8 @@
 import { getTemplate } from 'template';
 import { getData } from 'data';
-import 'jquery';
 import { toUpperHb } from 'hb_helper';
+import { startUpdatingTime } from 'time';
+import 'jquery';
 
 var root = null;
 var useHash = true; 
@@ -9,23 +10,26 @@ var hash = '#!';
 
 var router = new Navigo(root, useHash, hash);
 
+startUpdatingTime();
+
 router.on({
     '/' : () => {router.navigate('/home');},
     '/home' : function() {
         console.log('Yeey!');
 
         getData().then(function(data){
-            return data;
-        }).then(function(data){
              getTemplate('table').then(function(html){
                  console.log(html);
                  console.log(data);
-                //var arrayData = Array.prototype.slice.call(data);
                 var template = Handlebars.compile(html);
-                //var input = [{"resource":{"classname":"Quote","fields":{"name":"USD/KRW","price":"1133.069946","symbol":"KRW=X","ts":"1492832553","type":"currency","utctime":"2017-04-22T03:42:33+0000","volume":"0"}}},{"resource":{"classname":"Quote","fields":{"name":"USD/KRW","price":"1133.069946","symbol":"KRW=X","ts":"1492832553","type":"currency","utctime":"2017-04-22T03:42:33+0000","volume":"0"}}}];
-                var input = {obj: data};
+                
+                // Call toUpperHb so that it register the handlebars helper
                 toUpperHb();
-                $('#main').html(template(input));
+
+                // Wrap the data in an object so that the handlebars template could work
+                data = {obj: data};
+                
+                $('#main').html(template(data));
             })
         })
     },

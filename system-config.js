@@ -14,6 +14,7 @@ SystemJS.config({
   'data': 'js/data.js',
   'template': './js/template.js',
   'hb_helper': './js/handlebars_helpers.js',
+  'time': './js/time.js',
 
   // libraries
   'jquery' : './node_modules/jquery/dist/jquery.js',
