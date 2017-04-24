@@ -30,7 +30,7 @@ export function getOnlyNames() {
 
         getData().then(function(allObjects) {
             allObjects.forEach((el) => {
-                namesArray.push(el.resource.fields.name);
+                namesArray.push(el.resource.fields.name.trim());
             });
 
             resolve(namesArray);

@@ -2,6 +2,7 @@ import { getTemplate } from 'template';
 import { getData, getOnlyNames } from 'data';
 import { toUpperHb } from 'hb_helper';
 import { startUpdatingTime } from 'time';
+import { attachFilterToInput } from 'filter';
 import 'jquery';
 
 var root = null;
@@ -28,7 +29,7 @@ router.on({
 
                 // Wrap the data in an object so that the handlebars template could work
                 data = {obj: data};
-                
+
                 $('#main').html(template(data));
             })
         })
@@ -43,6 +44,7 @@ router.on({
                 //let name = ['a','b','c'];
                 //console.log(namesData);
                 $('#main').html(buttonTemplate({name : namesData}));
+                attachFilterToInput();
             })
         })
         
