@@ -23,3 +23,17 @@ function parseData(jsonString){
     console.log('2.parse data');
     return objects;
 }
+
+export function getOnlyNames() {
+    return new Promise((resolve) => {
+        const namesArray = [];
+
+        getData().then(function(allObjects) {
+            allObjects.forEach((el) => {
+                namesArray.push(el.resource.fields.name);
+            });
+
+            resolve(namesArray);
+        });
+    });
+}

@@ -1,5 +1,5 @@
 import { getTemplate } from 'template';
-import { getData } from 'data';
+import { getData, getOnlyNames } from 'data';
 import { toUpperHb } from 'hb_helper';
 import { startUpdatingTime } from 'time';
 import 'jquery';
@@ -21,7 +21,7 @@ router.on({
              getTemplate('table').then(function(html){
                  console.log(html);
                  console.log(data);
-                var template = Handlebars.compile(html);
+                const template = Handlebars.compile(html);
                 
                 // Call toUpperHb so that it register the handlebars helper
                 toUpperHb();
@@ -34,7 +34,18 @@ router.on({
         })
     },
     '/products' : function() {
-        console.log('opa');
+        console.log('Zemi si');
+
+        getOnlyNames().then(function(namesData){
+            getTemplate('buttons').then(function(html) {
+                //console.log(html);
+                const buttonTemplate = Handlebars.compile(html);
+                //let name = ['a','b','c'];
+                //console.log(namesData);
+                $('#main').html(buttonTemplate({name : namesData}));
+            })
+        })
+        
     },
     '/user/:id/:action' : function (params) {
         console.log(`${params.id} is id and ${params.action} is action`);
