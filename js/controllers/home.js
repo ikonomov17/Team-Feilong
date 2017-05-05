@@ -1,0 +1,33 @@
+import * as data from '../data.js';
+import { toUpperHb } from '../handlebars_helpers.js';
+import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
+import { template } from '../template.js';
+import $ from 'jquery';
+
+
+const homeController = {
+    get() {
+        console.log('Yeey!');
+
+        data.getData().then(function(data) {
+            template.get('table').then(function(html) {
+                console.log(html);
+                console.log(data);
+                const template = Handlebars.compile(html);
+
+                // Call toUpperHb so that it register the handlebars helper
+                toUpperHb();
+
+                // Wrap the data in an object so that the handlebars template could work
+                data = { obj: data };
+
+                $('#main').html(template(data));
+                attachTableFilterToInput();
+                // jQuery plugin to make the table sortable
+                $(function() { $("#main-table").tablesorter(); });
+            })
+        })
+    }
+}
+
+export { homeController };
