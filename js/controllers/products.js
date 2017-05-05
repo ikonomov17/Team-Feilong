@@ -16,6 +16,7 @@ const productsController = {
                 //console.log(namesData);
                 $('#main').html(buttonTemplate({ name: namesData }));
                 attachListFilterToInput();
+                $('#right-side-bar').html('');
             })
         })
 

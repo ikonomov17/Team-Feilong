@@ -1,7 +1,8 @@
-import * as data from '../data.js';
-import { toUpperHb } from '../handlebars_helpers.js';
-import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
-import { template } from '../template.js';
+import * as data from '../../data.js';
+import { toUpperHb } from '../../handlebars_helpers.js';
+import { attachListFilterToInput, attachTableFilterToInput } from '../../filter.js';
+import { template } from '../../template.js';
+import { sideBarMenu } from './right-side-bar.js';
 import $ from 'jquery';
 
 
@@ -10,6 +11,7 @@ const homeController = {
         console.log('Yeey!');
 
         data.getData().then(function(data) {
+
             template.get('table').then(function(html) {
                 console.log(html);
                 console.log(data);
@@ -25,9 +27,10 @@ const homeController = {
                 attachTableFilterToInput();
                 // jQuery plugin to make the table sortable
                 $(function() { $("#main-table").tablesorter(); });
-            })
+            });
+            sideBarMenu.get();
         })
     }
-}
+};
 
 export { homeController };

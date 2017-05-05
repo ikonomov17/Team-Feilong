@@ -16,7 +16,7 @@ SystemJS.config({
         'hb_helper': './js/handlebars_helpers.js',
         'time': './js/time.js',
         'filter': './js/filter.js',
-        'homeController': './js/controllers/home.js',
+        'homeController': './js/controllers/homepage/home.js',
         'productsController': './js/controllers/products.js',
         'usersController': './js/controllers/users.js',
 

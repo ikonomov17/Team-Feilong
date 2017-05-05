@@ -1,7 +1,7 @@
 ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 ul li {
@@ -36,3 +36,21 @@ ul li label:hover {
     margin-bottom: 12px;
     width: 100%;
 }
+
+#main {
+    padding: 20px;
+    width: 70%;
+    float: left;
+}
+
+
+/*START Right side bar*/
+
+#right-sidebar {
+    padding: 20px;
+    width: 30%;
+    float: right;
+}
+
+
+/*END Right side bar*/

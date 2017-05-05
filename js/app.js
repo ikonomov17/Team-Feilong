@@ -6,6 +6,7 @@ import { attachListFilterToInput, attachTableFilterToInput } from 'filter';
 import { homeController } from 'homeController';
 import { productsController } from 'productsController';
 import { usersController } from 'usersController';
+import { sideBarContent } from './controllers/homepage/right-side-bar.js';
 import 'jquery';
 import 'tablesorter';
 
@@ -19,6 +20,7 @@ startUpdatingTime();
 
 router.on({
     '/': () => { router.navigate('/home'); },
+    '/home/:sideBarMenu': (params) => sideBarContent.get(params),
     '/home': homeController.get,
     '/products': productsController.get,
     '/user/:id/:action': (params) => usersController.get(params)
