@@ -16,7 +16,7 @@ const homeController = {
                 const template = Handlebars.compile(html);
 
                 $('#main').html(template);
-
+                toastr.success("Welcome!");
             });
             sideBarMenu.get();
         })

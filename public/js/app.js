@@ -23,7 +23,8 @@ router.on({
     '/table': tableController.get,
     '/products': productsController.get,
     '/user/:id/:action': (params) => usersController.get(params),
-    '/login': usersController.login
+    '/login': usersController.login,
+    '/auth': usersController.authenticate
 }).notFound(function() {
     // called when there is path specified but
     // there is no route matching

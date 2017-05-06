@@ -13,18 +13,36 @@ import { template } from '../template.js';
 //     messagingSenderId: "1075179276760"
 // };
 // firebase.initializeApp(config);
+toastr.options = {
+    "positionClass": "toast-top-center",
+}
 
 const usersController = {
     get(params) {
         console.log(`${params.id} is id and ${params.action} is action`);
     },
 
+    authenticate() {
+        console.log('Autheticating');
+        const $username = $("#input-username").val();
+        const $password = $("#input-password").val();
+        firebase.auth().signInWithEmailAndPassword($username, $password)
+            .then(user => {
+                console.log(user);
+                // Check if remember me is ticked
+                data.setLocalStorage(user);
+                toastr.success(`User ${user.email} logged in successfully!`);
+                location.href = '/#!home';
+            })
+            .catch(function(error) {
+                console.log('Error in authentication');
+                console.log(error);
+            });
+    },
+
     login() {
         template.get('login').then(function(html) {
-            console.log(html);
-            // console.log(data);
             const compiledTemplate = Handlebars.compile(html);
-            console.log(compiledTemplate);
             $('#main').html(compiledTemplate);
         });
     },

@@ -17,6 +17,7 @@
     "navigo": "^4.6.2",
     "systemjs": "^0.20.12",
     "systemjs-plugin-babel": "0.0.21",
-    "tablesorter": "^2.28.8"
+    "tablesorter": "^2.28.8",
+    "toastr": "^2.1.2"
   }
 }
