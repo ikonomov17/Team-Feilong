@@ -19,7 +19,8 @@ var router = new Navigo(root, useHash, hash);
 startUpdatingTime();
 
 router.on({
-    '/': () => { router.navigate('/home'); },
+    '/': () => { router.navigate('home'); },
+    '/#': () => { router.navigate('home'); },
     '/home/:sideBarMenu': (params) => sideBarContent.get(params),
     '/home': homeController.get,
     '/products': productsController.get,
