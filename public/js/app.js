@@ -1,9 +1,6 @@
-import { getTemplate } from 'template';
-import { getData, getOnlyNames } from '../js/data/data.js';
-import { toUpperHb } from 'hb_helper';
 import { startUpdatingTime } from 'time';
-import { attachListFilterToInput, attachTableFilterToInput } from 'filter';
 import { homeController } from 'homeController';
+import { tableController } from 'tableController';
 import { productsController } from 'productsController';
 import { usersController } from 'usersController';
 import { sideBarContent } from './controllers/homepage/right-side-bar.js';
@@ -21,10 +18,12 @@ startUpdatingTime();
 router.on({
     '/': () => { router.navigate('home'); },
     '/#': () => { router.navigate('home'); },
-    '/home/:sideBarMenu': (params) => sideBarContent.get(params),
     '/home': homeController.get,
+    '/home/:sideBarMenu': (params) => sideBarContent.get(params),
+    '/table': tableController.get,
     '/products': productsController.get,
-    '/user/:id/:action': (params) => usersController.get(params)
+    '/user/:id/:action': (params) => usersController.get(params),
+    '/login': usersController.login
 }).notFound(function() {
     // called when there is path specified but
     // there is no route matching

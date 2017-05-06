@@ -38,7 +38,7 @@
     text-decoration: none;
 }
 
-.glyphicon {
+.sidebar-nav .glyphicon {
     margin: 45% auto;
     font-size: 3em;
 }
@@ -46,15 +46,15 @@
 
 /*START Right side bar*/
 
-.form-control {
+favorites .form-control {
     height: 200px !important;
 }
 
-.active {
+favorites .active {
     background-color: gray;
 }
 
-.glyphicon {
+.favorites .glyphicon {
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -62,3 +62,49 @@
 
 
 /*END Right side bar*/
+
+
+/*START Login form */
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400);
+#login-form {
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+    font: normal 14px Roboto, arial, sans-serif;
+    margin-top: 100px;
+}
+
+#login-form .container {
+    padding: 25px;
+    position: fixed;
+}
+
+#login-form .form-login {
+    background-color: #EDEDED;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 15px;
+    border-color: #d2d2d2;
+    border-width: 5px;
+    box-shadow: 0 1px 0 #cfcfcf;
+}
+
+#login-form h4 {
+    border: 0 solid #fff;
+    border-bottom-width: 1px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+#login-form .form-control {
+    border-radius: 5px;
+}
+
+#login-form .wrapper {
+    text-align: center;
+}
+
+
+/*END Login form*/

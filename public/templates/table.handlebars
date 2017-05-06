@@ -1,28 +1,32 @@
-<div class="row">
-    <div class="col-xs-12">
-        <input type="text" class="input-lg my-input" id="table-input" placeholder="Search by name..">
-    </div>
-</div>
-<div class="row">
-    <div class="table-responsive">
-        <table class="table table-striped" id="main-table">
-        <thead>
-            {{#with obj.[0]}}
-                {{#each resource.fields}}
-                    <th class="text-center">{{firstUpper @key}}</th>
+ <div class="jumbotron"> 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <input type="text" class="input-lg my-input" id="table-input" placeholder="Search by name..">
+            </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-striped" id="main-table">
+                <thead>
+                    {{#with obj.[0]}}
+                        {{#each resource.fields}}
+                            <th class="text-center">{{firstUpper @key}}</th>
+                        {{/each}}
+                        
+                    {{/with}}
+                </thead>
+                {{#each obj}}
+                    <tr>
+                        {{#each resource.fields}}
+                            <td class="text-center">{{this}}</td>
+                        {{/each}}
+                    </tr>
                 {{/each}}
-                
-            {{/with}}
-        </thead>
-        {{#each obj}}
-            <tr>
-                {{#each resource.fields}}
-                    <td class="text-center">{{this}}</td>
-                {{/each}}
-            </tr>
-        {{/each}}
-        </table>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
+ </div>
 
 

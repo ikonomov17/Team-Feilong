@@ -17,6 +17,7 @@ SystemJS.config({
         'time': './js/time.js',
         'filter': './js/filter.js',
         'homeController': './js/controllers/homepage/home.js',
+        'tableController': './js/controllers/table.js',
         'productsController': './js/controllers/products.js',
         'usersController': './js/controllers/users.js',
 
