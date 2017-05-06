@@ -52,5 +52,26 @@ ul li label:hover {
     float: right;
 }
 
+.side-bar-favorites {
+    border: 2px, black;
+    float: top;
+    widows: 30%;
+}
+
+.side-bar-bottom {
+    float: bottom;
+    width: 70%;
+}
+
+.side-bar-content {
+    float: left;
+    width: 70%;
+}
+
+.side-bar-menu {
+    float: right;
+    width: 30%;
+}
+
 
 /*END Right side bar*/

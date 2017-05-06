@@ -4,27 +4,35 @@ import { attachListFilterToInput, attachTableFilterToInput } from '../../filter.
 import { template } from '../../template.js';
 import $ from 'jquery';
 
-// class Index {
-//     constructor(name, price, symbol, volume) {
-//         this._name = name;
-//         this._price = price;
-//         this._symbol = symbol;
-//         this._volume = volume;
-//     }
+//Export to individual module!
+class Index {
+    constructor(name, price, symbol, volume) {
+        this._name = name;
+        this._price = price;
+        this._symbol = symbol;
+        this._volume = volume;
+    }
 
-//     get name() {
-//         return this._name;
-//     }
-//     get price() {
-//         return this._price;
-//     }
-//     get symbol() {
-//         return this._symbol;
-//     }
-//     get volume() {
-//         return this._volume;
-//     }
-// }
+    get name() {
+        return this._name;
+    }
+    get price() {
+        return this._price;
+    }
+    get symbol() {
+        return this._symbol;
+    }
+    get volume() {
+        return this._volume;
+    }
+}
+
+
+let index1 = new Index('Aple', 50, 'AAPL', 1000),
+    index2 = new Index('Google', 60, 'GOOG', 20000),
+    index3 = new Index('Yahoo', 70, 'YHOO', 3000),
+    index4 = new Index('IBM', 20, 'IBM', 150);
+
 const sideBarMenu = {
     get(params) {
 
