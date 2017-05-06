@@ -27,10 +27,15 @@ const sideBarMenu = {
             )
             $('#side-bar').html(rightSideBarTemplate(favoritesList));
 
-            // $('.tabs').on('click', (event) => {
-            //     $('.active').removeClass('active')
-            //     $(event.target).parent().addClass('active');
-            // })
+            $('.sidebar-nav').on('click', (event) => {
+                const $selectedEl = $(event.target).parent();
+                $('.active').removeClass('active')
+                $selectedEl.addClass('active');
+
+                // hash changing:
+                let hash = location.hash.split('/');
+                location.hash = hash[0] + '/' + $selectedEl.attr('id');
+            })
         })
     }
 }
