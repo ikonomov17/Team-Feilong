@@ -22,7 +22,9 @@ const sideBarMenu = {
         template.get('sidebar-favorites').then(function(html) {
             const rightSideBarTemplate = Handlebars.compile(html);
 
-
+            favoritesList.forEach(index =>
+                console.log(index.name)
+            )
             $('#side-bar').html(rightSideBarTemplate(favoritesList));
 
             // $('.tabs').on('click', (event) => {
