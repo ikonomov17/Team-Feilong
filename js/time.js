@@ -2,11 +2,11 @@ import 'jquery';
 
 
 function updateCurrentUtcTime() {
-    let currentUtcTime = new Date().toUTCString(); 
+    let currentUtcTime = new Date().toUTCString();
     $('#time-container')
-            .html(currentUtcTime);
+        .html(currentUtcTime);
 }
 
-export function startUpdatingTime(){
-    setInterval(updateCurrentUtcTime,1000);
+export function startUpdatingTime() {
+    setInterval(updateCurrentUtcTime, 1000);
 }

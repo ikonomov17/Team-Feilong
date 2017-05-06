@@ -1,4 +1,4 @@
-import * as data from '../data.js';
+import * as data from '../data/data.js';
 import { toUpperHb } from '../handlebars_helpers.js';
 import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
 import { template } from '../template.js';
@@ -6,7 +6,7 @@ import $ from 'jquery';
 
 const productsController = {
     get() {
-        console.log('Zemi si');
+        // console.log('Zemi si');
 
         data.getOnlyNames().then(function(namesData) {
             template.get('buttons').then(function(html) {

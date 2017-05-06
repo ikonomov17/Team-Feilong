@@ -1,5 +1,5 @@
 import { getTemplate } from 'template';
-import { getData, getOnlyNames } from 'data';
+import { getData, getOnlyNames } from '../js/data/data.js';
 import { toUpperHb } from 'hb_helper';
 import { startUpdatingTime } from 'time';
 import { attachListFilterToInput, attachTableFilterToInput } from 'filter';
