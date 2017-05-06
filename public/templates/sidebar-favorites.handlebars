@@ -1,0 +1,15 @@
+<div class="favorites">
+    <div class="tab-title">
+        <h2>Favorites</h2>
+    </div>
+    <form>
+        <div class="radio">
+            <select multiple class="form-control">
+                {{#each this}} 
+                <option>{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </form>
+</div>
+
