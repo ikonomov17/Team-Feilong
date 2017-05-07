@@ -1,5 +1,6 @@
 import { startUpdatingTime } from 'time';
 import { homeController } from 'homeController';
+import { chartController } from 'chartController';
 import { tableController } from 'tableController';
 import { listController } from 'listController';
 import { usersController } from 'usersController';
@@ -15,17 +16,12 @@ var router = new Navigo(root, useHash, hash);
 
 startUpdatingTime();
 
-// Listens for changes in logged in user
-// Sets sign in/out buttons appropriately
-firebase.auth()
-    .onAuthStateChanged(user => usersController.toggleButtons(user));
-
-
 router.on({
     '/': () => { router.navigate('home'); },
     '/#': () => { router.navigate('home'); },
     'home': homeController.get,
     'home/:sideBarMenu': (params) => sideBarContent.get(params),
+    'chart': chartController.get,
     'table': tableController.get,
     'list': listController.get,
     'user': usersController.get,

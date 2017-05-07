@@ -17,6 +17,7 @@ System.config({
         'time': './js/time.js',
         'filter': './js/filter.js',
         'homeController': './js/controllers/homepage/home.js',
+        'chartController': './js/controllers/chart.js',
         'tableController': './js/controllers/table.js',
         'listController': './js/controllers/list.js',
         'usersController': './js/controllers/users.js',

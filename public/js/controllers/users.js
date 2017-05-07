@@ -17,12 +17,17 @@ toastr.options = {
     "positionClass": "toast-bottom-center",
 }
 
+// Listens for changes in logged in user
+// Sets sign in/out buttons appropriately
+firebase.auth()
+    .onAuthStateChanged(user => usersController.toggleButtons(user));
+
 const usersController = {
     get(params) {
         //console.log(`${params.id} is id and ${params.action} is action`);
 
         template.get('user').then(template => {
-            $('#main').html(template);
+            $('#contents').html(template);
         });
     },
 
@@ -84,7 +89,7 @@ const usersController = {
 
     getCurrentUser() {
         const user = firebase.auth().currentUser;
-        usersController.toggleButtons(user);
+        console.log(user);
     },
 
     toggleButtons(user) {

@@ -24,7 +24,7 @@ const tableController = {
                 // Wrap the data in an object so that the handlebars template could work
                 data = { obj: data };
 
-                $('#main').html(template(data));
+                $('#contents').html(template(data));
                 attachTableFilterToInput();
                 // jQuery plugin to make the table sortable
                 $(function() { $("#main-table").tablesorter(); });

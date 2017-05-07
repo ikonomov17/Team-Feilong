@@ -14,9 +14,9 @@ const listController = {
             ])
             .then(([template, data]) => {
                 data = { name: data }
-                $('#main').html(template(data));
+                $('#contents').html(template(data));
                 attachListFilterToInput();
-                $('#right-side-bar').html('');
+                //$('#right-side-bar').html('');
             })
             .catch(error => toastr.error(error.message));
     }

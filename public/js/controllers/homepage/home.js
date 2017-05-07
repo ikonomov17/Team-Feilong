@@ -9,10 +9,15 @@ const homeController = {
         // console.log('Yeey!');
 
         //data.getData().then(function(data) {
-
-        template.get('home')
-            .then(templ => {
-                $('#main').html(templ());
+        Promise.all([
+                template.get('home'),
+                template.get('side-bar'),
+                template.get('side-menu')
+            ])
+            .then(([homeT, sideBarT, sideMenuT]) => {
+                $('#contents').html(homeT());
+                $('#side-bar').html(sideBarT());
+                $('#side-menu').html(sideMenuT());
                 toastr.success("Welcome home!");
             });
         sideBarMenu.get();
