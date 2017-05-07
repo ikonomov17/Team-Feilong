@@ -31,7 +31,8 @@ const sideBarMenu = {
                 $selectedEl.addClass('active');
 
                 // hash changing:
-                let hash = location.hash.split('/');
+                console.log(location.hash);
+                let hash = location.hash.split(':');
                 location.hash = hash[0] + ':' + $selectedEl.attr('id');
             })
         })
