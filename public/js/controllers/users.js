@@ -107,7 +107,9 @@ const usersController = {
     closeForm() {
         $('#login-form').addClass('hidden');
         // Fix to be page where we came from
-        const back = hashHistory.reverse().find(hash => hash !== '!auth' && hash !== '!create' && hash !== '!register' && hash !== '!login')
+        const back = hashHistory
+            .slice().reverse()
+            .find(hash => hash !== '!auth' && hash !== '!create' && hash !== '!register' && hash !== '!login')
         location.href = '#' + back;
     }
 }
