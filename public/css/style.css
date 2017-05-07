@@ -66,7 +66,6 @@ favorites .active {
 
 /*START Login form */
 
-@import url(http://fonts.googleapis.com/css?family=Roboto:400);
 #login-form {
     background-color: #fff;
     -webkit-font-smoothing: antialiased;
@@ -91,7 +90,7 @@ favorites .active {
     box-shadow: 0 1px 0 #cfcfcf;
 }
 
-#login-form h4 {
+#login-form h2 {
     border: 0 solid #fff;
     border-bottom-width: 1px;
     padding-bottom: 10px;
@@ -108,3 +107,7 @@ favorites .active {
 
 
 /*END Login form*/
+
+.hidden {
+    display: none;
+}

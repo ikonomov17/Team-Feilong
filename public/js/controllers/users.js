@@ -14,7 +14,7 @@ import { template } from '../template.js';
 // };
 // firebase.initializeApp(config);
 toastr.options = {
-    "positionClass": "toast-top-center",
+    "positionClass": "toast-bottom-center",
 }
 
 const usersController = {
@@ -22,49 +22,72 @@ const usersController = {
         console.log(`${params.id} is id and ${params.action} is action`);
     },
 
-    authenticate() {
-        console.log('Autheticating');
-        const $username = $("#input-username").val();
-        const $password = $("#input-password").val();
-        firebase.auth().signInWithEmailAndPassword($username, $password)
-            .then(user => {
-                console.log(user);
-                // Check if remember me is ticked
-                data.setLocalStorage(user);
-                toastr.success(`User ${user.email} logged in successfully!`);
-                location.href = '/#!home';
-            })
-            .catch(function(error) {
-                console.log('Error in authentication');
-                console.log(error);
-            });
-    },
 
-    login() {
+    authenticate() {
         template.get('login').then(function(html) {
             const compiledTemplate = Handlebars.compile(html);
             $('#main').html(compiledTemplate);
         });
     },
 
-    logout() {
+    create() {
+        template.get('register').then(function(html) {
+            const compiledTemplate = Handlebars.compile(html);
+            $('#main').html(compiledTemplate);
+        });
+    },
 
+    login() {
+        const $email = $("#input-email").val();
+        const $password = $("#input-password").val();
+        firebase.auth().signInWithEmailAndPassword($email, $password)
+            .then(user => {
+                // Check if remember me is ticked
+                data.setLocalStorage(user);
+                toastr.success(`User ${user.email} logged in successfully!`);
+                location.href = '/#!home';
+            })
+            .catch(error => toastr.error(error.message));
+    },
+
+    logout() {
+        firebase.auth().signOut()
+            .then(() => {
+                toastr.success('Good bye!');
+                location.href = '/#!home';
+            })
+            .catch(error => toastr.error(error.message));
     },
 
     register() {
-        const $username = $("#input-username").val();
+        const $email = $("#input-email").val();
         const $password = $("#input-password").val();
-
-        // data.register($username, $password)
-        //     .then(result => {
-        //             console.log(result);
-        //             login();
-        //         },
-        //         error => console.log(error.responseText));
+        firebase.auth().createUserWithEmailAndPassword($email, $password)
+            .then(user => {
+                // Check if remember me is ticked
+                data.setLocalStorage(user);
+                toastr.success(`User ${user.email} created successfully!`);
+                location.href = '/#!home';
+            })
+            .catch(error => {
+                toastr.error(error.message);
+                location.href = '/#!create';
+            });
     },
 
-    remember() {
+    getCurrentUser() {
+        const user = firebase.auth().currentUser;
+        this.toggleButtons(user);
+    },
 
+    toggleButtons(user) {
+        if (user) {
+            $('#login').addClass('hidden');
+            $('#logout').removeClass('hidden');
+        } else {
+            $('#login').removeClass('hidden');
+            $('#logout').addClass('hidden');
+        }
     }
 }
 

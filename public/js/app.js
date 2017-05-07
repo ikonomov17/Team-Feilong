@@ -15,6 +15,12 @@ var router = new Navigo(root, useHash, hash);
 
 startUpdatingTime();
 
+// Set sign in/out buttons appropriately
+// Checks if a user is logged in on inial page load
+usersController.getCurrentUser();
+// Listens for changes in logged in user
+firebase.auth().onAuthStateChanged(user => usersController.toggleButtons(user))
+
 router.on({
     '/': () => { router.navigate('home'); },
     '/#': () => { router.navigate('home'); },
@@ -24,9 +30,13 @@ router.on({
     '/products': productsController.get,
     '/user/:id/:action': (params) => usersController.get(params),
     '/login': usersController.login,
-    '/auth': usersController.authenticate
-}).notFound(function() {
+    '/logout': usersController.logout,
+    '/register': usersController.register,
+    '/auth': usersController.authenticate,
+    '/create': usersController.create,
+}).notFound(query => {
     // called when there is path specified but
     // there is no route matching
-    console.log('Ooops')
+    toastr.info("Router couldn't find the path");
+    console.log(query);
 }).resolve();

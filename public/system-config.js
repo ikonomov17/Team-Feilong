@@ -1,4 +1,4 @@
-SystemJS.config({
+System.config({
 
     // tell SystemJS which transpiler to use
     transpiler: 'plugin-babel',
@@ -27,7 +27,9 @@ SystemJS.config({
     },
 
     meta: {
-        './js.app': 'esm',
+        './js.app': {
+            format: 'esm'
+        }
     }
 });
 
