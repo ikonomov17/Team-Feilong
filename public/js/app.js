@@ -4,7 +4,7 @@ import { chartController } from 'chartController';
 import { tableController } from 'tableController';
 import { listController } from 'listController';
 import { usersController } from 'usersController';
-import { sideBarContent } from './controllers/homepage/right-side-bar.js';
+import { sideBarContent } from './controllers/homepage/sidebar-router.js';
 import 'jquery';
 import 'tablesorter';
 
@@ -20,7 +20,7 @@ router.on({
     '/': () => { router.navigate('home'); },
     '/#': () => { router.navigate('home'); },
     'home': homeController.get,
-    'home/:sideBarMenu': (params) => sideBarContent.get(params),
+    'home/:sideBarContent': (params) => sideBarContent.get(params),
     'chart': chartController.get,
     'table': tableController.get,
     'list': listController.get,

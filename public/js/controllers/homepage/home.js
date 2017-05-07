@@ -1,6 +1,6 @@
 import * as data from '../../data/data.js';
 import { template } from '../../template.js';
-import { sideBarMenu } from './right-side-bar.js';
+import { sideBarContent } from './sidebar-router.js';
 import $ from 'jquery';
 
 
@@ -20,7 +20,7 @@ const homeController = {
                 $('#side-menu').html(sideMenuT());
                 toastr.success("Welcome home!");
             });
-        sideBarMenu.get();
+        sideBarContent.get();
         //})
     }
 };

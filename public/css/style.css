@@ -54,15 +54,15 @@
 
 /*START Right side bar*/
 
-favorites .form-control {
+.sidebar-nav .form-control {
     height: 200px !important;
 }
 
-favorites .active {
+.sidebar-nav .active {
     background-color: gray;
 }
 
-.favorites .glyphicon {
+.sidebar-nav .glyphicon {
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
