@@ -41,11 +41,8 @@ function fetchDataFromSource(ticker,period){
     */
     const timePeriod = +period.number;
     const periodType = period.type;
-    console.log(ticker);
-    console.log(timePeriod);
-    console.log(periodType);
     const url =`https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%3D%27https%3A%2F%2Fchartapi.finance.yahoo.com%2Finstrument%2F1.0%2F${ticker}%2Fchartdata%3Btype%3Dquote%3Brange%3D${timePeriod}${periodType}%2Fcsv%27&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=`;
-console.log(url)
+
 	return requester.get(url);
 };
 
