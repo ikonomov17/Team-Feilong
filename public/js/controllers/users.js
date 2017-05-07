@@ -36,7 +36,7 @@ const usersController = {
             usersController.clickOutOfForm();
         });
     },
-
+    // TODO no reload on error
     login() {
         const $email = $("#input-email").val();
         const $password = $("#input-password").val();
@@ -85,20 +85,25 @@ const usersController = {
 
     toggleButtons(user) {
         if (user) {
+            $('#register').addClass('hidden');
             $('#login').addClass('hidden');
             $('#logout').removeClass('hidden');
         } else {
+            $('#register').removeClass('hidden');
             $('#login').removeClass('hidden');
             $('#logout').addClass('hidden');
         }
     },
 
     clickOutOfForm() {
-        const $form = $('#login-form');
-        $form.click(event => {
+        // TODO Make form close on click in top bar
+        $('#popup').click(function(event) {
             const id = $(event.target).attr('id');
             const cls = $(event.target).attr('class');
-            if (id === 'login-form' || cls === 'row' || cls === 'close') {
+            // console.log(event.target);
+            // console.log(this);
+            // console.log(cls);
+            if (id === 'login-form' || cls === 'close') {
                 usersController.closeForm();
             }
         });

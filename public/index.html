@@ -49,12 +49,15 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#!chart">Chart</a></li>
-                    <li><a href="#!table">Table</a></li>
-                    <li><a href="#!list">List</a></li>
-                    <li><a id="login" href="#!auth">Sign in</a></li>
-                    <li><a id="logout" href="#!logout" class="hidden">Sign out</a></li>
+                    <li class="active"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in">Home</a></li>
+                    <li><a href="#!chart" data-toggle="collapse" data-target=".navbar-collapse.in">Chart</a></li>
+                    <li><a href="#!table" data-toggle="collapse" data-target=".navbar-collapse.in">Table</a></li>
+                    <li><a href="#!list" data-toggle="collapse" data-target=".navbar-collapse.in">List</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a id="register" href="#!create" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a id="login" href="#!auth" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-log-in"></span> Sign in</a></li>
+                    <li><a id="logout" href="#!logout" class="hidden" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-log-out"></span> Sign out</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->

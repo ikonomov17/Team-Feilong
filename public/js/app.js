@@ -38,6 +38,5 @@ router.on({
 }).notFound(query => {
     // called when there is path specified but
     // there is no route matching
-    toastr.info("Router couldn't find the path");
-    console.log(query);
+    toastr.info(`Router couldn't find the path: ${query}`);
 }).resolve();
