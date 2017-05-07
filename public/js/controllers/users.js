@@ -19,20 +19,24 @@ toastr.options = {
 
 const usersController = {
     get(params) {
-        console.log(`${params.id} is id and ${params.action} is action`);
+        //console.log(`${params.id} is id and ${params.action} is action`);
+
+        template.get('user').then(template => {
+            $('#main').html(template);
+        });
     },
 
 
     authenticate() {
-        template.get('login').then(templ => {
-            $('#popup').html(templ);
+        template.get('login').then(template => {
+            $('#popup').html(template);
             usersController.clickOutOfForm();
         });
     },
 
     create() {
-        template.get('register').then(templ => {
-            $('#popup').html(templ);
+        template.get('register').then(template => {
+            $('#popup').html(template);
             usersController.clickOutOfForm();
         });
     },
@@ -86,12 +90,17 @@ const usersController = {
     toggleButtons(user) {
         if (user) {
             $('#register').addClass('hidden');
+            $('#user').removeClass('hidden').html(user.email);
             $('#login').addClass('hidden');
             $('#logout').removeClass('hidden');
+
+            toastr.success(`Hi, ${user.email}!`);
         } else {
             $('#register').removeClass('hidden');
+            $('#user').addClass('hidden');
             $('#login').removeClass('hidden');
             $('#logout').addClass('hidden');
+            toastr.success("Add and track your favourite currencies", "Register, it's cool");
         }
     },
 

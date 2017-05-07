@@ -15,11 +15,10 @@ var router = new Navigo(root, useHash, hash);
 
 startUpdatingTime();
 
-// Set sign in/out buttons appropriately
-// Checks if a user is logged in on inial page load
-usersController.getCurrentUser();
 // Listens for changes in logged in user
-firebase.auth().onAuthStateChanged(user => usersController.toggleButtons(user))
+// Sets sign in/out buttons appropriately
+firebase.auth()
+    .onAuthStateChanged(user => usersController.toggleButtons(user));
 
 
 router.on({
@@ -29,6 +28,7 @@ router.on({
     '/home/:sideBarMenu': (params) => sideBarContent.get(params),
     '/table': tableController.get,
     '/list': listController.get,
+    '/user': usersController.get,
     '/user/:id/:action': (params) => usersController.get(params),
     '/login': usersController.login,
     '/logout': usersController.logout,
