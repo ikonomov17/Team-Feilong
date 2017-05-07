@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { Index } from './indexClass.js';
 import * as requester from '../requester.js';
+import { FScore } from './FScoreClass.js';
 
 var yql = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%27http%3A%2F%2Ffinance.yahoo.com%2Fwebservice%2Fv1%2Fsymbols%2Fallcurrencies%2Fquote%3Fformat%3Djson%27&format=json&diagnostics=true&callback='
 
@@ -40,4 +41,12 @@ export function getLocalStorage() {
 
 export function delLocalStorage() {
 
+}
+
+export function scoreAnalytics(arr) {
+
+    const fScore = new FScore();
+    let fScoreResults = fScore.total(arr);
+    // console.log(fScoreResults.totalPoints);
+    return fScoreResults;
 }
