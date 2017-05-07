@@ -2,22 +2,16 @@
     <div class="tab-title">
         <h2>Favorites</h2>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Index</th>
-                <th>Price</th>
-                <th>F Score</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each this}}
-            <tr>
-                <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
-                <td>{{this.volume}}</td>
-            </tr>
+    <form>
+        {{#each this}} 
+        <div class="radio">
+            <label>
+            <input type="radio" name="optradio">
+                {{this.name}}
+            </label>    
+        </div>
             {{/each}}
-        </tbody>
-    </table>
+    </form>
 </div>
+
+

@@ -1,9 +1,9 @@
 class Index {
-    constructor(name, price, symbol, fScore) {
+    constructor(name, price, symbol, volume) {
         this._name = name;
         this._price = price;
         this._symbol = symbol;
-        this._fScore = fScore;
+        this._volume = volume;
     }
 
     get name() {
@@ -16,7 +16,7 @@ class Index {
         return this._symbol;
     }
     get volume() {
-        return this._fScore;
+        return this._volume;
     }
 }
 
