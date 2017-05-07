@@ -26,14 +26,16 @@ const usersController = {
     authenticate() {
         template.get('login').then(function(html) {
             const compiledTemplate = Handlebars.compile(html);
-            $('#main').html(compiledTemplate);
+            $('#popup').html(compiledTemplate);
+            usersController.clickOutOfForm();
         });
     },
 
     create() {
         template.get('register').then(function(html) {
             const compiledTemplate = Handlebars.compile(html);
-            $('#main').html(compiledTemplate);
+            $('#popup').html(compiledTemplate);
+            usersController.clickOutOfForm();
         });
     },
 
@@ -45,7 +47,7 @@ const usersController = {
                 // Check if remember me is ticked
                 data.setLocalStorage(user);
                 toastr.success(`User ${user.email} logged in successfully!`);
-                location.href = '/#!home';
+                usersController.closeForm();
             })
             .catch(error => toastr.error(error.message));
     },
@@ -67,7 +69,7 @@ const usersController = {
                 // Check if remember me is ticked
                 data.setLocalStorage(user);
                 toastr.success(`User ${user.email} created successfully!`);
-                location.href = '/#!home';
+                usersController.closeForm();
             })
             .catch(error => {
                 toastr.error(error.message);
@@ -77,7 +79,7 @@ const usersController = {
 
     getCurrentUser() {
         const user = firebase.auth().currentUser;
-        this.toggleButtons(user);
+        usersController.toggleButtons(user);
     },
 
     toggleButtons(user) {
@@ -88,6 +90,23 @@ const usersController = {
             $('#login').removeClass('hidden');
             $('#logout').addClass('hidden');
         }
+    },
+
+    clickOutOfForm() {
+        const $form = $('#login-form');
+        $form.click(event => {
+            const id = $(event.target).attr('id');
+            const cls = $(event.target).attr('class');
+            if (id === 'login-form' || cls === 'row' || cls === 'close') {
+                usersController.closeForm();
+            }
+        });
+    },
+
+    closeForm() {
+        $('#login-form').addClass('hidden');
+        // Fix to be page where we came from
+        location.href = '/#!home';
     }
 }
 

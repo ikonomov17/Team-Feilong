@@ -8,18 +8,18 @@ const homeController = {
     get() {
         // console.log('Yeey!');
 
-        data.getData().then(function(data) {
+        //data.getData().then(function(data) {
 
-            template.get('home').then(function(html) {
-                // console.log(html);
-                // console.log(data);
-                const template = Handlebars.compile(html);
+        template.get('home').then(function(html) {
+            // console.log(html);
+            // console.log(data);
+            const template = Handlebars.compile(html);
 
-                $('#main').html(template);
-                toastr.success("Welcome!");
-            });
-            sideBarMenu.get();
-        })
+            $('#main').html(template);
+            toastr.success("Welcome!");
+        });
+        sideBarMenu.get();
+        //})
     }
 };
 
