@@ -24,17 +24,17 @@ firebase.auth()
 router.on({
     '/': () => { router.navigate('home'); },
     '/#': () => { router.navigate('home'); },
-    '/home': homeController.get,
-    '/home/:sideBarMenu': (params) => sideBarContent.get(params),
-    '/table': tableController.get,
-    '/list': listController.get,
-    '/user': usersController.get,
-    '/user/:id/:action': (params) => usersController.get(params),
-    '/login': usersController.login,
-    '/logout': usersController.logout,
-    '/register': usersController.register,
-    '/auth': usersController.authenticate,
-    '/create': usersController.create,
+    'home': homeController.get,
+    'home/:sideBarMenu': (params) => sideBarContent.get(params),
+    'table': tableController.get,
+    'list': listController.get,
+    'user': usersController.get,
+    'user/:id/:action': (params) => usersController.get(params),
+    'login': usersController.login,
+    'logout': usersController.logout,
+    'register': usersController.register,
+    'auth': usersController.authenticate,
+    'create': usersController.create,
 }).notFound(query => {
     // called when there is path specified but
     // there is no route matching

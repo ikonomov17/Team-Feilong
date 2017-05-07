@@ -32,7 +32,7 @@ const sideBarMenu = {
 
                 // hash changing:
                 let hash = location.hash.split('/');
-                location.hash = hash[0] + '/' + $selectedEl.attr('id');
+                location.hash = hash[0] + ':' + $selectedEl.attr('id');
             })
         })
     }
