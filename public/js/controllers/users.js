@@ -2,6 +2,7 @@
 //import * as firebase from 'firebase';
 import * as data from '../data/data.js';
 import { template } from '../template.js';
+import { hashHistory } from '../hasher.js';
 
 // var config = {
 //     apiKey: "AIzaSyD7rugoQbslDgdKW_1bXD5tFg57soBVA3E",
@@ -46,7 +47,10 @@ const usersController = {
                 toastr.success(`User ${user.email} logged in successfully!`);
                 usersController.closeForm();
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => {
+                toastr.error(error.message);
+                location.href = '/#!auth';
+            });
     },
 
     logout() {
@@ -103,7 +107,8 @@ const usersController = {
     closeForm() {
         $('#login-form').addClass('hidden');
         // Fix to be page where we came from
-        location.href = '/#!home';
+        const back = hashHistory.reverse().find(hash => hash !== '!auth' && hash !== '!create' && hash !== '!register' && hash !== '!login')
+        location.href = '#' + back;
     }
 }
 
