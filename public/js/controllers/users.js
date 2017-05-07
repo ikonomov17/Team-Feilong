@@ -18,101 +18,96 @@ toastr.options = {
 }
 
 const usersController = {
-get(params) {
-    console.log(`${params.id} is id and ${params.action} is action`);
-},
+    get(params) {
+        console.log(`${params.id} is id and ${params.action} is action`);
+    },
 
 
-authenticate() {
-    template.get('login').then(function(html) {
-        const compiledTemplate = Handlebars.compile(html);
-        $('#popup').html(compiledTemplate);
-        usersController.closeForm();
-    });
-},
-
-create() {
-    template.get('register').then(function(html) {
-        const compiledTemplate = Handlebars.compile(html);
-        $('#popup').html(compiledTemplate);
-        usersController.closeForm();
-    });
-},
-
-login() {
-    const $email = $("#input-email").val();
-    const $password = $("#input-password").val();
-    firebase.auth().signInWithEmailAndPassword($email, $password)
-        .then(user => {
-            // Check if remember me is ticked
-            data.setLocalStorage(user);
-            toastr.success(`User ${user.email} logged in successfully!`);
-            usersController.closeForm();
-        })
-        .catch(error => toastr.error(error.message));
-},
-
-logout() {
-    firebase.auth().signOut()
-        .then(() => {
-            toastr.success('Good bye!');
-            location.href = '/#!home';
-        })
-        .catch(error => toastr.error(error.message));
-},
-
-register() {
-    const $email = $("#input-email").val();
-    const $password = $("#input-password").val();
-    firebase.auth().createUserWithEmailAndPassword($email, $password)
-        .then(user => {
-            // Check if remember me is ticked
-            data.setLocalStorage(user);
-            toastr.success(`User ${user.email} created successfully!`);
-            usersController.closeForm();
-        })
-        .catch(error => {
-            toastr.error(error.message);
-            location.href = '/#!create';
+    authenticate() {
+        template.get('login').then(function(html) {
+            const compiledTemplate = Handlebars.compile(html);
+            $('#popup').html(compiledTemplate);
+            usersController.clickOutOfForm();
         });
-},
+    },
 
-getCurrentUser() {
-    const user = firebase.auth().currentUser;
-    usersController.toggleButtons(user);
-},
+    create() {
+        template.get('register').then(function(html) {
+            const compiledTemplate = Handlebars.compile(html);
+            $('#popup').html(compiledTemplate);
+            usersController.clickOutOfForm();
+        });
+    },
 
-toggleButtons(user) {
-    if (user) {
-        $('#login').addClass('hidden');
-        $('#logout').removeClass('hidden');
-    } else {
-        $('#login').removeClass('hidden');
-        $('#logout').addClass('hidden');
-    }
-},
+    login() {
+        const $email = $("#input-email").val();
+        const $password = $("#input-password").val();
+        firebase.auth().signInWithEmailAndPassword($email, $password)
+            .then(user => {
+                // Check if remember me is ticked
+                data.setLocalStorage(user);
+                toastr.success(`User ${user.email} logged in successfully!`);
+                usersController.closeForm();
+            })
+            .catch(error => toastr.error(error.message));
+    },
 
-clickOutOfForm() {
-    const $form = $('#login-form');
-    $form.click(event => {
-        const id = $(event.target).attr('id');
-        const cls = $(event.target).attr('class');
-        if (id === 'login-form' || cls === 'row' || cls === 'close') {
-            usersController.closeForm();
+    logout() {
+        firebase.auth().signOut()
+            .then(() => {
+                toastr.success('Good bye!');
+                location.href = '/#!home';
+            })
+            .catch(error => toastr.error(error.message));
+    },
+
+    register() {
+        const $email = $("#input-email").val();
+        const $password = $("#input-password").val();
+        firebase.auth().createUserWithEmailAndPassword($email, $password)
+            .then(user => {
+                // Check if remember me is ticked
+                data.setLocalStorage(user);
+                toastr.success(`User ${user.email} created successfully!`);
+                usersController.closeForm();
+            })
+            .catch(error => {
+                toastr.error(error.message);
+                location.href = '/#!create';
+            });
+    },
+
+    getCurrentUser() {
+        const user = firebase.auth().currentUser;
+        usersController.toggleButtons(user);
+    },
+
+    toggleButtons(user) {
+        if (user) {
+            $('#login').addClass('hidden');
+            $('#logout').removeClass('hidden');
+        } else {
+            $('#login').removeClass('hidden');
+            $('#logout').addClass('hidden');
         }
-    });
-},
+    },
 
-closeForm() {
-    $('#login-form').addClass('hidden');
-    // Fix to be page where we came from
-    location.href = '/#!home';
-    $form.addClass('hidden');
-    // Fix to be page where we came from
-    location.href = '/#!home';
-}
-});
-}
+    clickOutOfForm() {
+        const $form = $('#login-form');
+        $form.click(event => {
+            const id = $(event.target).attr('id');
+            const cls = $(event.target).attr('class');
+            if (id === 'login-form' || cls === 'row' || cls === 'close') {
+                usersController.closeForm();
+            }
+        });
+    },
+
+    closeForm() {
+        $('#login-form').addClass('hidden');
+        // Fix to be page where we came from
+        location.href = '/#!home';
+    }
 }
 
 export { usersController }
