@@ -16,13 +16,13 @@ export function getData() {
             const objectArray = listOfObjects.list.resources;
             return objectArray;
         })
-        .catch(error => toastr.error(`Error getting data ${error.message}`, 'Yahoo might be down'));
+        .catch(error => toastr.error(`Error getting data: ${error.message}`, 'Yahoo might be down'));
 }
 
 export function getOnlyNames() {
     return getData()
         .then(allObjects => allObjects.map(obj => obj.resource.fields.name.trim()))
-        .catch((error) => toastr.error(`Error gettings the names ${error.message}`));
+        .catch((error) => toastr.error(`Error gettings the names: ${error.message}`));
 }
 // export function gegProperties(...test) {
 //     console.logt(test);

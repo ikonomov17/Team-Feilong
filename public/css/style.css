@@ -66,7 +66,7 @@ favorites .active {
 
 /* The Modal (background) */
 
-.modal {
+#login-form {
     display: block;
     position: fixed;
     z-index: 1;
@@ -78,25 +78,6 @@ favorites .active {
     background-color: rgb(0, 0, 0);
     /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4);
-}
-
-
-/* Modal Content */
-
-.modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: 20% auto;
-    padding: 0;
-    border: 1px solid #888;
-    width: 40%;
-    height: 20%;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.6s
 }
 
 
@@ -144,7 +125,7 @@ favorites .active {
 
 /*START Login form */
 
-#login-form .form-login {
+#login-form .modal-content {
     background-color: #EDEDED;
     padding-top: 10px;
     padding-bottom: 20px;
@@ -152,8 +133,13 @@ favorites .active {
     padding-right: 20px;
     border-radius: 10px;
     border-color: #d2d2d2;
-    border-width: 5px;
+    border-width: 2px;
+    margin-top: 20%;
     box-shadow: 0 1px 0 #cfcfcf;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.6s
 }
 
 #login-form h2 {
