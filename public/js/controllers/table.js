@@ -2,7 +2,7 @@ import * as data from '../data/data.js';
 import { toUpperHb } from '../handlebars_helpers.js';
 import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
 import { template } from '../template.js';
-import { sideBarMenu } from './homepage/right-side-bar.js';
+import { sideBarContent } from './homepage/sidebar-router.js';
 import $ from 'jquery';
 
 
@@ -29,7 +29,7 @@ const tableController = {
                 // jQuery plugin to make the table sortable
                 $(function() { $("#main-table").tablesorter(); });
 
-                sideBarMenu.get();
+                sideBarContent.get();
             })
     }
 };
