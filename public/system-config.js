@@ -18,7 +18,7 @@ System.config({
         'filter': './js/filter.js',
         'homeController': './js/controllers/homepage/home.js',
         'tableController': './js/controllers/table.js',
-        'productsController': './js/controllers/products.js',
+        'listController': './js/controllers/list.js',
         'usersController': './js/controllers/users.js',
 
         // libraries

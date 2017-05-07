@@ -1,6 +1,5 @@
 //import $ from 'jquery';
 //import * as firebase from 'firebase';
-//import * as Handlebars from 'handlebars';
 import * as data from '../data/data.js';
 import { template } from '../template.js';
 
@@ -24,17 +23,15 @@ const usersController = {
 
 
     authenticate() {
-        template.get('login').then(function(html) {
-            const compiledTemplate = Handlebars.compile(html);
-            $('#popup').html(compiledTemplate);
+        template.get('login').then(templ => {
+            $('#popup').html(templ);
             usersController.clickOutOfForm();
         });
     },
 
     create() {
-        template.get('register').then(function(html) {
-            const compiledTemplate = Handlebars.compile(html);
-            $('#popup').html(compiledTemplate);
+        template.get('register').then(templ => {
+            $('#popup').html(templ);
             usersController.clickOutOfForm();
         });
     },

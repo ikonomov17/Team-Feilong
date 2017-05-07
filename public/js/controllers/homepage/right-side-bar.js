@@ -19,13 +19,11 @@ let favoritesList = [index1, index2, index3, index4];
 const sideBarMenu = {
     get(params) {
 
-        template.get('sidebar-favorites').then(function(html) {
-            const rightSideBarTemplate = Handlebars.compile(html);
-
+        template.get('sidebar-favorites').then(template => {
             favoritesList.forEach(index =>
                 console.log(index.name)
-            )
-            $('#side-bar').html(rightSideBarTemplate(favoritesList));
+            );
+            $('#side-bar').html(template(favoritesList));
 
             $('.sidebar-nav').on('click', (event) => {
                 const $selectedEl = $(event.target).parent();

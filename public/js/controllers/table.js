@@ -10,12 +10,13 @@ const tableController = {
     get() {
         // console.log('Yeey!');
 
-        data.getData().then(function(data) {
-
-            template.get('table').then(function(html) {
-                // console.log(html);
+        Promise.all([
+                template.get('table'),
+                data.getData()
+            ])
+            .then(([template, data]) => {
+                // console.log(template);
                 // console.log(data);
-                const template = Handlebars.compile(html);
 
                 // Call toUpperHb so that it register the handlebars helper
                 toUpperHb();
@@ -27,9 +28,9 @@ const tableController = {
                 attachTableFilterToInput();
                 // jQuery plugin to make the table sortable
                 $(function() { $("#main-table").tablesorter(); });
-            });
-            sideBarMenu.get();
-        })
+
+                sideBarMenu.get();
+            })
     }
 };
 

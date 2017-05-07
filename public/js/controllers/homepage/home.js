@@ -10,14 +10,11 @@ const homeController = {
 
         //data.getData().then(function(data) {
 
-        template.get('home').then(function(html) {
-            // console.log(html);
-            // console.log(data);
-            const template = Handlebars.compile(html);
-
-            $('#main').html(template);
-            toastr.success("Welcome!");
-        });
+        template.get('home')
+            .then(templ => {
+                $('#main').html(templ());
+                toastr.success("Welcome home!");
+            });
         sideBarMenu.get();
         //})
     }
