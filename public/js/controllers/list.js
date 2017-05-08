@@ -6,6 +6,8 @@ import $ from 'jquery';
 
 const listController = {
     get() {
+        // console.log('Zemi si');
+
         Promise.all([
                 template.get('list'),
                 data.getOnlyNames()

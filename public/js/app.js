@@ -23,7 +23,7 @@ router.on({
     'home/:sideBarContent': (params) => sideBarContent.get(params),
     'chart': chartController.get,
     'table': tableController.get,
-    'list': listController.get,
+    // 'list': listController.get,
     'user': usersController.get,
     'user/:id/:action': (params) => usersController.get(params),
     'login': usersController.login,
