@@ -2,6 +2,9 @@ import { template } from '../template.js';
 import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
 import * as data from './data.js';
 import $ from 'jquery';
+import * as requester from '../requester.js';
+import Bloodhound from 'bloodhound';
+import { typehead } from 'typeahead';
 
 class SideBar {
 
@@ -27,16 +30,23 @@ class SideBar {
     callSearch(params) {
         // To make it work with templateCompile()
         Promise.all([
-                template.get('sidebar-search'),
-                data.getOnlyNames()
+                template.get('sidebar-search')
             ])
-            .then(([template, data]) => {
+            .then(([template]) => {
+                $('#side-bar-bottom').html(template());
                 console.log(data);
-                data = { name: data }
-                console.log(data);
-                $('#side-bar-bottom').html(template(data));
-                attachListFilterToInput();
-                //$('#right-side-bar').html('');
+                var symbolsAndNames = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    prefetch: './symbolsAndNames.json'
+                });
+                // passing in `null` for the `options` arguments will result in the default
+                // options being used
+                $('#company-search').typeahead(null, {
+                    name: 'symbolsAndNames',
+                    source: symbolsAndNames
+                });
+                
             })
             .catch(error => toastr.error(error.message));
     }
