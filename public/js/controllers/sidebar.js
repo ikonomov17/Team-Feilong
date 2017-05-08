@@ -1,9 +1,9 @@
-import * as data from '../../data/data.js';
-import { template } from '../../template.js';
-import { Index } from '../../data/indexClass.js';
-import { SideBar } from '../../data/sidebarClass.js';
-// import { listController } from 'listController';
 import $ from 'jquery';
+import * as data from '../data/data.js';
+import { template } from '../template.js';
+import { Index } from '../data/indexClass.js';
+import { SideBar } from '../data/sidebarClass.js';
+// import { listController } from 'listController';
 
 //Mockup data array:
 const arr = [5, 5, 6, 6, 8, 4, 3, 1, 4, 4, 4, 5, 3, 5, 6, 4, 3, 1, 3,
@@ -21,7 +21,7 @@ let favoritesList = [index1, index2, index3, index4];
 
 const sideBar = new SideBar();
 
-const sideBarContent = {
+const sideBarController = {
     get(params) {
         if (params) {
             switch (params.sideBarContent) {
@@ -44,8 +44,33 @@ const sideBarContent = {
                     sideBar.callFavorites(favoritesList);
             }
         }
+    },
+
+    getSideContent() {
+        Promise.all([
+                template.get('sidebar-favorites'),
+                template.get('side-menu')
+            ])
+            .then(([sideBarT, sideMenuT]) => {
+                $('#side-bar-top').html(sideBarT());
+                $('#side-menu').html(sideMenuT());
+            })
+            .then(() => {
+                sideBarController.get({ sideBarContent: ':favorites' });
+            })
+            .then(() => {
+                $('.sidebar-nav').on('click', (event) => {
+                    const $selectedEl = $(event.target).parent();
+                    $('.active').removeClass('active')
+                    $selectedEl.addClass('active');
+
+                    // hash changing:
+                    let hash = location.hash.split(':');
+                    location.hash = hash[0].split('/')[0] + '/:' + $selectedEl.attr('id');
+                });
+            })
     }
 }
 
 
-export { sideBarContent };
+export { sideBarController };
