@@ -26,6 +26,8 @@ System.config({
         // libraries
         'jquery': './node_modules/jquery/dist/jquery.js',
         'tablesorter': './node_modules/tablesorter/dist/js/jquery.tablesorter.js',
+        'bloodhound': './node_modules/typeahead.js-jspm/dist/bloodhound.min.js',
+        'typeahead': './node_modules/typeahead.js-jspm/dist/typeahead.jquery.min.js',
     },
 
     meta: {

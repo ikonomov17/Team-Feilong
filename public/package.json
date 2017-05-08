@@ -19,6 +19,7 @@
     "systemjs-plugin-babel": "0.0.21",
     "tablesorter": "^2.28.8",
     "techan": "^0.8.0",
-    "toastr": "^2.1.2"
+    "toastr": "^2.1.2",
+    "typeahead.js-jspm": "^1.2.0"
   }
 }
