@@ -87,6 +87,17 @@ const database = {
             .once('value');
     },
 
+    getAllCompanies(symbol) {
+        return dbRef.ref('companies/')
+            .once('value');
+    },
+
+    getAllSymbols(symbol) {
+        return dbRef.ref('symbols/')
+            .once('value');
+    },
+
+
     addUserProperty(uid, property, value) {
         dbRef.ref('users/' + uid + '/' + property)
             .set(value)
