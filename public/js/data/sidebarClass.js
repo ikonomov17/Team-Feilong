@@ -10,22 +10,14 @@ class SideBar {
             .then(() => {
                 $('#side-bar-bottom').html('');
 
-                //Colorise favorites according to FScore
-                $('.fscore-favorite').each((i, val) => {
-                    const fScore = $(val);
-                    if (fScore.html() > 0) {
-                        fScore.parent().addClass('list-group-item-success');
-                    } else {
-                        fScore.parent().addClass('list-group-item-danger');
-                    }
-                })
+                SideBar.coloriseTable();
 
                 //Select fist favorite by default
                 $('#favorites-list-table').children("tr").eq(0).addClass('info');
 
                 $('#favorites-list-table').on('click', () => {
                     const $selectedEl = $(event.target).parent();
-                    $('.info').removeClass('info')
+                    $('.info').removeClass('info');
                     $selectedEl.addClass('info');
                 });
             });
@@ -50,12 +42,28 @@ class SideBar {
     }
 
     callTopTen(params) {
-        // console.log(params);
-        SideBar.templateCompile('#side-bar-top', 'sidebar-top-ten', params)
+
+        let arr = params.slice(0);
+
+        SideBar.sortByKey(arr, 'fScore', -1);
+
+        SideBar.templateCompile('#side-bar-top', 'sidebar-top-ten', arr)
+            .then(() => {
+                $('#side-bar-bottom').html('');
+                SideBar.coloriseTable();
+            });
     }
 
     callBottomTen(params) {
-        SideBar.templateCompile('#side-bar-top', 'sidebar-bottom-ten', params)
+        let arr = params.slice(0);
+
+        SideBar.sortByKey(arr, 'fScore', 1);
+
+        SideBar.templateCompile('#side-bar-top', 'sidebar-bottom-ten', arr)
+            .then(() => {
+                $('#side-bar-bottom').html('');
+                SideBar.coloriseTable();
+            });
     }
 
     callNews(params) {
@@ -75,6 +83,26 @@ class SideBar {
             })
             .catch(error => toastr.error(error.message));
 
+    }
+
+    static coloriseTable() {
+        //Colorise table according to FScore
+        $('.ticket-fscore').each((i, val) => {
+            const fScore = $(val);
+            if (fScore.html() > 0) {
+                fScore.parent().addClass('list-group-item-success');
+            } else {
+                fScore.parent().addClass('list-group-item-danger');
+            }
+        });
+    }
+
+    static sortByKey(array, key, descending) {
+        return array.sort(function(a, b) {
+            var x = a[key];
+            var y = b[key];
+            return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * (descending));
+        });
     }
 }
 export { SideBar }
