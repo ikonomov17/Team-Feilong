@@ -1,12 +1,13 @@
 import { template } from '../template.js';
+import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
 import * as data from './data.js';
 import $ from 'jquery';
 
 class SideBar {
 
-    callFavorites(data) {
+    callFavorites(params) {
         const promise = new Promise((resolve) => {
-            resolve(SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', data))
+            resolve(SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params))
         }).then(() => { // Still cannot make this event work...
             $('#favorites-list-table').on('click', () => {
                 // Add adequate classes to rows
@@ -17,24 +18,39 @@ class SideBar {
 
     }
 
-    callSearch(data) {
+    callSearch(params) {
+        // To make it work with templateCompile()
+        Promise.all([
+                template.get('sidebar-search'),
+                data.getOnlyNames()
+            ])
+            .then(([template, data]) => {
+                console.log(data);
+                data = { name: data }
+                console.log(data);
+                $('#side-bar-bottom').html(template(data));
+                attachListFilterToInput();
+                //$('#right-side-bar').html('');
+            })
+            .catch(error => toastr.error(error.message));
 
-        SideBar.templateCompile('#side-bar-bottom', 'sidebar-search', data.getOnlyNames())
+        // SideBar.templateCompile('#contents', 'sidebar-search', { name: data.getOnlyNames() })
+        // console.log(data.getOnlyNames());
     }
 
-    callTopTen(data) {
-        SideBar.templateCompile('#side-bar-top', 'sidebar-top-ten', data)
+    callTopTen(params) {
+        SideBar.templateCompile('#side-bar-top', 'sidebar-top-ten', params)
     }
 
-    callBottomTen(data) {
-        SideBar.templateCompile('#side-bar-top', 'sidebar-bottom-ten', data)
+    callBottomTen(params) {
+        SideBar.templateCompile('#side-bar-top', 'sidebar-bottom-ten', params)
     }
 
-    callNews(data) {
-        SideBar.templateCompile('#side-bar-top', 'sidebar-news', data)
+    callNews(params) {
+        SideBar.templateCompile('#side-bar-top', 'sidebar-news', params)
     }
 
-    static templateCompile(attachTo, templateName, data) {
+    static templateCompile(attachTo, templateName, params) {
 
         let promise = new Promise((resolve, reject) => {
 
@@ -42,7 +58,7 @@ class SideBar {
             })
             .then(template => {
 
-                $(attachTo).html(template(data));
+                $(attachTo).html(template(params));
 
             })
             .catch(error => toastr.error(error.message));
