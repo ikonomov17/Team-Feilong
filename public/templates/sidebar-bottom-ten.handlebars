@@ -1,1 +1,23 @@
-Bottom 10 template called
+<div class="bottom-ten-list">
+    <div class="tab-title">
+        <h2>Favorites</h2>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Price</th>
+                <th>F Score</th>
+            </tr>
+        </thead>
+        <tbody id="tickets-list-table">
+            {{#each this}}
+            <tr class="ticket-row">
+                <td class="td ticket-name">{{this.name}}</td>
+                <td class="td ticket-price">{{this.price}}</td>
+                <td class="td ticket-fscore">{{this.fScore}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
