@@ -3,6 +3,8 @@ import { template } from '../template.js';
 import { sideBarController } from './sidebar.js';
 import { getChartData } from '../data/data.js';
 import { createCompleteChart } from '../chartPainter.js';
+import Bloodhound from 'bloodhound';
+import { typehead } from 'typeahead';
 
 const chartController = {
     get() {
@@ -10,7 +12,19 @@ const chartController = {
         template.get('chart')
             .then(templ => {
                 $('#contents').html(templ());
-                $("#search-container").css('margin-top', '15px');
+
+                var symbols = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    prefetch: './symbols.json'
+                });
+                // passing in `null` for the `options` arguments will result in the default
+                // options being used
+                $('#prefetch .typeahead').typeahead(null, {
+                    name: 'symbols',
+                    source: symbols
+                });
+
                 $('#search-button').on('click', () => {
                     const ticker = $("#ticker").val().toLowerCase();
                     const number = $("#period").val();
@@ -29,7 +43,6 @@ const chartController = {
                     // TODO: add validation (all input required)!
                     getChartData(ticker,period)
                     .then((data) => {
-                        console.log(data.historicalData)
                         template.get('chartHeader').then(template => {
                             $('#company-info').html(template(data.infoData));
                         })
