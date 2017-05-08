@@ -34,7 +34,9 @@ export function getChartData(ticker, period) {
         const arrangedData = arrangeData(historicalData);
         const infoData = createInfoObject(dataObject.infoData);
         let sortedData = sortDataByDateAscending(arrangedData);
-
+        console.log("vuv data")
+        console.log(infoData)
+        console.log(sortedData)
         return {
             historicalData: sortedData,
             infoData: infoData

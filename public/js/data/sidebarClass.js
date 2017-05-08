@@ -5,6 +5,8 @@ import $ from 'jquery';
 import * as requester from '../requester.js';
 import Bloodhound from 'bloodhound';
 import { typehead } from 'typeahead';
+import { getChartData } from '../data/data.js';
+import { createCompleteChart } from '../chartPainter.js';
 
 class SideBar {
 
@@ -32,8 +34,8 @@ class SideBar {
         Promise.all([
                 template.get('sidebar-search')
             ])
-            .then(([template]) => {
-                $('#side-bar-bottom').html(template());
+            .then(([templ]) => {
+                $('#side-bar-bottom').html(templ());
                 console.log(data);
                 var symbolsAndNames = new Bloodhound({
                     datumTokenizer: Bloodhound.tokenizers.whitespace,
@@ -46,10 +48,31 @@ class SideBar {
                     name: 'symbolsAndNames',
                     source: symbolsAndNames
                 });
-                
-            })
-            .catch(error => toastr.error(error.message));
+
+                $('.typeahead').bind('typeahead:select', function(ev, suggestion) {
+                    const separator = ' - ';
+                    const ticker = suggestion.split(separator)[0];
+                    const period = {number:5, type: 'd'};
+                    
+                    let svg = $('svg');
+
+                    if (svg.length != 0) {
+                        svg.remove();
+                    }
+
+                    getChartData(ticker,period).then((data) => {
+                            template.get('chartHeader').then(template => {
+                                $('#company-info').html(template(data.infoData));
+                            });
+                            createCompleteChart(data.historicalData);
+                            toastr.success("Chart loaded!");
+                    }).catch(() => {
+                        $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
+                    });
+                })
+        })
     }
+    
 
     callTopTen(params) {
 
