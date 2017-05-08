@@ -1,0 +1,21 @@
+<div class="row" id="search-container">
+    <div class="text-center">
+        <form class="form-inline">
+            <div class="form-group">
+                <label class="sr-only" for="ticker">Ticker</label>
+                <input type="text" class="form-control" id="ticker" placeholder="Ticker" maxlength="15">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="period">Period of time</label>
+                <input type="number" class="form-control" id="period" min="0" name="Days/Months" value="0">
+            </div>
+            <label class="radio-inline">
+                <input type="radio" name="periodType" id="typeDays" value="d"> Days
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="periodType" id="typeMonths" value="m"> Months
+            </label>
+        <button type="button" class="btn btn-default" id="search-button">Search</button>
+        </form>
+    </div>
+</div>
