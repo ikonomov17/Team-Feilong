@@ -6,8 +6,8 @@ import { createCompleteChart } from 'chartPainter';
 const chartController = {
     get() {
         template.get('chart')
-            .then(template => {
-                $('#contents').html(template());
+            .then(templ => {
+                $('#contents').html(templ());
                 $("#search-container").css('margin-top','15px');
                 $('#search-button').on('click', () => {
                     const ticker = $("#ticker").val();
@@ -23,10 +23,15 @@ const chartController = {
                     if(svg.length != 0){
                         svg.remove();
                     }
+
                     // TODO: add validation (all input required)!
                     getChartData(ticker,period)
                     .then((data) => {
-                        createCompleteChart(data);
+                        template.get('chartHeader').then(template => {
+                            console.log(template)
+                            $('#company-info').html(template(data.infoData));
+                        })
+                        createCompleteChart(data.historicalData);
                         toastr.success("Chart loaded!");
                     });
                 })
