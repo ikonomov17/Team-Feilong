@@ -17,11 +17,12 @@ System.config({
         'time': './js/time.js',
         'filter': './js/filter.js',
         'chartPainter': './js/chartPainter.js',
-        'homeController': './js/controllers/homepage/home.js',
+        'homeController': './js/controllers/home.js',
         'chartController': './js/controllers/chart.js',
         'tableController': './js/controllers/table.js',
         // 'listController': './js/controllers/list.js',
         'usersController': './js/controllers/users.js',
+        'sidebarController': './js/controllers/sidebar.js',
         // libraries
         'jquery': './node_modules/jquery/dist/jquery.js',
         'tablesorter': './node_modules/tablesorter/dist/js/jquery.tablesorter.js',

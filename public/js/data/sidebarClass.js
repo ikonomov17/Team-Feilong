@@ -6,15 +6,29 @@ import $ from 'jquery';
 class SideBar {
 
     callFavorites(params) {
-        const promise = new Promise((resolve) => {
-            resolve(SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params))
-        }).then(() => { // Still cannot make this event work...
-            $('#favorites-list-table').on('click', () => {
-                // Add adequate classes to rows
-                // https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_table_contextual&stacked=h
-                console.log('WORKES'); //But now it does not work for some reason...
+        SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params)
+            .then(() => {
+                $('#side-bar-bottom').html('');
+
+                //Colorise favorites according to FScore
+                $('.fscore-favorite').each((i, val) => {
+                    const fScore = $(val);
+                    if (fScore.html() > 0) {
+                        fScore.parent().addClass('list-group-item-success');
+                    } else {
+                        fScore.parent().addClass('list-group-item-danger');
+                    }
+                })
+
+                //Select fist favorite by default
+                $('#favorites-list-table').children("tr").eq(0).addClass('info');
+
+                $('#favorites-list-table').on('click', () => {
+                    const $selectedEl = $(event.target).parent();
+                    $('.info').removeClass('info')
+                    $selectedEl.addClass('info');
+                });
             });
-        });
 
     }
 
@@ -33,12 +47,10 @@ class SideBar {
                 //$('#right-side-bar').html('');
             })
             .catch(error => toastr.error(error.message));
-
-        // SideBar.templateCompile('#contents', 'sidebar-search', { name: data.getOnlyNames() })
-        // console.log(data.getOnlyNames());
     }
 
     callTopTen(params) {
+        // console.log(params);
         SideBar.templateCompile('#side-bar-top', 'sidebar-top-ten', params)
     }
 
@@ -52,7 +64,7 @@ class SideBar {
 
     static templateCompile(attachTo, templateName, params) {
 
-        let promise = new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
                 resolve(template.get(templateName))
             })

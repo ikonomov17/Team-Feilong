@@ -6,6 +6,7 @@ import { FScore } from './FScoreClass.js';
 var yql = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%27http%3A%2F%2Ffinance.yahoo.com%2Fwebservice%2Fv1%2Fsymbols%2Fallcurrencies%2Fquote%3Fformat%3Djson%27&format=json&diagnostics=true&callback='
 
 const LOCALSTORAGE_USERNAME_KEY = "email";
+const LOCALSTORAGE_USERID_KEY = "uid";
 const LOCALSTORAGE_USERTOKEN_KEY = "token";
 const LOCALSTORAGE_DISPLAYNAME_KEY = "displayName";
 
@@ -28,7 +29,7 @@ export function getOnlyNames() {
 
 export function getChartData(ticker, period) {
     return fetchDataFromSource(ticker, period).then((data) => {
-        const dataObject = getHistoricalDataObject(data,period.number);
+        const dataObject = getHistoricalDataObject(data, period.number);
         const historicalData = dataObject.historicalData;
         const arrangedData = arrangeData(historicalData);
         const infoData = createInfoObject(dataObject.infoData);
@@ -41,7 +42,7 @@ export function getChartData(ticker, period) {
     })
 }
 
-function createInfoObject(data){
+function createInfoObject(data) {
     const ticker = "ticker:"
     const tickerName = data[1].col0.substr(ticker.length);
     const company = "Company-Name:";
@@ -75,7 +76,7 @@ function fetchDataFromSource(ticker, period) {
     return requester.get(url);
 };
 
-function getHistoricalDataObject(data,period) {
+function getHistoricalDataObject(data, period) {
     const startHistoricalDataObject = 17 + parseInt(period);
     const wholeArray = data.query.results.row;
     const historicalData = wholeArray.slice(startHistoricalDataObject, wholeArray.length - 1);
@@ -111,22 +112,11 @@ function sortDataByDateAscending(data) {
     return sortedData;
 }
 
-// export function gegProperties(...test) {
-//     console.logt(test);
-// }
-
 export function setLocalStorage(user) {
     localStorage.setItem(LOCALSTORAGE_USERNAME_KEY, user.email);
+    localStorage.setItem(LOCALSTORAGE_USERID_KEY, user.uid);
     localStorage.setItem(LOCALSTORAGE_USERTOKEN_KEY, user.Yd);
     localStorage.setItem(LOCALSTORAGE_DISPLAYNAME_KEY, user.displayName);
-}
-
-export function getLocalStorage() {
-
-}
-
-export function delLocalStorage() {
-
 }
 
 export function scoreAnalytics(arr) {

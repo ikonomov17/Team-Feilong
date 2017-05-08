@@ -23,6 +23,8 @@ class FScore {
             positiveMultiplicator = 1,
             negativeMultiplicator = 1;
 
+
+
         if (aboveTheCloud) {
             positiveMultiplicator = 1.5;
         } else if (inTheCloud) {
@@ -67,10 +69,11 @@ class FScore {
         }
 
         let totalPoints = positivePoints + negativePoints;
+
         return {
             positivePoints,
             negativePoints,
-            totalPoints,
+            totalPoints: +totalPoints,
             aboveTheCloud,
             inTheCloud
         }

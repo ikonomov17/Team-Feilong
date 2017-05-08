@@ -1,14 +1,16 @@
-import { template } from '../template.js';
 import $ from 'jquery';
-import { getChartData } from 'data';
-import { createCompleteChart } from 'chartPainter';
+import { template } from '../template.js';
+import { sideBarController } from './sidebar.js';
+import { getChartData } from '../data/data.js';
+import { createCompleteChart } from '../chartPainter.js';
 
 const chartController = {
     get() {
+        sideBarController.getSideContent();
         template.get('chart')
             .then(templ => {
                 $('#contents').html(templ());
-                $("#search-container").css('margin-top','15px');
+                $("#search-container").css('margin-top', '15px');
                 $('#search-button').on('click', () => {
                     const ticker = $("#ticker").val().toLowerCase();
                     const number = $("#period").val();
@@ -20,7 +22,7 @@ const chartController = {
 
                     let svg = $('svg');
 
-                    if(svg.length != 0){
+                    if (svg.length != 0) {
                         svg.remove();
                     }
 
@@ -37,7 +39,7 @@ const chartController = {
                         $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
                     });
                 })
-                
+
             })
     }
 }

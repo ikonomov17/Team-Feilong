@@ -1,6 +1,6 @@
-//import $ from 'jquery';
-//import * as firebase from 'firebase';
+import $ from 'jquery';
 import * as data from '../data/data.js';
+import { database } from '../data/database.js';
 import { template } from '../template.js';
 import { hashHistory } from '../hasher.js';
 
@@ -21,6 +21,16 @@ toastr.options = {
 // Sets sign in/out buttons appropriately
 firebase.auth()
     .onAuthStateChanged(user => usersController.toggleButtons(user));
+
+class User {
+    constructor(email, displayName, uid, token) {
+        this.email = email;
+        this.displayName = displayName;
+        this.uid = uid;
+        this.token = token;
+        this.favorites = {};
+    }
+}
 
 const usersController = {
     get(params) {
@@ -50,10 +60,10 @@ const usersController = {
         const $email = $("#input-email").val();
         const $password = $("#input-password").val();
         firebase.auth().signInWithEmailAndPassword($email, $password)
-            .then(user => {
-                // Check if remember me is ticked
-                data.setLocalStorage(user);
-                toastr.success(`User ${user.email} logged in successfully!`);
+            .then(response => {
+                // Check if we need local storage for users at all
+                data.setLocalStorage(response);
+                toastr.success(`User ${response.email} logged in successfully!`);
                 usersController.closeForm();
             })
             .catch(error => {
@@ -65,6 +75,8 @@ const usersController = {
     logout() {
         firebase.auth().signOut()
             .then(() => {
+                // Check if we need local storage for users at all
+                localStorage.clear();
                 toastr.success('Good bye!');
                 location.href = '/#!home';
             })
@@ -74,10 +86,18 @@ const usersController = {
     register() {
         const $email = $("#input-email").val();
         const $password = $("#input-password").val();
+        const $displayName = $('#input-displayname').val();
+
         firebase.auth().createUserWithEmailAndPassword($email, $password)
-            .then(user => {
-                // Check if remember me is ticked
+            .then(response => {
+                // Check if we need local storage for users at all
+                // Check if we need to save token in database
+                // Check: Were to save display name? Auth or DB?
+                const user = new User(response.email, $displayName, response.uid, response.Yd);
+
+                database.addNewUser(user);
                 data.setLocalStorage(user);
+
                 toastr.success(`User ${user.email} created successfully!`);
                 usersController.closeForm();
             })
@@ -85,11 +105,6 @@ const usersController = {
                 toastr.error(error.message);
                 location.href = '/#!create';
             });
-    },
-
-    getCurrentUser() {
-        const user = firebase.auth().currentUser;
-        console.log(user);
     },
 
     toggleButtons(user) {
@@ -129,7 +144,11 @@ const usersController = {
         const back = hashHistory
             .slice().reverse()
             .find(hash => hash !== '!auth' && hash !== '!create' && hash !== '!register' && hash !== '!login')
-        location.href = '#' + back;
+        if (!back) {
+            location.href = '#';
+        } else {
+            location.href = '#' + back;
+        }
     }
 }
 
