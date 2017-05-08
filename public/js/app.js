@@ -2,7 +2,6 @@ import { startUpdatingTime } from 'time';
 import { homeController } from 'homeController';
 import { chartController } from 'chartController';
 import { tableController } from 'tableController';
-// import { listController } from 'listController';
 import { usersController } from 'usersController';
 import { sideBarController } from './controllers/sidebar.js';
 import 'tablesorter';
@@ -24,7 +23,6 @@ router.on({
     'table/:sideBarContent': (params) => sideBarController.get(params),
     'chart': chartController.get,
     'table': tableController.get,
-    // 'list': listController.get,
     'user': usersController.get,
     'user/:id/:action': (params) => usersController.get(params),
     'login': usersController.login,
