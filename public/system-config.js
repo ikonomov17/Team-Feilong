@@ -16,11 +16,11 @@ System.config({
         'hb_helper': './js/handlebars_helpers.js',
         'time': './js/time.js',
         'filter': './js/filter.js',
-        'chartPainter' : './js/chartPainter.js',
+        'chartPainter': './js/chartPainter.js',
         'homeController': './js/controllers/homepage/home.js',
         'chartController': './js/controllers/chart.js',
         'tableController': './js/controllers/table.js',
-        'listController': './js/controllers/list.js',
+        // 'listController': './js/controllers/list.js',
         'usersController': './js/controllers/users.js',
         // libraries
         'jquery': './node_modules/jquery/dist/jquery.js',

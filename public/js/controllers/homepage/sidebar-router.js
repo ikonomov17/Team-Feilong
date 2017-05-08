@@ -2,7 +2,7 @@ import * as data from '../../data/data.js';
 import { template } from '../../template.js';
 import { Index } from '../../data/indexClass.js';
 import { SideBar } from '../../data/sidebarClass.js';
-import { listController } from 'listController';
+// import { listController } from 'listController';
 import $ from 'jquery';
 
 //Mockup data array:
@@ -29,8 +29,7 @@ const sideBarContent = {
                     sideBar.callFavorites(favoritesList);
                     break;
                 case ':search':
-                    console.log('here is Search');
-                    listController.get();
+                    sideBar.callSearch();
                     break;
                 case ':top-ten':
                     sideBar.callTopTen()

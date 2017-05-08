@@ -10,12 +10,12 @@
                 <th>F Score</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="favorites-list-table">
             {{#each this}}
-            <tr>
-                <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
-                <td>{{this.volume}}</td>
+            <tr class="favorite-ticket-row">
+                <td class="td">{{this.name}}</td>
+                <td class="td">{{this.price}}</td>
+                <td class="td">{{this.volume}}</td>
             </tr>
             {{/each}}
         </tbody>

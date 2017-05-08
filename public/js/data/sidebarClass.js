@@ -1,44 +1,49 @@
 import { template } from '../template.js';
+import * as data from './data.js';
 import $ from 'jquery';
 
 class SideBar {
 
     callFavorites(data) {
-        SideBar.templateCompile('sidebar-favorites', data)
+        const promise = new Promise((resolve) => {
+            resolve(SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', data))
+        }).then(() => { // Still cannot make this event work...
+            $('#favorites-list-table').on('click', () => {
+                // Add adequate classes to rows
+                // https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_table_contextual&stacked=h
+                console.log('WORKES'); //But now it does not work for some reason...
+            });
+        });
+
+    }
+
+    callSearch(data) {
+
+        SideBar.templateCompile('#side-bar-bottom', 'sidebar-search', data.getOnlyNames())
     }
 
     callTopTen(data) {
-        SideBar.templateCompile('sidebar-top-ten', data)
+        SideBar.templateCompile('#side-bar-top', 'sidebar-top-ten', data)
     }
 
     callBottomTen(data) {
-        SideBar.templateCompile('sidebar-bottom-ten', data)
+        SideBar.templateCompile('#side-bar-top', 'sidebar-bottom-ten', data)
     }
 
     callNews(data) {
-        SideBar.templateCompile('sidebar-news', data)
+        SideBar.templateCompile('#side-bar-top', 'sidebar-news', data)
     }
 
-    static templateCompile(templateName, data) {
+    static templateCompile(attachTo, templateName, data) {
 
         let promise = new Promise((resolve, reject) => {
 
                 resolve(template.get(templateName))
             })
             .then(template => {
-                // console.log(data);
 
-                $('#side-bar').html(template(data));
+                $(attachTo).html(template(data));
 
-                $('.sidebar-nav').on('click', (event) => {
-                    const $selectedEl = $(event.target).parent();
-                    $('.active').removeClass('active')
-                    $selectedEl.addClass('active');
-
-                    // hash changing:
-                    let hash = location.hash.split(':');
-                    location.hash = hash[0].split('/')[0] + '/:' + $selectedEl.attr('id');
-                });
             })
             .catch(error => toastr.error(error.message));
 

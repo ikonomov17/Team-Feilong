@@ -2,7 +2,7 @@ import { startUpdatingTime } from 'time';
 import { homeController } from 'homeController';
 import { chartController } from 'chartController';
 import { tableController } from 'tableController';
-import { listController } from 'listController';
+// import { listController } from 'listController';
 import { usersController } from 'usersController';
 import { sideBarContent } from './controllers/homepage/sidebar-router.js';
 import 'jquery';

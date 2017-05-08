@@ -14,11 +14,24 @@ const homeController = {
             ])
             .then(([homeT, sideBarT, sideMenuT]) => {
                 $('#contents').html(homeT());
-                $('#side-bar').html(sideBarT());
+                $('#side-bar-top').html(sideBarT());
                 $('#side-menu').html(sideMenuT());
                 toastr.success("Welcome home!");
-            });
-        sideBarContent.get({ sideBarContent: ':favorites' });
+            })
+            .then(() => {
+                sideBarContent.get({ sideBarContent: ':favorites' });
+            })
+            .then(() => {
+                $('.sidebar-nav').on('click', (event) => {
+                    const $selectedEl = $(event.target).parent();
+                    $('.active').removeClass('active')
+                    $selectedEl.addClass('active');
+
+                    // hash changing:
+                    let hash = location.hash.split(':');
+                    location.hash = hash[0].split('/')[0] + '/:' + $selectedEl.attr('id');
+                });
+            })
     }
 };
 
