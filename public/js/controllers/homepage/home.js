@@ -6,12 +6,10 @@ import $ from 'jquery';
 
 const homeController = {
     get() {
-        // console.log('Yeey!');
 
-        //data.getData().then(function(data) {
         Promise.all([
                 template.get('home'),
-                template.get('side-bar'),
+                template.get('sidebar-favorites'),
                 template.get('side-menu')
             ])
             .then(([homeT, sideBarT, sideMenuT]) => {
@@ -20,8 +18,7 @@ const homeController = {
                 $('#side-menu').html(sideMenuT());
                 toastr.success("Welcome home!");
             });
-        sideBarContent.get();
-        //})
+        sideBarContent.get({ sideBarContent: ':favorites' });
     }
 };
 
