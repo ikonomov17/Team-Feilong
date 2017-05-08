@@ -36,9 +36,22 @@ const usersController = {
     get(params) {
         //console.log(`${params.id} is id and ${params.action} is action`);
 
-        template.get('user').then(template => {
-            $('#contents').html(template);
-        });
+        template.get('user')
+            .then(template => {
+                $('#contents').html(template());
+                $('#get-favs').on('click', () => {
+                    database.getFavorites()
+                        .then(
+                            response => {
+                                const strRes = JSON.stringify(response.val());
+                                $('#favs').html(strRes);
+                            });
+                });
+                $('#load-companies').on('click', () => database.loadCompanies());
+                $('#load-symbols').on('click', () => database.loadSymbols());
+            })
+            .catch(error => console.log(error.message))
+
     },
 
 

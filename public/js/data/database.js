@@ -1,4 +1,7 @@
 //import 'firebase';
+import {get as getRequest } from '../requester.js';
+import { symbols } from './symbols.js';
+import { companies } from './companies.js';
 
 // Initialize Firebase
 var config = {
@@ -28,12 +31,60 @@ const database = {
         }
     },
 
-    getUser(uid) {
+    addNewCompany(companyObj) {
+        if (!companyObj.Symbol) {
+            toastr.error('No company symbol passed!');
+            return Promise.reject('No company symbol passed!');
+        } else {
+            return dbRef.ref('companies/' + companyObj.Symbol)
+                .set(companyObj)
+                .then(success => toastr.success(`Company ${companyObj.Symbol} added/updated`))
+                .catch(error => toastr.error(error.message));
+        }
+    },
+
+    addNewSymbol(symbol) {
+        return dbRef.ref('symbols/' + symbol)
+            .set(true)
+            .then(success => toastr.success(`Symbol ${symbol} added/updated`))
+            .catch(error => toastr.error(error.message));
+
+    },
+
+    loadCompanies() {
+        companies.forEach(company => database.addNewCompany(company));
+    },
+
+    loadSymbols() {
+        symbols.forEach(symbol => database.addNewSymbol(symbol));
+    },
+
+    getUser() {
+        const uid = firebase.auth().currentUser.uid;
         return dbRef.ref('users/' + uid);
     },
 
-    getProperty(uid, property) {
-        return dbRef.ref('users/' + uid + '/' + property);
+    getProperty(property) {
+        const uid = firebase.auth().currentUser.uid;
+        return dbRef.ref('users/' + uid + '/' + property)
+            .once(snapshot => snapshot.val());
+    },
+
+    // NB! favorites object is in response.val()
+    getFavorites() {
+        const uid = firebase.auth().currentUser.uid;
+        return dbRef.ref('users/' + uid + '/favorites')
+            .once('value');
+    },
+
+    getCompany(symbol) {
+        return dbRef.ref('companies/' + symbol)
+            .once('value');
+    },
+
+    getSymbol(symbol) {
+        return dbRef.ref('symbols/' + symbol)
+            .once('value');
     },
 
     addUserProperty(uid, property, value) {
