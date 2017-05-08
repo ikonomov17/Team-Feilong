@@ -13,9 +13,9 @@ class SideBar {
                 SideBar.coloriseTable();
 
                 //Select fist favorite by default
-                $('#favorites-list-table').children("tr").eq(0).addClass('info');
+                $('.ticket-list-table').children("tr").eq(0).addClass('info');
 
-                $('#favorites-list-table').on('click', () => {
+                $('.favorites-list-table').on('click', () => {
                     const $selectedEl = $(event.target).parent();
                     $('.info').removeClass('info');
                     $selectedEl.addClass('info');
@@ -51,6 +51,12 @@ class SideBar {
             .then(() => {
                 $('#side-bar-bottom').html('');
                 SideBar.coloriseTable();
+
+                $('.ticket-list-table').on('click', () => {
+                    const $selectedEl = $(event.target).parent();
+                    $('.info').removeClass('info');
+                    $selectedEl.addClass('info');
+                });
             });
     }
 
@@ -63,6 +69,11 @@ class SideBar {
             .then(() => {
                 $('#side-bar-bottom').html('');
                 SideBar.coloriseTable();
+                $('.tickets-list-table').on('click', () => {
+                    const $selectedEl = $(event.target).parent();
+                    $('.info').removeClass('info');
+                    $selectedEl.addClass('info');
+                });
             });
     }
 
