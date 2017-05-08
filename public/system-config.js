@@ -25,7 +25,9 @@ System.config({
         'sidebarController': './js/controllers/sidebar.js',
 
         // libraries
-        'firebase': './node_modules/firebase/firebase.js',
+        'firebaseApp': './node_modules/firebase/firebase-app.js',
+        'firebaseDb': './node_modules/firebase/firebase-database.js',
+        'firebaseAuth': './node_modules/firebase/firebase-auth.js',
         'jquery': './node_modules/jquery/dist/jquery.js',
         'navigo': './node_modules/navigo/lib/navigo.min.js',
         'tablesorter': './node_modules/tablesorter/dist/js/jquery.tablesorter.js',

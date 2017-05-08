@@ -1,20 +1,15 @@
 import Navigo from 'navigo';
-import { startUpdatingTime } from 'time';
 import { homeController } from 'homeController';
 import { chartController } from 'chartController';
 import { tableController } from 'tableController';
 import { usersController } from 'usersController';
 import { sideBarController } from './controllers/sidebar.js';
-import 'tablesorter';
-
 
 var root = null;
 var useHash = true;
 var hash = '#!';
 
 var router = new Navigo(root, useHash, hash);
-
-startUpdatingTime();
 
 router.on({
     '/': () => { router.navigate('home'); },
