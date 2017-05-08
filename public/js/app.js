@@ -1,4 +1,5 @@
 import { startUpdatingTime } from 'time';
+import { database } from './data/database.js';
 import { homeController } from 'homeController';
 import { chartController } from 'chartController';
 import { tableController } from 'tableController';
