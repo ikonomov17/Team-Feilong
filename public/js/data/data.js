@@ -28,12 +28,40 @@ export function getOnlyNames() {
 
 export function getChartData(ticker, period) {
     return fetchDataFromSource(ticker, period).then((data) => {
-        const dataObject = getHistoricalDataObject(data);
-        const arrangedData = arrangeData(dataObject);
+        const dataObject = getHistoricalDataObject(data,period.number);
+        const historicalData = dataObject.historicalData;
+        const arrangedData = arrangeData(historicalData);
+        const infoData = createInfoObject(dataObject.infoData);
         let sortedData = sortDataByDateAscending(arrangedData);
-        return sortedData;
+
+        return {
+            historicalData: sortedData,
+            infoData: infoData
+        }
     })
 }
+
+function createInfoObject(data){
+    const ticker = "ticker:"
+    const tickerName = data[1].col0.substr(ticker.length);
+    const company = "Company-Name:";
+    const companyName = data[2].col0.substr(company.length);
+    const exchange = "Exchange-Name:";
+    const exchangeName = data[3].col0.substr(exchange.length);
+    const unit = "unit:";
+    const unitName = data[4].col0.substr(unit.length);
+    const currency = "currency:";
+    const currencyType = data[6].col0.substr(currency.length);
+
+    return {
+        ticker: tickerName,
+        companyName: companyName,
+        exchangeName: exchangeName,
+        unitName: unitName,
+        currencyType: currencyType
+    }
+}
+
 
 function fetchDataFromSource(ticker, period) {
     /*
@@ -47,12 +75,19 @@ function fetchDataFromSource(ticker, period) {
     return requester.get(url);
 };
 
-function getHistoricalDataObject(data) {
-    return data.query.results.row;
+function getHistoricalDataObject(data,period) {
+    const startHistoricalDataObject = 17 + parseInt(period);
+    const wholeArray = data.query.results.row;
+    const historicalData = wholeArray.slice(startHistoricalDataObject, wholeArray.length - 1);
+    const infoObject = wholeArray.slice(0, startHistoricalDataObject);
+
+    return {
+        historicalData: historicalData,
+        infoData: infoObject
+    };
 }
 
 function arrangeData(data) {
-    data = data.slice(100, data.length - 1);
     let arrangedData = data.map(function(d) {
         return {
             date: new Date(d.col0 * 1000),
