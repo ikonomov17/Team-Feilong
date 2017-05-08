@@ -3,6 +3,7 @@ import * as data from '../data/data.js';
 import { template } from '../template.js';
 import { sideBarController } from './sidebar.js';
 
+
 const homeController = {
     get() {
         sideBarController.getSideContent();

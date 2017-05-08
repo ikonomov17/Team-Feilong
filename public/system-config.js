@@ -23,11 +23,15 @@ System.config({
         // 'listController': './js/controllers/list.js',
         'usersController': './js/controllers/users.js',
         'sidebarController': './js/controllers/sidebar.js',
+
         // libraries
+        'firebase': './node_modules/firebase/firebase.js',
         'jquery': './node_modules/jquery/dist/jquery.js',
+        'navigo': './node_modules/navigo/lib/navigo.min.js',
         'tablesorter': './node_modules/tablesorter/dist/js/jquery.tablesorter.js',
         'bloodhound': './node_modules/typeahead.js-jspm/dist/bloodhound.min.js',
         'typeahead': './node_modules/typeahead.js-jspm/dist/typeahead.jquery.min.js',
+        'toastr': './node_modules/toastr/build/toastr.min.js'
     },
 
     meta: {

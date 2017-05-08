@@ -1,11 +1,12 @@
+import Navigo from 'navigo';
 import { startUpdatingTime } from 'time';
-import { database } from './data/database.js';
 import { homeController } from 'homeController';
 import { chartController } from 'chartController';
 import { tableController } from 'tableController';
 import { usersController } from 'usersController';
 import { sideBarController } from './controllers/sidebar.js';
 import 'tablesorter';
+
 
 var root = null;
 var useHash = true;

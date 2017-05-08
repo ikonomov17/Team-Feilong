@@ -1,7 +1,7 @@
-//import 'firebase';
+import * as firebase from 'firebase';
 import {get as getRequest } from '../requester.js';
-import { symbols } from './symbols.js';
-import { companies } from './companies.js';
+//import { symbols } from './symbols.js';
+//import { companies } from './companies.js';
 
 // Initialize Firebase
 var config = {
@@ -12,9 +12,9 @@ var config = {
     storageBucket: "feilongspa-91a86.appspot.com",
     messagingSenderId: "1075179276760"
 };
-firebase.initializeApp(config);
+var app = firebase.initializeApp(config);
 
-const dbRef = firebase.database();
+const dbRef = app.database();
 
 const database = {
 
@@ -38,7 +38,7 @@ const database = {
         } else {
             return dbRef.ref('companies/' + companyObj.Symbol)
                 .set(companyObj)
-                .then(success => toastr.success(`Company ${companyObj.Symbol} added/updated`))
+                //.then(success => toastr.success(`Company ${companyObj.Symbol} added/updated`))
                 .catch(error => toastr.error(error.message));
         }
     },
@@ -46,17 +46,30 @@ const database = {
     addNewSymbol(symbol) {
         return dbRef.ref('symbols/' + symbol)
             .set(true)
-            .then(success => toastr.success(`Symbol ${symbol} added/updated`))
+            //.then(success => toastr.success(`Symbol ${symbol} added/updated`))
             .catch(error => toastr.error(error.message));
-
     },
 
-    loadCompanies() {
-        companies.forEach(company => database.addNewCompany(company));
+    // Use to add favorites in bulk
+    addUserProperty(property, value) {
+        const uid = firebase.auth().currentUser.uid;
+        dbRef.ref('users/' + uid + '/' + property)
+            .set(value)
+            .then(success => toastr.success(`${property} set`))
+            .catch(error => toastr.error(error.message));
     },
 
-    loadSymbols() {
-        symbols.forEach(symbol => database.addNewSymbol(symbol));
+    // Use to edit property
+    addFavorite(symbol) {
+        const uid = firebase.auth().currentUser.uid;
+        return dbRef.ref('users/' + uid + '/favorites' + symbol)
+            .set(true);
+    },
+
+    removeFavorite(symbol) {
+        const uid = firebase.auth().currentUser.uid;
+        return dbRef.ref('users/' + uid + '/favorites' + symbol)
+            .remove();
     },
 
     getUser() {
@@ -66,15 +79,17 @@ const database = {
 
     getProperty(property) {
         const uid = firebase.auth().currentUser.uid;
-        return dbRef.ref('users/' + uid + '/' + property)
-            .once(snapshot => snapshot.val());
+        return dbRef.ref('users/' + uid)
+            .once('value')
+            .then(response => response.val().property);
     },
 
-    // NB! favorites object is in response.val()
+    // NB! favorites object is in response.val(), returns array
     getFavorites() {
         const uid = firebase.auth().currentUser.uid;
         return dbRef.ref('users/' + uid + '/favorites')
-            .once('value');
+            .once('value')
+            .then(response => Object.keys(response.val()));
     },
 
     getCompany(symbol) {
@@ -87,25 +102,23 @@ const database = {
             .once('value');
     },
 
-    getAllCompanies(symbol) {
+    getAllCompanies() {
         return dbRef.ref('companies/')
             .once('value');
     },
 
-    getAllSymbols(symbol) {
+    getAllSymbols() {
         return dbRef.ref('symbols/')
             .once('value');
     },
 
+    loadCompanies() {
+        //companies.forEach(company => database.addNewCompany(company));
+    },
 
-    addUserProperty(uid, property, value) {
-        dbRef.ref('users/' + uid + '/' + property)
-            .set(value)
-            .then(success => toastr.success(`${property} set`))
-            .catch(error => toastr.error(error.message));
-    }
-
-    // TODO Edit favorites if needed
+    loadSymbols() {
+        //symbols.forEach(symbol => database.addNewSymbol(symbol));
+    },
 }
 
 export { database };
