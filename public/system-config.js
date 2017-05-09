@@ -28,9 +28,9 @@ System.config({
         'firebaseApp': './node_modules/firebase/firebase-app.js',
         'firebaseDb': './node_modules/firebase/firebase-database.js',
         'firebaseAuth': './node_modules/firebase/firebase-auth.js',
-        'jquery': './node_modules/jquery/dist/jquery.js',
+        'jquery': './node_modules/jquery/dist/jquery.min.js',
         'navigo': './node_modules/navigo/lib/navigo.min.js',
-        'tablesorter': './node_modules/tablesorter/dist/js/jquery.tablesorter.js',
+        'tablesorter': './node_modules/tablesorter/dist/js/jquery.tablesorter.min.js',
         'bloodhound': './node_modules/typeahead.js-jspm/dist/bloodhound.min.js',
         'typeahead': './node_modules/typeahead.js-jspm/dist/typeahead.jquery.min.js',
         'toastr': './node_modules/toastr/build/toastr.min.js'

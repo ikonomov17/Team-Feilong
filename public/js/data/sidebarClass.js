@@ -5,8 +5,8 @@ import $ from 'jquery';
 import * as requester from '../requester.js';
 import Bloodhound from 'bloodhound';
 import { typehead } from 'typeahead';
-import { createCompleteChart } from '../chartPainter.js';
 import { database } from '../data/database.js';
+import { chartPainter } from 'chartPainter';
 
 class SideBar {
 
@@ -61,12 +61,12 @@ class SideBar {
                         svg.remove();
                     }
 
-                    Data.getData('chart', ticker, period).then((data) => {
-                        template.get('chartHeader').then(template => {
-                            $('#company-info').html(template(data.infoData));
-                        });
-                        createCompleteChart(data.historicalData);
-                        toastr.success("Chart loaded!");
+                    Data.getData('chart',ticker,period).then((data) => {
+                            template.get('chartHeader').then(template => {
+                                $('#company-info').html(template(data.infoData));
+                            });
+                            chartPainter.createCompleteChart(data.historicalData);
+                            toastr.success("Chart loaded!");
                     }).catch(() => {
                         $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
                     });
