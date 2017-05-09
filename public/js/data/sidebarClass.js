@@ -61,7 +61,7 @@ class SideBar {
                         svg.remove();
                     }
 
-                    Data.getData('chart',ticker,period).then((data) => {
+                    Data.getChartData(ticker,period).then((data) => {
                             template.get('chartHeader').then(template => {
                                 $('#company-info').html(template(data.infoData));
                             });

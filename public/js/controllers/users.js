@@ -3,6 +3,7 @@ import { Data } from 'data';
 import { database, app } from '../data/database.js';
 import { template } from '../template.js';
 import { hashHistory } from '../hasher.js';
+import { SideBar } from '../data/sidebarClass.js';
 import 'toastr';
 
 toastr.options = {
@@ -12,7 +13,17 @@ toastr.options = {
 // Listens for changes in logged in user
 // Sets sign in/out buttons appropriately
 app.auth()
-    .onAuthStateChanged(user => usersController.toggleButtons(user));
+    .onAuthStateChanged(user => {usersController.toggleButtons(user)
+    
+    if(!user.isAnonymous){        
+        let side = new SideBar();
+        database.getFavorites().then((favs) => {
+            side.callFavorites(favs);
+        })
+        
+     }
+
+});
 
 class User {
     constructor(email, displayName, uid, token) {
@@ -45,7 +56,11 @@ const usersController = {
 
                 database.watchFavorites();
                 database.getFavorites()
-                    .then(resp => console.log(resp));
+                    .then(resp => {
+                        const indices = [];
+                        console.log(indices);
+                        resp.forEach(x => indices.push(Data.getIndex(x)));
+                    });
             })
             .catch(error => console.log(error.message))
 

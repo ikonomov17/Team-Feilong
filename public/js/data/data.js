@@ -24,27 +24,37 @@ export let Data = (function Data() {
         return requester.get(url);
     };
 
+    const ticker = "ticker:"
+    const company = "Company-Name:";
+    const exchange = "Exchange-Name:";
+    const unit = "unit:";
+    const currency = "currency:";
+    const high =  "high:";
+    const symbol = "symbol:";
+
     function createInfoObject(data) {
-        const ticker = "ticker:"
+        
         const tickerName = data[1].col0.substr(ticker.length);
-        const company = "Company-Name:";
+       
         const companyName = data[2].col0.substr(company.length);
-        const exchange = "Exchange-Name:";
+        
         const exchangeName = data[3].col0.substr(exchange.length);
-        const unit = "unit:";
+        
         const unitName = data[4].col0.substr(unit.length);
-        const currency = "currency:";
+        
         const currencyType = data[6].col0.substr(currency.length);
 
+        const infoPrice = data[13].col0.substr(high.length);
+        
         return {
             ticker: tickerName,
             companyName: companyName,
             exchangeName: exchangeName,
             unitName: unitName,
-            currencyType: currencyType
+            currencyType: currencyType,
+            price: infoPrice
         }
     }
-
 
     function getHistoricalDataObject(data, period) {
         const startHistoricalDataObject = 17 + parseInt(period);
@@ -87,61 +97,67 @@ export let Data = (function Data() {
     const LOCALSTORAGE_USERTOKEN_KEY = "token";
     const LOCALSTORAGE_DISPLAYNAME_KEY = "displayName";
 
+    function getChartData(...params){
+            const ticker = params[0];
+            const period = params[1];
+            return fetchTickerDataFromSource(ticker, period).then((data) => {
+                const dataObject = getHistoricalDataObject(data, period.number);
+                const historicalData = dataObject.historicalData;
+                const arrangedData = arrangeData(historicalData);
+                const infoData = createInfoObject(dataObject.infoData);
+                let sortedData = sortDataByDateAscending(arrangedData);
+                return {
+                    historicalData: sortedData,
+                    infoData: infoData
+                }
+            });
+        }
 
     var dataObj = {
-            getData: function(type,...params){
-                    
-                        switch (type) {
-                            case 'chart':
-                                if(params.length != 2 || params[0] === undefined || params[1] === undefined){
-                                    throw new Error("Period of time should be provided(number and days/months!");
-                                }
-                                const ticker = params[0];
-                                const period = params[1];
-                                return fetchTickerDataFromSource(ticker, period).then((data) => {
-                                    const dataObject = getHistoricalDataObject(data, period.number);
-                                    const historicalData = dataObject.historicalData;
-                                    const arrangedData = arrangeData(historicalData);
-                                    const infoData = createInfoObject(dataObject.infoData);
-                                    let sortedData = sortDataByDateAscending(arrangedData);
-                                    return {
-                                        historicalData: sortedData,
-                                        infoData: infoData
-                                    }
-                                });
+            getChartData: getChartData,
 
-                                break;
+            getTableData: function (params) {
+                const yahooCurrencies = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%27http%3A%2F%2Ffinance.yahoo.com%2Fwebservice%2Fv1%2Fsymbols%2Fallcurrencies%2Fquote%3Fformat%3Djson%27&format=json&diagnostics=true&callback=';
+                        
+                        return requester.get(yahooCurrencies)
+                                    .then(resp => {
+                                        const objectArray = parseTableResponseData(resp);
+                                        return objectArray;
+                                    })
+                                    .catch(error => toastr.error(`Error getting data: ${error.message}`, 'Yahoo might be down'));
+            },
+            
+            getIndex: function(ticker) {
+                const periodData = { number: 1, type: 'd'};
+                getChartData(ticker,periodData).then((allData) => {
+                    const data = allData.infoData;
+                    const history = [];
+                    allData.historicalData.slice(0,100).forEach(x => history.push(x.high));
+                    const name = data.companyName;
+                    const price = data.price;
+                    const currentSymbol =  data.ticker;
+                    const fScore= new FScore();
+                    fScore.total(history);
+                    const index = new Index(name,price,currentSymbol,fScore);
+                    return index;
+                })
+                
+                
+            },
 
-                            case 'table':
-                                const yahooCurrencies = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%27http%3A%2F%2Ffinance.yahoo.com%2Fwebservice%2Fv1%2Fsymbols%2Fallcurrencies%2Fquote%3Fformat%3Djson%27&format=json&diagnostics=true&callback=';
-                                
-                                return requester.get(yahooCurrencies)
-                                            .then(resp => {
-                                                const objectArray = parseTableResponseData(resp);
-                                                return objectArray;
-                                            })
-                                            .catch(error => toastr.error(`Error getting data: ${error.message}`, 'Yahoo might be down'));
-                                break;
+            setLocalStorage: function setLocalStorage(user) {
+                                localStorage.setItem(LOCALSTORAGE_USERNAME_KEY, user.email);
+                                localStorage.setItem(LOCALSTORAGE_USERID_KEY, user.uid);
+                                localStorage.setItem(LOCALSTORAGE_USERTOKEN_KEY, user.Yd);
+                                localStorage.setItem(LOCALSTORAGE_DISPLAYNAME_KEY, user.displayName);
+                            },
 
-                            default:
-                                throw new Error('No such type!');
-                                break;
-                        }
-                    },
-
-                    setLocalStorage: function setLocalStorage(user) {
-                                        localStorage.setItem(LOCALSTORAGE_USERNAME_KEY, user.email);
-                                        localStorage.setItem(LOCALSTORAGE_USERID_KEY, user.uid);
-                                        localStorage.setItem(LOCALSTORAGE_USERTOKEN_KEY, user.Yd);
-                                        localStorage.setItem(LOCALSTORAGE_DISPLAYNAME_KEY, user.displayName);
-                                    },
-
-                    scoreAnalytics: function scoreAnalytics(arr) {
-                                    const fScore = new FScore();
-                                    let fScoreResults = fScore.total(arr);
-                                    // console.log(fScoreResults.totalPoints);
-                                    return fScoreResults;
-                                }                
+            scoreAnalytics: function scoreAnalytics(arr) {
+                                const fScore = new FScore();
+                                let fScoreResults = fScore.total(arr);
+                                // console.log(fScoreResults.totalPoints);
+                            return fScoreResults;
+                        }                
     }
 
      
