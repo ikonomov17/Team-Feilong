@@ -1,5 +1,4 @@
-import 'jquery';
-
+import $ from 'jquery';
 
 function updateCurrentUtcTime() {
     let currentUtcTime = new Date().toUTCString();
@@ -7,6 +6,10 @@ function updateCurrentUtcTime() {
         .html(currentUtcTime);
 }
 
-export function startUpdatingTime() {
-    setInterval(updateCurrentUtcTime, 1000);
+const timer = {
+    start() {
+        setInterval(updateCurrentUtcTime, 1000);
+    }
 }
+
+export { timer };

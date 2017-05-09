@@ -16,9 +16,6 @@ if (!window.HashChangeEvent)(function() {
 
 function locationHashChanged() {
     hashHistory.push(event.oldURL.split('#')[1]);
-    //console.log(event.oldURL);
-    //console.log(event.newURL);
-    //console.log(hashTuple);
 }
 
 window.onhashchange = locationHashChanged;

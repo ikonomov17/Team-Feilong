@@ -1,4 +1,4 @@
-import * as requester from '../requester.js';
+import * as requester from '../utils/requester.js';
 
 class searchChart {
 
@@ -27,6 +27,4 @@ class searchChart {
 
 }
 
-export {
-    searchChart
-};
+export { searchChart };

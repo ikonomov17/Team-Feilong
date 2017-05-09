@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import { Data } from 'data';
-import { database, app } from '../data/database.js';
-import { template } from '../template.js';
-import { hashHistory } from '../hasher.js';
 import { SideBar } from '../data/sidebarClass.js';
+import { database, app } from '../data/database.js';
+import { templater } from '../utils/templater.js';
+import { hashHistory } from '../utils/hasher.js';
 import 'toastr';
 
 toastr.options = {
@@ -41,7 +41,7 @@ const usersController = {
     get(params) {
         //console.log(`${params.id} is id and ${params.action} is action`);
 
-        template.get('user').then(template => {
+        templater.get('user').then(template => {
                 const user = app.auth().currentUser;
                 $('#contents').html(template(user));
                 $('#get-favs').on('click', () => {
@@ -86,7 +86,7 @@ const usersController = {
 
 
     signup() {
-        template.get('register').then(template => {
+        templater.get('register').then(template => {
             $('#popup').html(template);
             $('#register').on('click', (event) => {
                 event.stopPropagation();
@@ -98,7 +98,7 @@ const usersController = {
     },
 
     signin() {
-        template.get('login').then(template => {
+        templater.get('login').then(template => {
             $('#popup').html(template);
             $('#login').on('click', (event) => {
                 event.stopPropagation();
@@ -185,7 +185,7 @@ const usersController = {
             $('#logout').removeClass('hidden');
             $('#account').removeClass('hidden');
 
-            template.get('account-menu')
+            templater.get('account-menu')
                 .then(template => {
                     $('#account-menu').html(template(localStorage));
                 });

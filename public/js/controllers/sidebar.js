@@ -1,8 +1,8 @@
 import $ from 'jquery';
 import { Data } from 'data';
-import { template } from '../template.js';
 import { Index } from '../data/indexClass.js';
 import { SideBar } from '../data/sidebarClass.js';
+import { templater } from '../utils/templater.js';
 // import { listController } from 'listController';
 
 //Mockup data array:
@@ -68,8 +68,8 @@ const sideBarController = {
 
     getSideContent() {
         Promise.all([
-                template.get('sidebar-favorites'),
-                template.get('side-menu')
+                templater.get('sidebar-favorites'),
+                templater.get('side-menu')
             ])
             .then(([sideBarT, sideMenuT]) => {
                 $('#side-bar-top').html(sideBarT());

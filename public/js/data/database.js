@@ -1,8 +1,7 @@
 import * as firebase from 'firebaseApp';
 import 'firebaseAuth';
 import 'firebaseDb';
-
-import {get as getRequest } from '../requester.js';
+import {get as getRequest } from '../utils/requester.js';
 //import { symbols } from './symbols.js';
 //import { companies } from './companies.js';
 

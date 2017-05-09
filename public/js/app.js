@@ -18,6 +18,7 @@ router.on({
     'home/:sideBarContent': (params) => sideBarController.get(params),
     'chart/:sideBarContent': (params) => sideBarController.get(params),
     'table/:sideBarContent': (params) => sideBarController.get(params),
+    'user/:sideBarContent': (params) => sideBarController.get(params),
     'chart': chartController.get,
     'table': tableController.get,
     'user': usersController.get,

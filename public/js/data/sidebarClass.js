@@ -1,12 +1,12 @@
-import { template } from '../template.js';
-import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
-import { Data } from 'data';
 import $ from 'jquery';
-import * as requester from '../requester.js';
+import { Data } from '../data/data.js';
+import { database } from '../data/database.js';
+import * as requester from '../utils/requester.js';
+import { templater } from '../utils/templater.js';
+import { attachListFilterToInput, attachTableFilterToInput } from '../utils/filter.js';
+import { chartPainter } from '../utils/chartPainter.js';
 import Bloodhound from 'bloodhound';
 import { typehead } from 'typeahead';
-import { database } from '../data/database.js';
-import { chartPainter } from 'chartPainter';
 
 class SideBar {
 
@@ -32,7 +32,7 @@ class SideBar {
     callSearch(params) {
         // To make it work with templateCompile()
         Promise.all([
-                template.get('sidebar-search')
+                templater.get('sidebar-search')
             ])
             .then(([templ]) => {
                 $('#side-bar-bottom').html(templ());
@@ -61,12 +61,12 @@ class SideBar {
                         svg.remove();
                     }
 
-                    Data.getChartData(ticker,period).then((data) => {
-                            template.get('chartHeader').then(template => {
-                                $('#company-info').html(template(data.infoData));
-                            });
-                            chartPainter.createCompleteChart(data.historicalData);
-                            toastr.success("Chart loaded!");
+                    Data.getChartData(ticker, period).then((data) => {
+                        templater.get('chartHeader').then(template => {
+                            $('#company-info').html(template(data.infoData));
+                        });
+                        chartPainter.createCompleteChart(data.historicalData);
+                        toastr.success("Chart loaded!");
                     }).catch(() => {
                         $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
                     });
@@ -119,7 +119,7 @@ class SideBar {
 
         return new Promise((resolve, reject) => {
 
-                resolve(template.get(templateName))
+                resolve(templater.get(templateName))
             })
             .then(template => {
 

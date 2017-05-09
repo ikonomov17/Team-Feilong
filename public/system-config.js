@@ -10,17 +10,16 @@ System.config({
 
         // files
         'main': './js/app.js',
-        'routing': './js/routing.js',
         'data': './js/data/data.js',
-        'template': './js/template.js',
-        'hb_helper': './js/handlebars_helpers.js',
-        'time': './js/time.js',
-        'filter': './js/filter.js',
-        'chartPainter': './js/chartPainter.js',
+        'filter': './js/utils/filter.js',
+        'templater': './js/utils/template.js',
+        'timer': './js/utils/time.js',
+        'requester': './js/utils/requester.js',
+        'upperizer': './js/utils/upperizer.js',
+        'chartPainter': './js/utils/chartPainter.js',
         'homeController': './js/controllers/home.js',
         'chartController': './js/controllers/chart.js',
         'tableController': './js/controllers/table.js',
-        // 'listController': './js/controllers/list.js',
         'usersController': './js/controllers/users.js',
         'sidebarController': './js/controllers/sidebar.js',
 

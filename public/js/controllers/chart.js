@@ -1,15 +1,15 @@
 import $ from 'jquery';
-import { template } from '../template.js';
-import { sideBarController } from './sidebar.js';
 import { Data } from 'data';
-import { chartPainter } from 'chartPainter';
+import { sideBarController } from './sidebar.js';
+import { templater } from '../utils/templater.js';
+import { chartPainter } from '../utils/chartPainter.js';
 import Bloodhound from 'bloodhound';
 import { typehead } from 'typeahead';
 
 const chartController = {
     get() {
         sideBarController.getSideContent();
-        template.get('chart')
+        templater.get('chart')
             .then(templ => {
                 $('#contents').html(templ());
 
@@ -33,7 +33,7 @@ const chartController = {
                         number: +number,
                         type: type
                     }
-                    
+
                     let svg = $('svg');
 
                     if (svg.length != 0) {
@@ -41,17 +41,17 @@ const chartController = {
                     }
 
                     // TODO: add validation (all input required)!
-                    Data.getChartData(ticker,period)
-                    .then((data) => {
-                        template.get('chartHeader').then(template => {
-                            $('#company-info').html(template(data.infoData));
-                        })
-                        chartPainter.createCompleteChart(data.historicalData);
-                        
-                        toastr.success("Chart loaded!");
-                    }).catch(() => {
-                        $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
-                    });
+                    Data.getChartData(ticker, period)
+                        .then((data) => {
+                            templater.get('chartHeader').then(template => {
+                                $('#company-info').html(template(data.infoData));
+                            })
+                            chartPainter.createCompleteChart(data.historicalData);
+
+                            toastr.success("Chart loaded!");
+                        }).catch(() => {
+                            $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
+                        });
                 })
 
             })

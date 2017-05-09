@@ -1,4 +1,4 @@
-export class Index {
+class Index {
     constructor(name, price, symbol, fScore) {
         this._name = name;
         this._price = price;
@@ -19,3 +19,5 @@ export class Index {
         return this._fScore;
     }
 }
+
+export { Index };

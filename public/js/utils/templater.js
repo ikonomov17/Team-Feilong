@@ -1,14 +1,14 @@
-import 'jquery';
+import $ from 'jquery';
 import {get as getRequest } from './requester.js';
 
 const cached = {};
 
-const template = {
+const templater = {
     get(name) {
 
-        // if (cached[name]) {
-        //     return Promise.resolve(cached[name]);
-        // }
+        if (cached[name]) {
+            return Promise.resolve(cached[name]);
+        }
 
         return getRequest(`../templates/${name}.handlebars`)
             .then(template => {
@@ -18,4 +18,4 @@ const template = {
     }
 }
 
-export { template };
+export { templater };
