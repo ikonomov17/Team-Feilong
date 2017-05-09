@@ -109,7 +109,7 @@ export let Data = (function Data() {
             return {
                 historicalData: sortedData,
                 infoData: infoData
-            }
+            };
         });
     }
 
@@ -128,42 +128,35 @@ export let Data = (function Data() {
         },
 
         getIndex: function(ticker) {
+            let index;
             const periodData = { number: 1, type: 'd' };
-            getChartData(ticker, periodData).then((allData) => {
-                const data = allData.infoData;
-                // console.log(data);
-
+            let data;
+            return getChartData(ticker, periodData).then((allData) => {
+                data = allData.infoData;
                 let history = [];
-                const fScoreObj = new FScore();
-                let fScore;
                 let index;
-                let dataPromise = new Promise((resolve) => {
-                        allData.historicalData.slice(0, 100).forEach((x) => {
-                            let object = {
-                                low: x.low,
-                                high: x.high,
-                                open: x.open,
-                                close: x.close
-                            }
-                            history.push(object);
-                        })
-                        resolve(history)
+                return new Promise((resolve) => {
+                    allData.historicalData.slice(0, 100).forEach((x) => {
+                        let object = {
+                            low: x.low,
+                            high: x.high,
+                            open: x.open,
+                            close: x.close
+                        }
+                        history.push(object);
                     })
-                    .then(history => {
-                        fScore = fScoreObj.total(history);
-                        // console.log(fScore.totalPoints);
-                    }).then(() => {
+                    resolve(history)
+                })
+            }).then(history => {
+                const fScoreObj = new FScore();
+                let fScore = fScoreObj.total(history);
+                const name = data.companyName;
+                const price = data.price;
+                const currentSymbol = data.ticker;
 
-
-
-                        const name = data.companyName;
-                        const price = data.price;
-                        const currentSymbol = data.ticker;
-                        // console.log(name);
-                        index = new Index(name, price, currentSymbol, fScore.totalPoints);
-                        // console.log(index);
-                        return index;
-                    })
+                index = new Index(name, price, currentSymbol, fScore.totalPoints);
+                // console.log(index);
+                return index;
             })
         },
 

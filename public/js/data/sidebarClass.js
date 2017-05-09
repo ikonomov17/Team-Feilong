@@ -9,7 +9,7 @@ import Bloodhound from 'bloodhound';
 import { typeahead } from 'typeahead';
 
 class SideBar {
-    callFavorites(params){
+    callFavorites(params) {
         SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params)
             .then(() => {
                 $('#side-bar-bottom').html('');
@@ -24,50 +24,43 @@ class SideBar {
                     $selectedEl.addClass('info');
                 });
             });
-        
+
         Database.app.auth().onAuthStateChanged(user => {
-            if(user !== null){
-                    Database.getFavorites()
-                                .then((favs) => {
-                    console.log(favs);
+            if (user !== null) {
+                Database.getFavorites()
+                    .then((favs) => {
+                        // console.log(favs);
 
-                    let indices = [];
+                        let indices = [];
 
-                    favs.forEach((x) => {
-                        console.log(x);
-                        let prom = new Promise((resolve) => {
-                            const dataIndex = Data.getIndex(x);
-                            console.log(dataIndex);
-                            if (dataIndex) {
-                                console.log('here');
-                                resolve(dataIndex);
-                            }
-                        });
-                        prom.then((indexData) => {
-                            console.log(x);
-                            console.log(indexData.fScore);
-                        });
+                        favs.forEach((x) => {
+                            // console.log(x);
+                            let prom = new Promise((resolve) => {
+                                const dataIndex = Data.getIndex(x);
+                                dataIndex.then((dataIndex) => {
+                                    // console.log('hereEee');
+                                    // console.log(dataIndex);
+                                    resolve(dataIndex);
+                                });
+                            });
+                            prom.then((indexData) => {
+                                    console.log(indexData);
+                                    indices.push(indexData);
+                                })
+                                .then(() => {
+                                    SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', indices)
+                                        .then(() => {
+                                            SideBar.coloriseTable();
+                                        });
+                                    //
+                                });
 
-                        // indices.push(indexData);
                         });
-                    // console.log(indices);
-                    })
+                    });
             }
-        
-        })
+        });
     }
-        // .then((favs) => {
-        //     console.log(favs);
 
-        //     let indices = [];
-
-        //     favs.forEach((x) => {
-        //         let indexData = Data.getIndex(x);
-        //         console.log(indexData);
-        //         // indices.push(indexData);
-        //     });
-        //     console.log(indices);
-        // });
 
 
     callSearch(params) {
