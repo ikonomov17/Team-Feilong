@@ -96,16 +96,14 @@ export let Database = (function() {
 	function watchFavorites() {
         const user = app.auth().currentUser;
         if (!user) {
-        console.log('No user logged in, yet');
-        return;
-    }
-
-	const dbRefFavs = dbRef.ref('users/' + user.uid).child('favorites');
-	const $favList = $('.tickets-list-table');
-	console.log($favList);
-
-	dbRefFavs.on('child_added', response => {
-	    const newFav = `<tr class="ticket-row" id="${response.key}">
+            console.log('No user logged in, yet');
+            return;
+        }
+        const dbRefFavs = dbRef.ref('users/' + user.uid).child('favorites');
+        const $favList = $('.tickets-list-table');
+        // console.log($favList);
+        dbRefFavs.on('child_added', response => {
+            const newFav = `<tr class="ticket-row" id="${response.key}">
                 <td class="td ticket-name">${response.val()}</td>
                 <td class="td ticket-price">price</td>
                 <td class="td ticket-fscore">fScore
@@ -154,16 +152,17 @@ export let Database = (function() {
             return;
         }
         return dbRef.ref('users/' + user.uid + '/favorites')
-                .once('value')
-                .then(response => {
-                    if (!response.val()) {
-                        return [];
-                    }
-                    return Object.keys(response.val());
-                });
-    }
+            .once('value')
+            .then(response => {
+                if (!response.val()) {
+                    return [];
+                }
+                console.log('good return');
+                return Object.keys(response.val());
+            });
+    },
 
-	function getCompany(symbol) {
+    getCompany(symbol) {
         return dbRef.ref('companies/' + symbol)
                 .once('value');
     }
