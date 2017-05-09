@@ -11,6 +11,7 @@ import { typehead } from 'typeahead';
 class SideBar {
 
     callFavorites(params) {
+        console.log(Database)
         SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params)
             .then(() => {
                 $('#side-bar-bottom').html('');
@@ -26,7 +27,7 @@ class SideBar {
                 });
             });
 
-        database.getFavorites()
+        Database.getFavorites()
             .then((favs) => {
                 console.log(favs);
 

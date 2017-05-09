@@ -114,7 +114,7 @@ export let Database = (function() {
         $('.ticket-row').click(event => {
             if ($(event.target).attr('class') === 'close') {
                 const delFav = $(event.target).parent().parent().attr('id');
-                database.removeFavorite(delFav);
+                Database.removeFavorite(delFav);
             }
         });
     });
@@ -147,10 +147,12 @@ export let Database = (function() {
     // NB! favorites object is in response.val(), returns array
 	function getFavorites() {
         const user = app.auth().currentUser;
+
         if (!user) {
             console.log('No user logged in, yet');
             return;
         }
+
         return dbRef.ref('users/' + user.uid + '/favorites')
             .once('value')
             .then(response => {
@@ -160,9 +162,9 @@ export let Database = (function() {
                 console.log('good return');
                 return Object.keys(response.val());
             });
-    },
+    }
 
-    getCompany(symbol) {
+    function getCompany(symbol) {
         return dbRef.ref('companies/' + symbol)
                 .once('value');
     }
@@ -183,11 +185,11 @@ export let Database = (function() {
     }
 
 	function loadCompanies() {
-        //companies.forEach(company => database.addNewCompany(company));
+        //companies.forEach(company => Database.addNewCompany(company));
     }
 
 	function loadSymbols() {
-        //symbols.forEach(symbol => database.addNewSymbol(symbol));
+        //symbols.forEach(symbol => Database.addNewSymbol(symbol));
     }
 
 
@@ -213,4 +215,5 @@ export let Database = (function() {
     }
 
     return db;
+    
 })();
