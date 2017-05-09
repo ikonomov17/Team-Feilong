@@ -3,7 +3,7 @@ import { Index } from './indexClass.js';
 import * as requester from '../requester.js';
 import { FScore } from './FScoreClass.js';
 
-export var Data = (function Data() {
+export let Data = (function Data() {
 
     function parseTableResponseData(response){
         const listOfObjects = JSON.parse(response.query.results.body);
