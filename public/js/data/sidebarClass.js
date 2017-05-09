@@ -51,8 +51,18 @@ class SideBar {
                                     SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', indices)
                                         .then(() => {
                                             SideBar.coloriseTable();
-                                        });
-                                    //
+                                        })
+                                        .then(() => {
+                                            $('.ticket-row').click(event => {
+                                                if ($(event.target).attr('class') === 'close') {
+                                                    const delFav = $(event.target).parent().attr('id');
+                                                    Database.removeFavorite(delFav);
+                                                    console.log(delFav);
+                                                }
+                                            });
+                                        })
+                                        //
+
                                 });
 
                         });
