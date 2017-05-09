@@ -52,13 +52,13 @@ const sideBarController = {
                     sideBar.callSearch();
                     break;
                 case ':top-ten':
-                    sideBar.callTopTen(favoritesList)
+                    sideBar.callTopTen(favoritesList);
                     break;
                 case ':bottom-ten':
-                    sideBar.callBottomTen(favoritesList)
+                    sideBar.callBottomTen(favoritesList);
                     break;
                 case ':news':
-                    sideBar.callNews()
+                    sideBar.callNews();
                     break;
                 default:
                     sideBar.callFavorites(favoritesList);
@@ -76,9 +76,6 @@ const sideBarController = {
                 $('#side-menu').html(sideMenuT());
             })
             .then(() => {
-                sideBarController.get({ sideBarContent: ':favorites' });
-            })
-            .then(() => {
                 $('.sidebar-nav').on('click', (event) => {
                     const $selectedEl = $(event.target).parent();
                     $('.active').removeClass('active')
@@ -89,6 +86,9 @@ const sideBarController = {
                     location.hash = hash[0].split('/')[0] + '/:' + $selectedEl.attr('id');
                 });
             })
+            .then(() => {
+                sideBarController.get({ sideBarContent: ':favorites' });
+            });
     }
 }
 

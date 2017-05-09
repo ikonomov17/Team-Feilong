@@ -102,7 +102,7 @@ const database = {
         }
         const dbRefFavs = dbRef.ref('users/' + user.uid).child('favorites');
         const $favList = $('.tickets-list-table');
-        console.log($favList);
+        // console.log($favList);
         dbRefFavs.on('child_added', response => {
             const newFav = `<tr class="ticket-row" id="${response.key}">
                 <td class="td ticket-name">${response.val()}</td>
@@ -160,6 +160,7 @@ const database = {
                 if (!response.val()) {
                     return [];
                 }
+                console.log('good return');
                 return Object.keys(response.val());
             });
     },

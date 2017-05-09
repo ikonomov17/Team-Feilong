@@ -14,11 +14,10 @@ class SideBar {
         SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params)
             .then(() => {
                 $('#side-bar-bottom').html('');
-
                 SideBar.coloriseTable();
 
                 //Select fist favorite by default
-                $('.ticket-list-table').children("tr").eq(0).addClass('info');
+                $('.favorites-list-table').children("tr").eq(0).addClass('info');
 
                 $('.favorites-list-table').on('click', () => {
                     const $selectedEl = $(event.target).parent();
@@ -26,6 +25,46 @@ class SideBar {
                     $selectedEl.addClass('info');
                 });
             });
+
+        database.getFavorites()
+            .then((favs) => {
+                console.log(favs);
+
+                let indices = [];
+
+                favs.forEach((x) => {
+                    console.log(x);
+                    let prom = new Promise((resolve) => {
+                        const dataIndex = Data.getIndex(x);
+                        console.log(dataIndex);
+                        if (dataIndex) {
+                            console.log('here');
+                            resolve(dataIndex);
+                        }
+                    });
+                    prom.then((indexData) => {
+                        console.log(x);
+                        console.log(indexData.fScore);
+                    });
+
+                    // indices.push(indexData);
+                });
+                // console.log(indices);
+            });
+        // .then((favs) => {
+        //     console.log(favs);
+
+        //     let indices = [];
+
+        //     favs.forEach((x) => {
+        //         let indexData = Data.getIndex(x);
+        //         console.log(indexData);
+        //         // indices.push(indexData);
+        //     });
+        //     console.log(indices);
+        // });
+
+
 
     }
 
@@ -70,7 +109,7 @@ class SideBar {
                             toastr.success("Chart loaded!");
                         });
                     }).then((data) => {
-                        
+
                     }).catch(() => {
                         $('#contents').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
                     });
@@ -107,9 +146,10 @@ class SideBar {
             .then(() => {
                 $('#side-bar-bottom').html('');
                 SideBar.coloriseTable();
+
                 $('.tickets-list-table').on('click', () => {
-                    const $selectedEl = $(event.target).parent();
                     $('.info').removeClass('info');
+                    const $selectedEl = $(event.target).parent();
                     $selectedEl.addClass('info');
                 });
             });
