@@ -96,7 +96,6 @@ export let Data = (function Data() {
     const LOCALSTORAGE_USERID_KEY = "uid";
     const LOCALSTORAGE_USERTOKEN_KEY = "token";
     const LOCALSTORAGE_DISPLAYNAME_KEY = "displayName";
-    const LOCALSTORAGE_PHOTOURL_KEY = "photoURL";
 
     function getChartData(...params) {
         const ticker = params[0];
@@ -166,7 +165,6 @@ export let Data = (function Data() {
             localStorage.setItem(LOCALSTORAGE_USERID_KEY, user.uid);
             localStorage.setItem(LOCALSTORAGE_USERTOKEN_KEY, user.Yd);
             localStorage.setItem(LOCALSTORAGE_DISPLAYNAME_KEY, user.displayName);
-            localStorage.setItem(LOCALSTORAGE_PHOTOURL_KEY, user.photoURL);
         },
 
         scoreAnalytics: function(arr) {

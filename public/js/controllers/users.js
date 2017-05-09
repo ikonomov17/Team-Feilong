@@ -28,13 +28,12 @@ Database.app.auth()
     });
 
 class User {
-    constructor(email, displayName, uid, token, photoURL) {
+    constructor(email, displayName, uid, token) {
         this.email = email;
         this.displayName = displayName;
         this.uid = uid;
         this.token = token;
         this.favorites = {};
-        this.photoURL = photoURL;
     }
 }
 
@@ -105,10 +104,6 @@ const usersController = {
                 event.stopPropagation();
                 usersController.login();
             });
-            $('#register').on('click', (event) => {
-                event.stopPropagation();
-                usersController.signup();
-            });
             usersController.clickOutOfForm();
         });
     },
@@ -124,7 +119,7 @@ const usersController = {
             })
             .catch(error => {
                 toastr.error(error.message);
-                location.href = '/#!signin';
+                location.href = '/#!auth';
             });
     },
 
@@ -142,7 +137,6 @@ const usersController = {
     register() {
         const $email = $("#input-email").val();
         const $password = $("#input-password").val();
-        const imageLink = '../images/slack_47017.png';
         let $displayName = $('#input-displayname').val();
         if (!$displayName) {
             $displayName = utils.parseDisplayName($email);
@@ -154,13 +148,10 @@ const usersController = {
                 // Check if we need to save token in database
                 // Check: Were to save display name? Auth or DB?
 
-                const user = new User(authUser.email, $displayName, authUser.uid, authUser.Yd, imageLink);
-                database.addNewUser(user);
-                const properties = {
-                    displayName: $displayName,
-                    pohotoURL: imageLink
-                }
-                usersController.updateUser(authUser, properties);
+                const user = new User(authUser.email, $displayName, authUser.uid, authUser.Yd);
+
+                Database.addNewUser(user);
+                usersController.updateUser(authUser, { displayName: $displayName });
                 Data.setLocalStorage(user);
 
                 toastr.success(`User ${user.email} created successfully!`);
@@ -178,7 +169,7 @@ const usersController = {
         Database.removeUser(uid)
             .then(() => {
                 toastr.warning('User deleted. Redirecting.');
-                location.href = '/#';
+                location.href = '/#!home';
             });
     },
 
@@ -196,7 +187,6 @@ const usersController = {
 
             templater.get('account-menu')
                 .then(template => {
-                    //const userAuth = database.auth().currentUser;
                     $('#account-menu').html(template(localStorage));
                 });
 
@@ -213,7 +203,7 @@ const usersController = {
 
     clickOutOfForm() {
         // TODO Make form close on click in top bar?
-        $('#popup').click(event => {
+        $('#popup').click(function(event) {
             const id = $(event.target).attr('id');
             const cls = $(event.target).attr('class');
 
@@ -228,11 +218,11 @@ const usersController = {
         // Fix for: get page where we came from
         const back = hashHistory
             .slice().reverse()
-            .find(hash => (hash !== '!signin') && (hash !== '!signup'))
-        if (!back || back === '?') {
-            location.href = '/#';
+            .find(hash => hash !== '!auth' && hash !== '!create' && hash !== '!register' && hash !== '!login')
+        if (!back) {
+            location.href = '#';
         } else {
-            location.href = '/#' + back;
+            location.href = '#' + back;
         }
     }
 }
