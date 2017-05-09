@@ -6,12 +6,10 @@ import { templater } from '../utils/templater.js';
 import { TableFilter } from '../utils/filter.js';
 import { chartPainter } from '../utils/chartPainter.js';
 import Bloodhound from 'bloodhound';
-import { typehead } from 'typeahead';
+import { typeahead } from 'typeahead';
 
 class SideBar {
-
-    callFavorites(params) {
-        console.log(Database)
+    callFavorites(params){
         SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params)
             .then(() => {
                 $('#side-bar-bottom').html('');
@@ -26,32 +24,38 @@ class SideBar {
                     $selectedEl.addClass('info');
                 });
             });
+        
+        Database.app.auth().onAuthStateChanged(user => {
+            if(user !== null){
+                    Database.getFavorites()
+                                .then((favs) => {
+                    console.log(favs);
 
-        Database.getFavorites()
-            .then((favs) => {
-                console.log(favs);
+                    let indices = [];
 
-                let indices = [];
-
-                favs.forEach((x) => {
-                    console.log(x);
-                    let prom = new Promise((resolve) => {
-                        const dataIndex = Data.getIndex(x);
-                        console.log(dataIndex);
-                        if (dataIndex) {
-                            console.log('here');
-                            resolve(dataIndex);
-                        }
-                    });
-                    prom.then((indexData) => {
+                    favs.forEach((x) => {
                         console.log(x);
-                        console.log(indexData.fScore);
-                    });
+                        let prom = new Promise((resolve) => {
+                            const dataIndex = Data.getIndex(x);
+                            console.log(dataIndex);
+                            if (dataIndex) {
+                                console.log('here');
+                                resolve(dataIndex);
+                            }
+                        });
+                        prom.then((indexData) => {
+                            console.log(x);
+                            console.log(indexData.fScore);
+                        });
 
-                    // indices.push(indexData);
-                });
-                // console.log(indices);
-            });
+                        // indices.push(indexData);
+                        });
+                    // console.log(indices);
+                    })
+            }
+        
+        })
+    }
         // .then((favs) => {
         //     console.log(favs);
 
@@ -65,9 +69,6 @@ class SideBar {
         //     console.log(indices);
         // });
 
-
-
-    }
 
     callSearch(params) {
         // To make it work with templateCompile()
