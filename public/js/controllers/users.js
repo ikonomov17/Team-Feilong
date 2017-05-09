@@ -30,7 +30,8 @@ const usersController = {
 
         template.get('user')
             .then(template => {
-                $('#contents').html(template());
+                const user = app.auth().currentUser;
+                $('#contents').html(template(user));
                 $('#get-favs').on('click', () => {
                     database.getFavorites()
                         .then(
@@ -120,18 +121,25 @@ const usersController = {
     toggleButtons(user) {
         if (user) {
             $('#register').addClass('hidden');
-            $('#user').removeClass('hidden').html(user.email);
+            $('#user').removeClass('hidden').html(user.displayName);
             $('#login').addClass('hidden');
             $('#logout').removeClass('hidden');
+            $('#account').removeClass('hidden');
+
+            template.get('account-menu')
+                .then(template => {
+                    $('#account-menu').html(template(localStorage));
+                });
 
             database.watchFavorites();
 
-            toastr.success(`Hi, ${user.email}!`);
+            toastr.success(`Hi, ${user.displayName}!`);
         } else {
             $('#register').removeClass('hidden');
             $('#user').addClass('hidden');
             $('#login').removeClass('hidden');
             $('#logout').addClass('hidden');
+            $('#account').addClass('hidden');
             toastr.success("Add and track your favourite currencies", "Register, it's cool");
         }
     },

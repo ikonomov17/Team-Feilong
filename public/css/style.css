@@ -172,61 +172,124 @@
     display: none;
 }
 
+
+/*START Account menu popup */
+
+
+/* Special class on .container surrounding .navbar, used for positioning it into place. */
+
+.navbar-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    margin-top: 20px;
+}
+
+
+/* Flip around the padding for proper display in narrow viewports */
+
+.navbar-wrapper .container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.navbar-wrapper .navbar {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.navbar-content {
+    width: 320px;
+    padding: 15px;
+    padding-bottom: 0px;
+}
+
+.navbar-content:before,
+.navbar-content:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: 15px !important;
+}
+
+.navbar-footer {
+    background-color: #DDD;
+}
+
+.navbar-footer-content {
+    padding: 15px 15px 15px 15px;
+}
+
+.dropdown-menu {
+    padding: 0px;
+    overflow: hidden;
+}
+
+
+/*END User popup*/
+
+
 /*  Start chart css */
 
-    path.candle.body {
-        stroke-width: 0;
-    }
+path.candle.body {
+    stroke-width: 0;
+}
 
-    path.candle.up {
-        fill: #00AA00;
-        stroke: #00AA00;
-    }
+path.candle.up {
+    fill: #00AA00;
+    stroke: #00AA00;
+}
 
-    path.candle.down {
-        fill: #FF0000;
-        stroke: #FF0000;
-    }
+path.candle.down {
+    fill: #FF0000;
+    stroke: #FF0000;
+}
 
-    .ichimoku path {
-        fill: none;
-        stroke-width: 0.8;
-    }
+.ichimoku path {
+    fill: none;
+    stroke-width: 0.8;
+}
 
-    .ichimoku path {
-        stroke: #000000;
-    }
+.ichimoku path {
+    stroke: #000000;
+}
 
-    .ichimoku path.chikouspan {
-        stroke: #BF5FFF;
-    }
+.ichimoku path.chikouspan {
+    stroke: #BF5FFF;
+}
 
-    .ichimoku path.tenkansen {
-        stroke: #0033FF;
-    }
+.ichimoku path.tenkansen {
+    stroke: #0033FF;
+}
 
-    .ichimoku path.kijunsen {
-        stroke: #FBB117;
-    }
+.ichimoku path.kijunsen {
+    stroke: #FBB117;
+}
 
-    .ichimoku path.kumo {
-        opacity: 0.1;
-    }
+.ichimoku path.kumo {
+    opacity: 0.1;
+}
 
-    .ichimoku path.kumo.up {
-        fill: #00AA00;
-    }
+.ichimoku path.kumo.up {
+    fill: #00AA00;
+}
 
-    .ichimoku path.kumo.down {
-        fill: #FF0000;
-    }
+.ichimoku path.kumo.down {
+    fill: #FF0000;
+}
 
-    .ichimoku path.senkouspana {
-        stroke: #006600;
-    }
+.ichimoku path.senkouspana {
+    stroke: #006600;
+}
 
-    .ichimoku path.senkouspanb {
-        stroke: #FF0000;
-    }
+.ichimoku path.senkouspanb {
+    stroke: #FF0000;
+}
+
 
 /* End chart css */
