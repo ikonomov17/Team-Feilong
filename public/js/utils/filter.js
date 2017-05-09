@@ -1,45 +1,69 @@
 import $ from 'jquery';
 
-function searchFilterList() {
-    let input, inputValue, ul, li, label;
+export let TableFilter = (function() {
+    function searchFilterList() {
+        let input, inputValue, ul, li, label;
 
-    input = $("#filter-input");
-    inputValue = input.val().toUpperCase();
-    ul = $("#currency-cont");
-    li = $("#currency-cont li");
+        input = $("#filter-input");
+        inputValue = input.val().toUpperCase();
+        ul = $("#currency-cont");
+        li = $("#currency-cont li");
 
-    li.each(function(i, obj) {
-        let currentLabel = $(this).find('.label-text').text();
+        li.each(function(i, obj) {
+            let currentLabel = $(this).find('.label-text').text();
 
-        if (currentLabel.toUpperCase().indexOf(inputValue) == -1) {
-            $(this).hide();
-        } else {
-            $(this).show();
-        }
-    })
-}
+            if (currentLabel.toUpperCase().indexOf(inputValue) == -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        })
+    }
 
-function searchFilterTable() {
-    let inputField, inputValue, tr;
-    inputField = $('#table-input');
-    inputValue = inputField.val().toUpperCase();
-    tr = $('table tbody tr');
 
-    tr.each(function(i, obj) {
-        let currentName = $(this).first().html();
+    function searchFilterTable() {
+        let inputField, inputValue, tr;
+        inputField = $('#table-input');
+        inputValue = inputField.val().toUpperCase();
+        tr = $('table tbody tr');
 
-        if (currentName.toUpperCase().indexOf(inputValue) == -1) {
-            $(this).hide();
-        } else {
-            $(this).show();
-        }
-    })
-}
+        tr.each(function(i, obj) {
+            let currentName = $(this).first().html();
 
-export function attachListFilterToInput() {
-    $('#filter-input').keyup(searchFilterList);
-}
+            if (currentName.toUpperCase().indexOf(inputValue) == -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        })
+    }
 
-export function attachTableFilterToInput() {
-    $('#table-input').keyup(searchFilterTable);
-}
+    function attachListFilterToInput(input) {
+        // '#filter-input'
+        $(input).keyup(searchFilterList);
+    }
+
+    function attachTableFilterToInput(input) {
+        // '#table-input'
+        $(input).keyup(searchFilterTable);
+    }
+
+
+    let tableFilter = {
+
+        attachListFilterToInput: attachListFilterToInput,
+
+        attachTableFilterToInput: attachTableFilterToInput
+
+    }
+
+    return tableFilter;
+})();
+
+
+
+
+
+
+
+

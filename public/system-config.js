@@ -11,6 +11,7 @@ System.config({
         // files
         'main': './js/app.js',
         'data': './js/data/data.js',
+        'database' : './js/data/database.js',
         'filter': './js/utils/filter.js',
         'templater': './js/utils/template.js',
         'timer': './js/utils/time.js',

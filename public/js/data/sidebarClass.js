@@ -1,24 +1,22 @@
 import $ from 'jquery';
 import { Data } from '../data/data.js';
-import { database } from '../data/database.js';
+import { Database } from '../data/database.js';
 import * as requester from '../utils/requester.js';
 import { templater } from '../utils/templater.js';
-import { attachListFilterToInput, attachTableFilterToInput } from '../utils/filter.js';
+import { TableFilter } from '../utils/filter.js';
 import { chartPainter } from '../utils/chartPainter.js';
 import Bloodhound from 'bloodhound';
-import { typehead } from 'typeahead';
+import { typeahead } from 'typeahead';
 
 class SideBar {
-
-    callFavorites(params) {
+    callFavorites(params){
         SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params)
             .then(() => {
                 $('#side-bar-bottom').html('');
-
                 SideBar.coloriseTable();
 
                 //Select fist favorite by default
-                $('.ticket-list-table').children("tr").eq(0).addClass('info');
+                $('.favorites-list-table').children("tr").eq(0).addClass('info');
 
                 $('.favorites-list-table').on('click', () => {
                     const $selectedEl = $(event.target).parent();
@@ -26,8 +24,51 @@ class SideBar {
                     $selectedEl.addClass('info');
                 });
             });
+        
+        Database.app.auth().onAuthStateChanged(user => {
+            if(user !== null){
+                    Database.getFavorites()
+                                .then((favs) => {
+                    console.log(favs);
 
+                    let indices = [];
+
+                    favs.forEach((x) => {
+                        console.log(x);
+                        let prom = new Promise((resolve) => {
+                            const dataIndex = Data.getIndex(x);
+                            console.log(dataIndex);
+                            if (dataIndex) {
+                                console.log('here');
+                                resolve(dataIndex);
+                            }
+                        });
+                        prom.then((indexData) => {
+                            console.log(x);
+                            console.log(indexData.fScore);
+                        });
+
+                        // indices.push(indexData);
+                        });
+                    // console.log(indices);
+                    })
+            }
+        
+        })
     }
+        // .then((favs) => {
+        //     console.log(favs);
+
+        //     let indices = [];
+
+        //     favs.forEach((x) => {
+        //         let indexData = Data.getIndex(x);
+        //         console.log(indexData);
+        //         // indices.push(indexData);
+        //     });
+        //     console.log(indices);
+        // });
+
 
     callSearch(params) {
         // To make it work with templateCompile()
@@ -36,6 +77,8 @@ class SideBar {
             ])
             .then(([templ]) => {
                 $('#side-bar-bottom').html(templ());
+
+                /* Search engine */
                 var symbolsAndNames = new Bloodhound({
                     datumTokenizer: Bloodhound.tokenizers.whitespace,
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -53,7 +96,7 @@ class SideBar {
                     const ticker = suggestion.split(separator)[0];
                     const period = { number: 5, type: 'd' };
 
-                    database.addFavorite(ticker);
+                    Database.addFavorite(ticker);
 
                     let svg = $('svg');
 
@@ -63,12 +106,14 @@ class SideBar {
 
                     Data.getChartData(ticker, period).then((data) => {
                         templater.get('chartHeader').then(template => {
-                            $('#company-info').html(template(data.infoData));
+                            $('#contents').html(template(data.infoData));
+                            chartPainter.createCompleteChart(data.historicalData);
+                            toastr.success("Chart loaded!");
                         });
-                        chartPainter.createCompleteChart(data.historicalData);
-                        toastr.success("Chart loaded!");
+                    }).then((data) => {
+
                     }).catch(() => {
-                        $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
+                        $('#contents').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
                     });
                 })
             })
@@ -103,9 +148,10 @@ class SideBar {
             .then(() => {
                 $('#side-bar-bottom').html('');
                 SideBar.coloriseTable();
+
                 $('.tickets-list-table').on('click', () => {
-                    const $selectedEl = $(event.target).parent();
                     $('.info').removeClass('info');
+                    const $selectedEl = $(event.target).parent();
                     $selectedEl.addClass('info');
                 });
             });

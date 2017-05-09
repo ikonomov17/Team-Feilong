@@ -132,21 +132,43 @@ export let Data = (function Data() {
             const periodData = { number: 1, type: 'd' };
             getChartData(ticker, periodData).then((allData) => {
                 const data = allData.infoData;
-                const history = [];
-                allData.historicalData.slice(0, 100).forEach(x => history.push(x.high));
-                const name = data.companyName;
-                const price = data.price;
-                const currentSymbol = data.ticker;
-                const fScore = new FScore();
-                fScore.total(history);
-                const index = new Index(name, price, currentSymbol, fScore);
-                return index;
+                // console.log(data);
+
+                let history = [];
+                const fScoreObj = new FScore();
+                let fScore;
+                let index;
+                let dataPromise = new Promise((resolve) => {
+                        allData.historicalData.slice(0, 100).forEach((x) => {
+                            let object = {
+                                low: x.low,
+                                high: x.high,
+                                open: x.open,
+                                close: x.close
+                            }
+                            history.push(object);
+                        })
+                        resolve(history)
+                    })
+                    .then(history => {
+                        fScore = fScoreObj.total(history);
+                        // console.log(fScore.totalPoints);
+                    }).then(() => {
+
+
+
+                        const name = data.companyName;
+                        const price = data.price;
+                        const currentSymbol = data.ticker;
+                        // console.log(name);
+                        index = new Index(name, price, currentSymbol, fScore.totalPoints);
+                        // console.log(index);
+                        return index;
+                    })
             })
-
-
         },
 
-        setLocalStorage: function setLocalStorage(user) {
+        setLocalStorage: function(user) {
             localStorage.setItem(LOCALSTORAGE_USERNAME_KEY, user.email);
             localStorage.setItem(LOCALSTORAGE_USERID_KEY, user.uid);
             localStorage.setItem(LOCALSTORAGE_USERTOKEN_KEY, user.Yd);
@@ -154,7 +176,7 @@ export let Data = (function Data() {
             localStorage.setItem(LOCALSTORAGE_PHOTOURL_KEY, user.photoURL);
         },
 
-        scoreAnalytics: function scoreAnalytics(arr) {
+        scoreAnalytics: function(arr) {
             const fScore = new FScore();
             let fScoreResults = fScore.total(arr);
             // console.log(fScoreResults.totalPoints);
