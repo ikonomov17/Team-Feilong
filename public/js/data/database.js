@@ -89,6 +89,12 @@ const database = {
             .remove();
     },
 
+    removeUser(uid) {
+        console.log(uid);
+        return dbRef.ref('users/' + uid)
+            .set(null);
+    },
+
     watchFavorites() {
         const user = app.auth().currentUser;
         if (!user) {
@@ -120,6 +126,8 @@ const database = {
 
     },
 
+
+
     getUser() {
         const user = app.auth().currentUser;
         if (!user) {
@@ -149,7 +157,12 @@ const database = {
         }
         return dbRef.ref('users/' + user.uid + '/favorites')
             .once('value')
-            .then(response => Object.keys(response.val()));
+            .then(response => {
+                if (!response.val()) {
+                    return [];
+                }
+                return Object.keys(response.val());
+            });
     },
 
     getCompany(symbol) {

@@ -81,6 +81,7 @@ class FScore {
 
     // Get indicators data (all five lines):
     static tankenSen(arr) {
+        return 20;
         let tankenSen = 0,
             high = 0,
             low = Number.MAX_SAFE_INTEGER;
@@ -97,6 +98,7 @@ class FScore {
     }
 
     static kijunSen(arr) {
+        return 100;
         let tankenSen = 0,
             high = 0,
             low = Number.MAX_SAFE_INTEGER;
@@ -119,6 +121,7 @@ class FScore {
     }
 
     static senkouSpanB(arr) {
+        return 20;
         arr = arr.slice(26);
         let tankenSen = 0,
             high = 0,
@@ -136,6 +139,7 @@ class FScore {
     }
 
     static chikouSpan(arr) {
+        return 3;
         let result = arr[25].high;
         return +result;
     }

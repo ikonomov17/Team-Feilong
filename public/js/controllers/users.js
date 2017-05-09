@@ -13,17 +13,18 @@ toastr.options = {
 // Listens for changes in logged in user
 // Sets sign in/out buttons appropriately
 app.auth()
-    .onAuthStateChanged(user => {usersController.toggleButtons(user)
-        if(!user.isAnonymous){        
-            let side = new SideBar();
-            database.getFavorites().then((favs) => {
-                const indices = [];
-                console.log(favs);
-                favs.forEach(x => indices.push(Data.getIndex(x)));
-                console.log(indices)
-                side.callFavorites(indices);
-            })
-        }
+    .onAuthStateChanged(user => {
+        usersController.toggleButtons(user)
+            // if (!user.isAnonymous) {
+            //     let side = new SideBar();
+            //     database.getFavorites().then((favs) => {
+            //         const indices = [];
+            //         console.log(favs);
+            //         favs.forEach(x => indices.push(Data.getIndex(x)));
+            //         console.log(indices)
+            //         side.callFavorites(indices);
+            //     })
+            // }
     });
 
 class User {
@@ -40,8 +41,7 @@ const usersController = {
     get(params) {
         //console.log(`${params.id} is id and ${params.action} is action`);
 
-        template.get('user')
-            .then(template => {
+        template.get('user').then(template => {
                 const user = app.auth().currentUser;
                 $('#contents').html(template(user));
                 $('#get-favs').on('click', () => {
@@ -53,31 +53,60 @@ const usersController = {
                                 $('#favs').html(strRes);
                             });
                 });
+                $('#savebutton').on('click', () => {
+                    const properties = {
+                        displayName: $('#nameinput').val(),
+                        email: $('#emailnput').val(),
+                        password: $('#passwordinput').val()
+                    }
+                    console.log(properties);
+                    const authUser = app.auth().currentUser;
+                    authUser.updateProfile(properties)
+                        .then(() => toastr.success('User updated'));
+
+                });
+                $('#deletebutton').on('click', () => {
+                    usersController.deleteUser();
+                });
+
                 // $('#load-companies').on('click', () => database.loadCompanies());
                 // $('#load-symbols').on('click', () => database.loadSymbols());
 
                 database.watchFavorites();
                 database.getFavorites()
-                    .then(resp => console.log(resp));
+                    .then(
+                        response => {
+                            const strRes = response;
+                            //console.log(strRes);
+                            $('#favs').html(strRes);
+                        });
             })
-            .catch(error => console.log(error.message))
+            .catch(error => toastr.error(error.message));
     },
 
 
-    authenticate() {
-        template.get('login').then(template => {
-            $('#popup').html(template);
-            usersController.clickOutOfForm();
-        });
-    },
-
-    create() {
+    signup() {
         template.get('register').then(template => {
             $('#popup').html(template);
+            $('#register').on('click', (event) => {
+                event.stopPropagation();
+                usersController.register();
+            });
+
             usersController.clickOutOfForm();
         });
     },
-    // TODO no reload on error
+
+    signin() {
+        template.get('login').then(template => {
+            $('#popup').html(template);
+            $('#login').on('click', (event) => {
+                event.stopPropagation();
+                usersController.login();
+            });
+            usersController.clickOutOfForm();
+        });
+    },
     login() {
         const $email = $("#input-email").val();
         const $password = $("#input-password").val();
@@ -108,16 +137,21 @@ const usersController = {
     register() {
         const $email = $("#input-email").val();
         const $password = $("#input-password").val();
-        const $displayName = $('#input-displayname').val();
+        let $displayName = $('#input-displayname').val();
+        if (!$displayName) {
+            $displayName = utils.parseDisplayName($email);
+        }
 
         app.auth().createUserWithEmailAndPassword($email, $password)
-            .then(response => {
+            .then(authUser => {
                 // Check if we need local storage for users at all
                 // Check if we need to save token in database
                 // Check: Were to save display name? Auth or DB?
-                const user = new User(response.email, $displayName, response.uid, response.Yd);
+
+                const user = new User(authUser.email, $displayName, authUser.uid, authUser.Yd);
 
                 database.addNewUser(user);
+                usersController.updateUser(authUser, { displayName: $displayName });
                 Data.setLocalStorage(user);
 
                 toastr.success(`User ${user.email} created successfully!`);
@@ -125,15 +159,29 @@ const usersController = {
             })
             .catch(error => {
                 toastr.error(error.message);
-                location.href = '/#!create';
             });
+    },
+
+    deleteUser() {
+        const authUser = app.auth().currentUser;
+        const uid = authUser.uid;
+        authUser.delete();
+        database.removeUser(uid)
+            .then(() => {
+                toastr.warning('User deleted. Redirecting.');
+                location.href = '/#!home';
+            });
+    },
+
+    updateUser(user, properties) {
+        user.updateProfile(properties);
     },
 
     toggleButtons(user) {
         if (user) {
-            $('#register').addClass('hidden');
+            $('#signup').addClass('hidden');
+            $('#signin').addClass('hidden');
             $('#user').removeClass('hidden').html(user.displayName);
-            $('#login').addClass('hidden');
             $('#logout').removeClass('hidden');
             $('#account').removeClass('hidden');
 
@@ -142,13 +190,11 @@ const usersController = {
                     $('#account-menu').html(template(localStorage));
                 });
 
-            database.watchFavorites();
-
             toastr.success(`Hi, ${user.displayName}!`);
         } else {
-            $('#register').removeClass('hidden');
+            $('#signup').removeClass('hidden');
+            $('#signin').removeClass('hidden');
             $('#user').addClass('hidden');
-            $('#login').removeClass('hidden');
             $('#logout').addClass('hidden');
             $('#account').addClass('hidden');
             toastr.success("Add and track your favourite currencies", "Register, it's cool");
@@ -156,13 +202,11 @@ const usersController = {
     },
 
     clickOutOfForm() {
-        // TODO Make form close on click in top bar
+        // TODO Make form close on click in top bar?
         $('#popup').click(function(event) {
             const id = $(event.target).attr('id');
             const cls = $(event.target).attr('class');
-            // console.log(event.target);
-            // console.log(this);
-            // console.log(cls);
+
             if (id === 'login-form' || cls === 'close') {
                 usersController.closeForm();
             }
@@ -171,7 +215,7 @@ const usersController = {
 
     closeForm() {
         $('#login-form').addClass('hidden');
-        // Fix to be page where we came from
+        // Fix for: get page where we came from
         const back = hashHistory
             .slice().reverse()
             .find(hash => hash !== '!auth' && hash !== '!create' && hash !== '!register' && hash !== '!login')
@@ -181,6 +225,13 @@ const usersController = {
             location.href = '#' + back;
         }
     }
+}
+
+const utils = {
+    parseDisplayName(email) {
+        const parsed = email.substring(0, email.indexOf('@'));
+        return parsed;
+    },
 }
 
 export { usersController }

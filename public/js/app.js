@@ -22,11 +22,9 @@ router.on({
     'table': tableController.get,
     'user': usersController.get,
     'user/:id/:action': (params) => usersController.get(params),
-    'login': usersController.login,
     'logout': usersController.logout,
-    'register': usersController.register,
-    'auth': usersController.authenticate,
-    'create': usersController.create,
+    'signup': usersController.signup,
+    'signin': usersController.signin,
 }).notFound(query => {
     // called when there is path specified but
     // there is no route matching

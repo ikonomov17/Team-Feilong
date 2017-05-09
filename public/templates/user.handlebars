@@ -1,7 +1,7 @@
 <h3>
     Hello username!</h3>
 
-<button id="get-favs">Get favorites</button>
+<button id="get-favs" class="btn btn-default">Get favorites</button>
 
 <div id="favs">Favs</div>
 
@@ -24,42 +24,33 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="textinput">Change Name</label>
+                <label class="col-md-4 control-label" for="nameinput">Change Name</label>
                 <div class="col-md-4">
-                    <input id="textinput" name="textinput" type="text" placeholder="{{displayName}}" class="form-control input-md">
+                    <input id="nameinput" name="nameinput" type="text" value="{{displayName}}" class="form-control input-md">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-md-4 control-label" for="email">Change Email ID</label>
+                <label class="col-md-4 control-label" for="emailnput">Change Email ID</label>
                 <div class="col-md-4">
-                    <input id="email" name="email" type="email" placeholder="{{email}}" class="form-control input-md">
-                </div>
-            </div>
-
-            <!-- Password input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="passwordinput">new password</label>
-                <div class="col-md-4">
-                    <input id="passwordinput" name="passwordinput" type="password" placeholder="new password" class="form-control input-md">
-
+                    <input id="emailnput" name="emailnput" type="email" value="{{email}}" class="form-control input-md">
                 </div>
             </div>
 
             <!-- Password input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="passwordinput">repeat password</label>
+                <label class="col-md-4 control-label" for="passwordinput">password</label>
                 <div class="col-md-4">
-                    <input id="passwordinput" name="passwordinput" type="password" placeholder="repeat password" class="form-control input-md">
+                    <input id="passwordinput" name="passwordinput" type="password" placeholder="password" value="{{password}}" class="form-control input-md" required>
 
                 </div>
             </div>
 
             <!-- Button -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="singlebutton">Delete my account</label>
+                <label class="col-md-4 control-label" for="deletebutton">Delete my account</label>
                 <div class="col-md-4">
-                    <button id="singlebutton" name="singlebutton" class="btn btn-danger">Delete</button>
+                    <div id="deletebutton" name="deletebutton" class="btn btn-danger">Delete</div>
                 </div>
             </div>
 
@@ -68,7 +59,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="savebutton"></label>
                 <div class="col-md-4">
-                    <button id="savebutton" name="savebutton" class="btn btn-success">Save - not implemented</button>
+                    <div id="savebutton" name="savebutton" class="btn btn-primary">Save</div>
                 </div>
 
 
