@@ -3,7 +3,7 @@ import { Data } from '../data/data.js';
 import { database } from '../data/database.js';
 import * as requester from '../utils/requester.js';
 import { templater } from '../utils/templater.js';
-import { attachListFilterToInput, attachTableFilterToInput } from '../utils/filter.js';
+import { TableFilter } from '../utils/filter.js';
 import { chartPainter } from '../utils/chartPainter.js';
 import Bloodhound from 'bloodhound';
 import { typehead } from 'typeahead';
@@ -36,6 +36,8 @@ class SideBar {
             ])
             .then(([templ]) => {
                 $('#side-bar-bottom').html(templ());
+
+                /* Search engine */
                 var symbolsAndNames = new Bloodhound({
                     datumTokenizer: Bloodhound.tokenizers.whitespace,
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -63,12 +65,14 @@ class SideBar {
 
                     Data.getChartData(ticker, period).then((data) => {
                         templater.get('chartHeader').then(template => {
-                            $('#company-info').html(template(data.infoData));
+                            $('#contents').html(template(data.infoData));
+                            chartPainter.createCompleteChart(data.historicalData);
+                            toastr.success("Chart loaded!");
                         });
-                        chartPainter.createCompleteChart(data.historicalData);
-                        toastr.success("Chart loaded!");
+                    }).then((data) => {
+                        
                     }).catch(() => {
-                        $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
+                        $('#contents').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
                     });
                 })
             })

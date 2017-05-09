@@ -4,7 +4,7 @@ import { Data } from 'data';
 import { sideBarController } from './sidebar.js';
 import { templater } from '../utils/templater.js';
 import { upperizer } from '../utils/upperizer.js';
-import { attachListFilterToInput, attachTableFilterToInput } from '../utils/filter.js';
+import { TableFilter } from '../utils/filter.js';
 
 const tableController = {
     get() {
@@ -22,7 +22,7 @@ const tableController = {
                 data = { obj: data };
 
                 $('#contents').html(template(data));
-                attachTableFilterToInput();
+                TableFilter.attachTableFilterToInput('#table-input');
                 // jQuery plugin to make the table sortable
                 $(function() { $("#main-table").tablesorter(); });
             })
