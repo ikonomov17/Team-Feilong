@@ -39,7 +39,7 @@ class SideBar {
                 var symbolsAndNames = new Bloodhound({
                     datumTokenizer: Bloodhound.tokenizers.whitespace,
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
-                    prefetch: './symbolsAndNames.json'
+                    prefetch: '../../json/symbolsAndNames.json'
                 });
                 // passing in `null` for the `options` arguments will result in the default
                 // options being used
