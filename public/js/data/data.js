@@ -117,7 +117,7 @@ export let Data = (function Data() {
                                 
                                 return requester.get(yahooCurrencies)
                                             .then(resp => {
-                                                const objectArray = this.parseTableResponseData(resp);
+                                                const objectArray = parseTableResponseData(resp);
                                                 return objectArray;
                                             })
                                             .catch(error => toastr.error(`Error getting data: ${error.message}`, 'Yahoo might be down'));

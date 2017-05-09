@@ -1,10 +1,10 @@
 import $ from 'jquery';
-import * as data from '../data/data.js';
+import 'tablesorter';
+import { Data } from 'data';
 import { template } from '../template.js';
 import { sideBarController } from './sidebar.js';
 import { toUpperHb } from '../handlebars_helpers.js';
 import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
-
 
 const tableController = {
     get() {
@@ -12,7 +12,7 @@ const tableController = {
 
         Promise.all([
                 template.get('table'),
-                data.getData()
+                Data.getData('table')
             ])
             .then(([template, data]) => {
                 // Call toUpperHb so that it register the handlebars helper
