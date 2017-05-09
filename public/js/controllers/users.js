@@ -14,16 +14,17 @@ toastr.options = {
 // Sets sign in/out buttons appropriately
 app.auth()
     .onAuthStateChanged(user => {usersController.toggleButtons(user)
-    
-    if(!user.isAnonymous){        
-        let side = new SideBar();
-        database.getFavorites().then((favs) => {
-            side.callFavorites(favs);
-        })
-        
-     }
-
-});
+        if(!user.isAnonymous){        
+            let side = new SideBar();
+            database.getFavorites().then((favs) => {
+                const indices = [];
+                console.log(favs);
+                favs.forEach(x => indices.push(Data.getIndex(x)));
+                console.log(indices)
+                side.callFavorites(indices);
+            })
+        }
+    });
 
 class User {
     constructor(email, displayName, uid, token) {
@@ -56,14 +57,9 @@ const usersController = {
 
                 database.watchFavorites();
                 database.getFavorites()
-                    .then(resp => {
-                        const indices = [];
-                        console.log(indices);
-                        resp.forEach(x => indices.push(Data.getIndex(x)));
-                    });
+                    .then(resp => console.log(resp));
             })
             .catch(error => console.log(error.message))
-
     },
 
 
