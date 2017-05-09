@@ -28,7 +28,8 @@ The side bar also provides a top 10 and bottom 10 listing.
 
 [GitHub](https://github.com/ikonomov17/Team-Feilong)
 [Firebase](https://feilongspa-91a86.firebaseapp.com/)
-[Showcase]()
+[Showcase](http://best.telerikacademy.com/projects/613/Stock-Analysis)
+[YouTube](https://youtu.be/Mz6I0ACQ6CM)
 
 ## General Requirements Covered
 - Use of [jQuery](https://jquery.com/)
