@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import * as data from '../data/data.js';
+import { Data } from 'data';
 import { template } from '../template.js';
 import { Index } from '../data/indexClass.js';
 import { SideBar } from '../data/sidebarClass.js';
@@ -33,10 +33,10 @@ const arrList3 = randomArray(200, 100);
 const arrList4 = randomArray(200, 100);
 
 //Mockup input data. To be extracted from Yahoo and Firebase
-let index1 = new Index('Aple', 50, 'AAPL', data.scoreAnalytics(arrList1).totalPoints),
-    index2 = new Index('Google', 60, 'GOOG', data.scoreAnalytics(arrList2).totalPoints),
-    index3 = new Index('Yahoo', 70, 'YHOO', data.scoreAnalytics(arrList3).totalPoints),
-    index4 = new Index('IBM', 20, 'IBM', data.scoreAnalytics(arrList4).totalPoints);
+let index1 = new Index('Aple', 50, 'AAPL', Data.scoreAnalytics(arrList1).totalPoints),
+    index2 = new Index('Google', 60, 'GOOG', Data.scoreAnalytics(arrList2).totalPoints),
+    index3 = new Index('Yahoo', 70, 'YHOO', Data.scoreAnalytics(arrList3).totalPoints),
+    index4 = new Index('IBM', 20, 'IBM', Data.scoreAnalytics(arrList4).totalPoints);
 let favoritesList = [index1, index2, index3, index4];
 
 const sideBar = new SideBar();

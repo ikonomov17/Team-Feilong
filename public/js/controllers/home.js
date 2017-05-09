@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import * as data from '../data/data.js';
 import { template } from '../template.js';
 import { sideBarController } from './sidebar.js';
 

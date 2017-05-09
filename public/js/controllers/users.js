@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import * as data from '../data/data.js';
+import { Data } from 'data';
 import { database } from '../data/database.js';
 import { template } from '../template.js';
 import { hashHistory } from '../hasher.js';
@@ -68,7 +68,7 @@ const usersController = {
         firebase.auth().signInWithEmailAndPassword($email, $password)
             .then(response => {
                 // Check if we need local storage for users at all
-                data.setLocalStorage(response);
+                Data.setLocalStorage(response);
                 toastr.success(`User ${response.email} logged in successfully!`);
                 usersController.closeForm();
             })
@@ -102,7 +102,7 @@ const usersController = {
                 const user = new User(response.email, $displayName, response.uid, response.Yd);
 
                 database.addNewUser(user);
-                data.setLocalStorage(user);
+                Data.setLocalStorage(user);
 
                 toastr.success(`User ${user.email} created successfully!`);
                 usersController.closeForm();

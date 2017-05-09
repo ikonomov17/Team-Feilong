@@ -1,11 +1,10 @@
 import { template } from '../template.js';
 import { attachListFilterToInput, attachTableFilterToInput } from '../filter.js';
-import * as data from './data.js';
+import { Data } from 'data';
 import $ from 'jquery';
 import * as requester from '../requester.js';
 import Bloodhound from 'bloodhound';
 import { typehead } from 'typeahead';
-import { getChartData } from '../data/data.js';
 import { createCompleteChart } from '../chartPainter.js';
 
 class SideBar {
@@ -36,7 +35,6 @@ class SideBar {
             ])
             .then(([templ]) => {
                 $('#side-bar-bottom').html(templ());
-                console.log(data);
                 var symbolsAndNames = new Bloodhound({
                     datumTokenizer: Bloodhound.tokenizers.whitespace,
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -60,7 +58,7 @@ class SideBar {
                         svg.remove();
                     }
 
-                    getChartData(ticker,period).then((data) => {
+                    Data.getData('chart',ticker,period).then((data) => {
                             template.get('chartHeader').then(template => {
                                 $('#company-info').html(template(data.infoData));
                             });

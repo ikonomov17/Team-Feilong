@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { template } from '../template.js';
 import { sideBarController } from './sidebar.js';
-import { getChartData } from '../data/data.js';
+import { Data } from 'data';
 import { createCompleteChart } from '../chartPainter.js';
 import Bloodhound from 'bloodhound';
 import { typehead } from 'typeahead';
@@ -33,7 +33,7 @@ const chartController = {
                         number: +number,
                         type: type
                     }
-
+                    
                     let svg = $('svg');
 
                     if (svg.length != 0) {
@@ -41,7 +41,7 @@ const chartController = {
                     }
 
                     // TODO: add validation (all input required)!
-                    getChartData(ticker,period)
+                    Data.getData('chart',ticker,period)
                     .then((data) => {
                         template.get('chartHeader').then(template => {
                             $('#company-info').html(template(data.infoData));
