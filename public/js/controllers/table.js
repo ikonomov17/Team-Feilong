@@ -12,7 +12,7 @@ const tableController = {
 
         Promise.all([
                 template.get('table'),
-                Data.getData('table')
+                Data.getTableData()
             ])
             .then(([template, data]) => {
                 // Call toUpperHb so that it register the handlebars helper

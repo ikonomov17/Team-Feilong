@@ -41,7 +41,7 @@ const chartController = {
                     }
 
                     // TODO: add validation (all input required)!
-                    Data.getData('chart',ticker,period)
+                    Data.getChartData(ticker,period)
                     .then((data) => {
                         template.get('chartHeader').then(template => {
                             $('#company-info').html(template(data.infoData));
