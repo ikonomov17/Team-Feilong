@@ -18,6 +18,7 @@ var config = {
 var app = firebase.initializeApp(config);
 
 const dbRef = app.database();
+const auth = app.auth();
 
 const database = {
 
@@ -55,7 +56,7 @@ const database = {
 
     // Use to add favorites in bulk
     addUserProperty(property, value) {
-        const uid = firebase.auth().currentUser.uid;
+        const uid = app.auth().currentUser.uid;
         dbRef.ref('users/' + uid + '/' + property)
             .set(value)
             .then(success => toastr.success(`${property} set`))
@@ -63,25 +64,53 @@ const database = {
     },
 
     // Use to edit property
+    // Use to edit property
     addFavorite(symbol) {
-        const uid = firebase.auth().currentUser.uid;
-        return dbRef.ref('users/' + uid + '/favorites' + symbol)
-            .set(true);
+        const uid = app.auth().currentUser.uid;
+        return dbRef.ref('users/' + uid + '/favorites/' + symbol)
+            .set(symbol);
     },
 
     removeFavorite(symbol) {
-        const uid = firebase.auth().currentUser.uid;
-        return dbRef.ref('users/' + uid + '/favorites' + symbol)
+        const uid = app.auth().currentUser.uid;
+        return dbRef.ref('users/' + uid + '/favorites/' + symbol)
             .remove();
     },
 
+    watchFavorites() {
+        const uid = app.auth().currentUser.uid;
+        const dbRefFavs = dbRef.ref('users/' + uid).child('favorites');
+        const $favList = $('.tickets-list-table');
+
+        dbRefFavs.on('child_added', response => {
+            const newFav = `<tr class="ticket-row" id="${response.key}">
+                <td class="td ticket-name">${response.val()}</td>
+                <td class="td ticket-price">price</td>
+                <td class="td ticket-fscore">fScore
+                <span class="close" >×</span>
+                </td></tr>`;
+            $favList.append(newFav);
+
+            $('.ticket-row').click(event => {
+                if ($(event.target).attr('class') === 'close') {
+                    const delFav = $(event.target).parent().parent().attr('id');
+                    database.removeFavorite(delFav);
+                }
+            });
+        });
+        dbRefFavs.on('child_removed', response => {
+            $(`#${response.key}`).remove();
+        });
+
+    },
+
     getUser() {
-        const uid = firebase.auth().currentUser.uid;
+        const uid = app.auth().currentUser.uid;
         return dbRef.ref('users/' + uid);
     },
 
     getProperty(property) {
-        const uid = firebase.auth().currentUser.uid;
+        const uid = app.auth().currentUser.uid;
         return dbRef.ref('users/' + uid)
             .once('value')
             .then(response => response.val().property);
@@ -89,7 +118,7 @@ const database = {
 
     // NB! favorites object is in response.val(), returns array
     getFavorites() {
-        const uid = firebase.auth().currentUser.uid;
+        const uid = app.auth().currentUser.uid;
         return dbRef.ref('users/' + uid + '/favorites')
             .once('value')
             .then(response => Object.keys(response.val()));
