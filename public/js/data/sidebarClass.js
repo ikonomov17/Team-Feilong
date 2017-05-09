@@ -162,9 +162,7 @@ class SideBar {
     }
 
     callNews(params) {
-        SideBar.templateCompile('#side-bar-top', 'sidebar-news', params).then(() => {
-            
-        })
+        SideBar.templateCompile('#side-bar-top', 'sidebar-new', params);
     }
 
     static templateCompile(attachTo, templateName, params) {
