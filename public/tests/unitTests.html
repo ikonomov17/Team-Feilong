@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+  <link rel="stylesheet" href="../node_modules//mocha/mocha.css" />
+</head>
+
+<body>
+  <div id="mocha"></div>
+    <script src="../js/data/indexClass.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/sinon/pkg/sinon.js"></script>
+    <script src="../node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script>
+        mocha.setup('bdd');
+        expect = chai.expect;
+    </script>
+    <script src="indexClassTests.js"></script>
+    <script>
+        mocha.run();
+    </script>
+</html>

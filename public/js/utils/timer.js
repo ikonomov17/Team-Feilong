@@ -1,15 +1,17 @@
 import $ from 'jquery';
 
-function updateCurrentUtcTime() {
-    let currentUtcTime = new Date().toUTCString();
-    $('#time-container')
-        .html(currentUtcTime);
-}
-
-const timer = {
-    start() {
+export let Timer = (function() {
+    function updateCurrentUtcTime() {
+        let currentUtcTime = new Date().toUTCString();
+        $('#time-container').html(currentUtcTime);
+    }
+    function start() {
         setInterval(updateCurrentUtcTime, 1000);
     }
-}
 
-export { timer };
+    let timer = {
+        start: start
+    } 
+
+    return timer;
+})();
