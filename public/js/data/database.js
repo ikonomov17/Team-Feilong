@@ -5,192 +5,213 @@ import {get as getRequest } from '../utils/requester.js';
 //import { symbols } from './symbols.js';
 //import { companies } from './companies.js';
 
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyD7rugoQbslDgdKW_1bXD5tFg57soBVA3E",
-    authDomain: "feilongspa-91a86.firebaseapp.com",
-    databaseURL: "https://feilongspa-91a86.firebaseio.com",
-    projectId: "feilongspa-91a86",
-    storageBucket: "feilongspa-91a86.appspot.com",
-    messagingSenderId: "1075179276760"
-};
-var app = firebase.initializeApp(config);
+export let Database = (function() {
+	const config = {
+        apiKey: 'AIzaSyD7rugoQbslDgdKW_1bXD5tFg57soBVA3E',
+        authDomain: 'feilongspa-91a86.firebaseapp.com',
+        databaseURL: 'https://feilongspa-91a86.firebaseio.com',
+        projectId: 'feilongspa-91a86',
+        storageBucket: 'feilongspa-91a86.appspot.com',
+        messagingSenderId: '1075179276760'
+    };
 
-const dbRef = app.database();
-const auth = app.auth();
+	let app = firebase.initializeApp(config);
 
-const database = {
+	const dbRef = app.database();
+	const auth = app.auth();
 
-    // Also adds/updates users
-    addNewUser(userObj) {
+	function addNewUser(userObj) {
         if (!userObj.uid) {
             toastr.error('No user id passed!');
             return Promise.reject('No user id passed!');
         } else {
-            return dbRef.ref('users/' + userObj.uid)
+                return dbRef.ref('users/' + userObj.uid)
                 .set(userObj)
                 .then(success => toastr.success(`User ${userObj.email} added/updated`))
                 .catch(error => toastr.error(error.message));
         }
-    },
+    }
 
-    addNewCompany(companyObj) {
+	function addNewCompany(companyObj) {
         if (!companyObj.Symbol) {
             toastr.error('No company symbol passed!');
             return Promise.reject('No company symbol passed!');
         } else {
             return dbRef.ref('companies/' + companyObj.Symbol)
-                .set(companyObj)
-                //.then(success => toastr.success(`Company ${companyObj.Symbol} added/updated`))
-                .catch(error => toastr.error(error.message));
+                    .set(companyObj)
+                    //.then(success => toastr.success(`Company ${companyObj.Symbol} added/updated`))
+                    .catch(error => toastr.error(error.message));
         }
-    },
+    }
 
-    addNewSymbol(symbol) {
-        return dbRef.ref('symbols/' + symbol)
+	function addNewSymbol(symbol) {
+	    return dbRef.ref('symbols/' + symbol)
             .set(true)
             //.then(success => toastr.success(`Symbol ${symbol} added/updated`))
             .catch(error => toastr.error(error.message));
-    },
+    }
 
     // Use to add favorites in bulk
-    addUserProperty(property, value) {
-        const user = app.auth().currentUser;
-        if (!user) {
-            console.log('No user logged in, yet');
-            return;
-        }
-        dbRef.ref('users/' + user.uid + '/' + property)
+	function addUserProperty(property, value) {
+	const user = app.auth().currentUser;
+
+	if (!user) {
+        console.log('No user logged in, yet');
+        return;
+    }
+	dbRef.ref('users/' + user.uid + '/' + property)
             .set(value)
             .then(success => toastr.success(`${property} set`))
             .catch(error => toastr.error(error.message));
-    },
+    }
 
     // Use to edit property
     // Use to edit property
-    addFavorite(symbol) {
+	function addFavorite(symbol) {
+	const user = app.auth().currentUser;
+	if (!user) {
+        console.log('No user logged in, yet');
+        return;
+    }
+        return dbRef.ref('users/' + user.uid + '/favorites/' + symbol)
+                .set(symbol);
+    }
+
+	function removeFavorite(symbol) {
         const user = app.auth().currentUser;
         if (!user) {
             console.log('No user logged in, yet');
             return;
         }
         return dbRef.ref('users/' + user.uid + '/favorites/' + symbol)
-            .set(symbol);
-    },
+                .remove();
+    }
 
-    removeFavorite(symbol) {
-        const user = app.auth().currentUser;
-        if (!user) {
-            console.log('No user logged in, yet');
-            return;
-        }
-        return dbRef.ref('users/' + user.uid + '/favorites/' + symbol)
-            .remove();
-    },
-
-    removeUser(uid) {
+	function removeUser(uid) {
         console.log(uid);
         return dbRef.ref('users/' + uid)
-            .set(null);
-    },
+                .set(null);
+    }
 
-    watchFavorites() {
+	function watchFavorites() {
         const user = app.auth().currentUser;
         if (!user) {
-            console.log('No user logged in, yet');
-            return;
-        }
-        const dbRefFavs = dbRef.ref('users/' + user.uid).child('favorites');
-        const $favList = $('.tickets-list-table');
-        console.log($favList);
-        dbRefFavs.on('child_added', response => {
-            const newFav = `<tr class="ticket-row" id="${response.key}">
+        console.log('No user logged in, yet');
+        return;
+    }
+
+	const dbRefFavs = dbRef.ref('users/' + user.uid).child('favorites');
+	const $favList = $('.tickets-list-table');
+	console.log($favList);
+
+	dbRefFavs.on('child_added', response => {
+	    const newFav = `<tr class="ticket-row" id="${response.key}">
                 <td class="td ticket-name">${response.val()}</td>
                 <td class="td ticket-price">price</td>
                 <td class="td ticket-fscore">fScore
                 <span class="close" >×</span>
                 </td></tr>`;
-            $favList.append(newFav);
+        $favList.append(newFav);
 
-            $('.ticket-row').click(event => {
-                if ($(event.target).attr('class') === 'close') {
-                    const delFav = $(event.target).parent().parent().attr('id');
-                    database.removeFavorite(delFav);
-                }
-            });
+        $('.ticket-row').click(event => {
+            if ($(event.target).attr('class') === 'close') {
+                const delFav = $(event.target).parent().parent().attr('id');
+                database.removeFavorite(delFav);
+            }
         });
-        dbRefFavs.on('child_removed', response => {
-            $(`#${response.key}`).remove();
-        });
+    });
+	dbRefFavs.on('child_removed', response => {
+	    $(`#${response.key}`).remove();
+    });
 
-    },
+    }
 
-
-
-    getUser() {
+	function getUser() {
         const user = app.auth().currentUser;
         if (!user) {
             console.log('No user logged in, yet');
             return;
         }
         return dbRef.ref('users/' + user.uid);
-    },
+    }
 
-    getProperty(property) {
+	function getProperty(property) {
         const user = app.auth().currentUser;
         if (!user) {
             console.log('No user logged in, yet');
             return;
         }
         return dbRef.ref('users/' + user.uid)
-            .once('value')
-            .then(response => response.val().property);
-    },
+                .once('value')
+                .then(response => response.val().property);
+    }
 
     // NB! favorites object is in response.val(), returns array
-    getFavorites() {
+	function getFavorites() {
         const user = app.auth().currentUser;
         if (!user) {
             console.log('No user logged in, yet');
             return;
         }
         return dbRef.ref('users/' + user.uid + '/favorites')
-            .once('value')
-            .then(response => {
-                if (!response.val()) {
-                    return [];
-                }
-                return Object.keys(response.val());
-            });
-    },
+                .once('value')
+                .then(response => {
+                    if (!response.val()) {
+                        return [];
+                    }
+                    return Object.keys(response.val());
+                });
+    }
 
-    getCompany(symbol) {
+	function getCompany(symbol) {
         return dbRef.ref('companies/' + symbol)
-            .once('value');
-    },
+                .once('value');
+    }
 
-    getSymbol(symbol) {
+	function getSymbol(symbol) {
         return dbRef.ref('symbols/' + symbol)
-            .once('value');
-    },
+                .once('value');
+    }
 
-    getAllCompanies() {
+	function getAllCompanies() {
         return dbRef.ref('companies/')
-            .once('value');
-    },
+                .once('value');
+    }
 
-    getAllSymbols() {
-        return dbRef.ref('symbols/')
-            .once('value');
-    },
+	function getAllSymbols() {
+    return dbRef.ref('symbols/')
+                .once('value');
+    }
 
-    loadCompanies() {
+	function loadCompanies() {
         //companies.forEach(company => database.addNewCompany(company));
-    },
+    }
 
-    loadSymbols() {
+	function loadSymbols() {
         //symbols.forEach(symbol => database.addNewSymbol(symbol));
-    },
-}
+    }
 
-export { database, app };
+
+	let db = {
+        addNewUser:addNewUser,
+        addNewCompany:addNewCompany,
+        addNewSymbol:addNewSymbol,
+        addUserProperty:addUserProperty,
+        addFavorite:addFavorite,
+        removeFavorite:removeFavorite,
+        removeUser:removeUser,
+        watchFavorites:watchFavorites,
+        getUser:getUser,
+        getProperty:getProperty,
+        getFavorites:getFavorites,
+        getCompany:getCompany,
+        getSymbol:getSymbol,
+        getAllCompanies:getAllCompanies,
+        getAllSymbols:getAllSymbols,
+        loadCompanies:loadCompanies,
+        loadSymbols:loadSymbols,
+        app: app
+    }
+
+    return db;
+})();

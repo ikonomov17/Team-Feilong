@@ -145,14 +145,14 @@ export let Data = (function Data() {
 
         },
 
-        setLocalStorage: function setLocalStorage(user) {
+        setLocalStorage: function(user) {
             localStorage.setItem(LOCALSTORAGE_USERNAME_KEY, user.email);
             localStorage.setItem(LOCALSTORAGE_USERID_KEY, user.uid);
             localStorage.setItem(LOCALSTORAGE_USERTOKEN_KEY, user.Yd);
             localStorage.setItem(LOCALSTORAGE_DISPLAYNAME_KEY, user.displayName);
         },
 
-        scoreAnalytics: function scoreAnalytics(arr) {
+        scoreAnalytics: function(arr) {
             const fScore = new FScore();
             let fScoreResults = fScore.total(arr);
             // console.log(fScoreResults.totalPoints);

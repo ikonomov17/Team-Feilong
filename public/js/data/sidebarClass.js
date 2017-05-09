@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { Data } from '../data/data.js';
-import { database } from '../data/database.js';
+import { Database } from '../data/database.js';
 import * as requester from '../utils/requester.js';
 import { templater } from '../utils/templater.js';
 import { TableFilter } from '../utils/filter.js';
@@ -55,7 +55,7 @@ class SideBar {
                     const ticker = suggestion.split(separator)[0];
                     const period = { number: 5, type: 'd' };
 
-                    database.addFavorite(ticker);
+                    Database.addFavorite(ticker);
 
                     let svg = $('svg');
 

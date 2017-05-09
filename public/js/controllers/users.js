@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { Data } from 'data';
 import { SideBar } from '../data/sidebarClass.js';
-import { database, app } from '../data/database.js';
+import { Database } from '../data/database.js';
 import { templater } from '../utils/templater.js';
 import { hashHistory } from '../utils/hasher.js';
 import 'toastr';
@@ -12,12 +12,12 @@ toastr.options = {
 
 // Listens for changes in logged in user
 // Sets sign in/out buttons appropriately
-app.auth()
+Database.app.auth()
     .onAuthStateChanged(user => {
         usersController.toggleButtons(user)
             // if (!user.isAnonymous) {
             //     let side = new SideBar();
-            //     database.getFavorites().then((favs) => {
+            //     Database.getFavorites().then((favs) => {
             //         const indices = [];
             //         console.log(favs);
             //         favs.forEach(x => indices.push(Data.getIndex(x)));
@@ -42,10 +42,10 @@ const usersController = {
         //console.log(`${params.id} is id and ${params.action} is action`);
 
         templater.get('user').then(template => {
-                const user = app.auth().currentUser;
+                const user = Database.app.auth().currentUser;
                 $('#contents').html(template(user));
                 $('#get-favs').on('click', () => {
-                    database.getFavorites()
+                    Database.getFavorites()
                         .then(
                             response => {
                                 const strRes = response;
@@ -60,7 +60,7 @@ const usersController = {
                         password: $('#passwordinput').val()
                     }
                     console.log(properties);
-                    const authUser = app.auth().currentUser;
+                    const authUser = Database.app.auth().currentUser;
                     authUser.updateProfile(properties)
                         .then(() => toastr.success('User updated'));
 
@@ -69,11 +69,11 @@ const usersController = {
                     usersController.deleteUser();
                 });
 
-                // $('#load-companies').on('click', () => database.loadCompanies());
-                // $('#load-symbols').on('click', () => database.loadSymbols());
+                // $('#load-companies').on('click', () => Database.loadCompanies());
+                // $('#load-symbols').on('click', () => Database.loadSymbols());
 
-                database.watchFavorites();
-                database.getFavorites()
+                Database.watchFavorites();
+                Database.getFavorites()
                     .then(
                         response => {
                             const strRes = response;
@@ -110,7 +110,7 @@ const usersController = {
     login() {
         const $email = $("#input-email").val();
         const $password = $("#input-password").val();
-        app.auth().signInWithEmailAndPassword($email, $password)
+        Database.app.auth().signInWithEmailAndPassword($email, $password)
             .then(response => {
                 // Check if we need local storage for users at all
                 Data.setLocalStorage(response);
@@ -124,7 +124,7 @@ const usersController = {
     },
 
     logout() {
-        app.auth().signOut()
+        Database.app.auth().signOut()
             .then(() => {
                 // Check if we need local storage for users at all
                 localStorage.clear();
@@ -142,7 +142,7 @@ const usersController = {
             $displayName = utils.parseDisplayName($email);
         }
 
-        app.auth().createUserWithEmailAndPassword($email, $password)
+        Database.app.auth().createUserWithEmailAndPassword($email, $password)
             .then(authUser => {
                 // Check if we need local storage for users at all
                 // Check if we need to save token in database
@@ -150,7 +150,7 @@ const usersController = {
 
                 const user = new User(authUser.email, $displayName, authUser.uid, authUser.Yd);
 
-                database.addNewUser(user);
+                Database.addNewUser(user);
                 usersController.updateUser(authUser, { displayName: $displayName });
                 Data.setLocalStorage(user);
 
@@ -163,10 +163,10 @@ const usersController = {
     },
 
     deleteUser() {
-        const authUser = app.auth().currentUser;
+        const authUser = Database.app.auth().currentUser;
         const uid = authUser.uid;
         authUser.delete();
-        database.removeUser(uid)
+        Database.removeUser(uid)
             .then(() => {
                 toastr.warning('User deleted. Redirecting.');
                 location.href = '/#!home';
