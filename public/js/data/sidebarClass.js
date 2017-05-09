@@ -6,6 +6,7 @@ import * as requester from '../requester.js';
 import Bloodhound from 'bloodhound';
 import { typehead } from 'typeahead';
 import { createCompleteChart } from '../chartPainter.js';
+import { database } from '../data/database.js';
 
 class SideBar {
 
@@ -50,27 +51,29 @@ class SideBar {
                 $('.typeahead').bind('typeahead:select', function(ev, suggestion) {
                     const separator = ' - ';
                     const ticker = suggestion.split(separator)[0];
-                    const period = {number:5, type: 'd'};
-                    
+                    const period = { number: 5, type: 'd' };
+
+                    database.addFavorite(ticker);
+
                     let svg = $('svg');
 
                     if (svg.length != 0) {
                         svg.remove();
                     }
 
-                    Data.getData('chart',ticker,period).then((data) => {
-                            template.get('chartHeader').then(template => {
-                                $('#company-info').html(template(data.infoData));
-                            });
-                            createCompleteChart(data.historicalData);
-                            toastr.success("Chart loaded!");
+                    Data.getData('chart', ticker, period).then((data) => {
+                        template.get('chartHeader').then(template => {
+                            $('#company-info').html(template(data.infoData));
+                        });
+                        createCompleteChart(data.historicalData);
+                        toastr.success("Chart loaded!");
                     }).catch(() => {
                         $('#company-info').html($('<h3/>').text('No company with this index! Try another one..').addClass('text-center'));
                     });
                 })
-        })
+            })
     }
-    
+
 
     callTopTen(params) {
 

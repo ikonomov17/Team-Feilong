@@ -40,8 +40,12 @@ const usersController = {
                                 $('#favs').html(strRes);
                             });
                 });
-                $('#load-companies').on('click', () => database.loadCompanies());
-                $('#load-symbols').on('click', () => database.loadSymbols());
+                // $('#load-companies').on('click', () => database.loadCompanies());
+                // $('#load-symbols').on('click', () => database.loadSymbols());
+
+                database.watchFavorites();
+                database.getFavorites()
+                    .then(resp => console.log(resp));
             })
             .catch(error => console.log(error.message))
 
