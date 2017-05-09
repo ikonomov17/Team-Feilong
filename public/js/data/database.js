@@ -121,7 +121,13 @@ const database = {
         const uid = app.auth().currentUser.uid;
         return dbRef.ref('users/' + uid + '/favorites')
             .once('value')
-            .then(response => Object.keys(response.val()));
+            .then(response => {
+                if (!response.val()) {
+                    return [];
+                } else {
+                    return Object.keys(response.val())
+                }
+            });
     },
 
     getCompany(symbol) {
@@ -153,4 +159,4 @@ const database = {
     },
 }
 
-export { database };
+export { database, app };

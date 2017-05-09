@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { Data } from 'data';
-import { database } from '../data/database.js';
+import { database, app } from '../data/database.js';
 import { template } from '../template.js';
 import { hashHistory } from '../hasher.js';
 import 'toastr';
@@ -11,7 +11,7 @@ toastr.options = {
 
 // Listens for changes in logged in user
 // Sets sign in/out buttons appropriately
-firebase.auth()
+app.auth()
     .onAuthStateChanged(user => usersController.toggleButtons(user));
 
 class User {
@@ -69,7 +69,7 @@ const usersController = {
     login() {
         const $email = $("#input-email").val();
         const $password = $("#input-password").val();
-        firebase.auth().signInWithEmailAndPassword($email, $password)
+        app.auth().signInWithEmailAndPassword($email, $password)
             .then(response => {
                 // Check if we need local storage for users at all
                 Data.setLocalStorage(response);
@@ -83,7 +83,7 @@ const usersController = {
     },
 
     logout() {
-        firebase.auth().signOut()
+        app.auth().signOut()
             .then(() => {
                 // Check if we need local storage for users at all
                 localStorage.clear();
@@ -98,7 +98,7 @@ const usersController = {
         const $password = $("#input-password").val();
         const $displayName = $('#input-displayname').val();
 
-        firebase.auth().createUserWithEmailAndPassword($email, $password)
+        app.auth().createUserWithEmailAndPassword($email, $password)
             .then(response => {
                 // Check if we need local storage for users at all
                 // Check if we need to save token in database
