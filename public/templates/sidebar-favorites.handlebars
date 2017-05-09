@@ -12,10 +12,10 @@
         </thead>
         <tbody class="favorites-list-table tickets-list-table">
             {{#each this}}
-            <tr class="ticket-row">
+            <tr class="ticket-row" id="">
                 <td class="td ticket-name">{{this.name}}</td>
                 <td class="td ticket-price">{{this.price}}</td>
-                <td class="td ticket-fscore">{{this.fScore}}</td>
+                <td class="td ticket-fscore">{{this.fScore}} <span class="close" >×</span></td>
             </tr>
             {{/each}}
         </tbody>

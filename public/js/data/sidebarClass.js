@@ -54,7 +54,6 @@ class SideBar {
                                     SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', this._indices)
                                         .then(() => {
                                             SideBar.coloriseTable();
-
                                             //Select fist favorite by default
                                             $('.favorites-list-table').children("tr").eq(0).addClass('info');
 
@@ -163,6 +162,7 @@ class SideBar {
 
     callNews(params) {
         SideBar.templateCompile('#side-bar-top', 'sidebar-new', params);
+
     }
 
     static templateCompile(attachTo, templateName, params) {
