@@ -14,7 +14,7 @@ System.config({
         'database' : './js/data/database.js',
         'filter': './js/utils/filter.js',
         'templater': './js/utils/template.js',
-        'timer': './js/utils/time.js',
+        'timer': './js/utils/timer.js',
         'requester': './js/utils/requester.js',
         'upperizer': './js/utils/upperizer.js',
         'chartPainter': './js/utils/chartPainter.js',
@@ -23,6 +23,7 @@ System.config({
         'tableController': './js/controllers/table.js',
         'usersController': './js/controllers/users.js',
         'sidebarController': './js/controllers/sidebar.js',
+        'indexClass' : './js/data/indexClass.js',
 
         // libraries
         'firebaseApp': './node_modules/firebase/firebase-app.js',

@@ -9,6 +9,9 @@ import Bloodhound from 'bloodhound';
 import { typeahead } from 'typeahead';
 
 class SideBar {
+    constructor() {
+        this._indices = [];
+    }
     callFavorites(params) {
         SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', params)
             .then(() => {
@@ -31,7 +34,7 @@ class SideBar {
                     .then((favs) => {
                         // console.log(favs);
 
-                        let indices = [];
+                        // let indices = [];
 
                         favs.forEach((x) => {
                             // console.log(x);
@@ -44,24 +47,23 @@ class SideBar {
                                 });
                             });
                             prom.then((indexData) => {
-                                    console.log(indexData);
-                                    indices.push(indexData);
+                                    // console.log(indexData);
+                                    this._indices.push(indexData);
                                 })
                                 .then(() => {
-                                    SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', indices)
+                                    SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', this._indices)
                                         .then(() => {
                                             SideBar.coloriseTable();
-                                        })
-                                        .then(() => {
-                                            $('.ticket-row').click(event => {
-                                                if ($(event.target).attr('class') === 'close') {
-                                                    const delFav = $(event.target).parent().attr('id');
-                                                    Database.removeFavorite(delFav);
-                                                    console.log(delFav);
-                                                }
+                                            //Select fist favorite by default
+                                            $('.favorites-list-table').children("tr").eq(0).addClass('info');
+
+                                            $('.favorites-list-table').on('click', () => {
+                                                const $selectedEl = $(event.target).parent();
+                                                $('.info').removeClass('info');
+                                                $selectedEl.addClass('info');
+
                                             });
-                                        })
-                                        //
+                                        });
 
                                 });
 
@@ -70,8 +72,6 @@ class SideBar {
             }
         });
     }
-
-
 
     callSearch(params) {
         // To make it work with templateCompile()
@@ -123,9 +123,9 @@ class SideBar {
     }
 
 
-    callTopTen(params) {
+    callTopTen() {
 
-        let arr = params.slice(0);
+        let arr = this._indices;
 
         SideBar.sortByKey(arr, 'fScore', -1);
 
@@ -142,8 +142,8 @@ class SideBar {
             });
     }
 
-    callBottomTen(params) {
-        let arr = params.slice(0);
+    callBottomTen() {
+        let arr = this._indices;
 
         SideBar.sortByKey(arr, 'fScore', 1);
 
@@ -161,7 +161,9 @@ class SideBar {
     }
 
     callNews(params) {
-        SideBar.templateCompile('#side-bar-top', 'sidebar-news', params)
+        SideBar.templateCompile('#side-bar-top', 'sidebar-news', params).then(() => {
+
+        })
     }
 
     static templateCompile(attachTo, templateName, params) {
