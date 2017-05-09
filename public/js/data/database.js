@@ -56,8 +56,12 @@ const database = {
 
     // Use to add favorites in bulk
     addUserProperty(property, value) {
-        const uid = app.auth().currentUser.uid;
-        dbRef.ref('users/' + uid + '/' + property)
+        const user = app.auth().currentUser;
+        if (!user) {
+            console.log('No user logged in, yet');
+            return;
+        }
+        dbRef.ref('users/' + user.uid + '/' + property)
             .set(value)
             .then(success => toastr.success(`${property} set`))
             .catch(error => toastr.error(error.message));
@@ -66,22 +70,34 @@ const database = {
     // Use to edit property
     // Use to edit property
     addFavorite(symbol) {
-        const uid = app.auth().currentUser.uid;
-        return dbRef.ref('users/' + uid + '/favorites/' + symbol)
+        const user = app.auth().currentUser;
+        if (!user) {
+            console.log('No user logged in, yet');
+            return;
+        }
+        return dbRef.ref('users/' + user.uid + '/favorites/' + symbol)
             .set(symbol);
     },
 
     removeFavorite(symbol) {
-        const uid = app.auth().currentUser.uid;
-        return dbRef.ref('users/' + uid + '/favorites/' + symbol)
+        const user = app.auth().currentUser;
+        if (!user) {
+            console.log('No user logged in, yet');
+            return;
+        }
+        return dbRef.ref('users/' + user.uid + '/favorites/' + symbol)
             .remove();
     },
 
     watchFavorites() {
-        const uid = app.auth().currentUser.uid;
-        const dbRefFavs = dbRef.ref('users/' + uid).child('favorites');
+        const user = app.auth().currentUser;
+        if (!user) {
+            console.log('No user logged in, yet');
+            return;
+        }
+        const dbRefFavs = dbRef.ref('users/' + user.uid).child('favorites');
         const $favList = $('.tickets-list-table');
-
+        console.log($favList);
         dbRefFavs.on('child_added', response => {
             const newFav = `<tr class="ticket-row" id="${response.key}">
                 <td class="td ticket-name">${response.val()}</td>
@@ -105,29 +121,35 @@ const database = {
     },
 
     getUser() {
-        const uid = app.auth().currentUser.uid;
-        return dbRef.ref('users/' + uid);
+        const user = app.auth().currentUser;
+        if (!user) {
+            console.log('No user logged in, yet');
+            return;
+        }
+        return dbRef.ref('users/' + user.uid);
     },
 
     getProperty(property) {
-        const uid = app.auth().currentUser.uid;
-        return dbRef.ref('users/' + uid)
+        const user = app.auth().currentUser;
+        if (!user) {
+            console.log('No user logged in, yet');
+            return;
+        }
+        return dbRef.ref('users/' + user.uid)
             .once('value')
             .then(response => response.val().property);
     },
 
     // NB! favorites object is in response.val(), returns array
     getFavorites() {
-        const uid = app.auth().currentUser.uid;
-        return dbRef.ref('users/' + uid + '/favorites')
+        const user = app.auth().currentUser;
+        if (!user) {
+            console.log('No user logged in, yet');
+            return;
+        }
+        return dbRef.ref('users/' + user.uid + '/favorites')
             .once('value')
-            .then(response => {
-                if (!response.val()) {
-                    return [];
-                } else {
-                    return Object.keys(response.val())
-                }
-            });
+            .then(response => Object.keys(response.val()));
     },
 
     getCompany(symbol) {

@@ -124,6 +124,8 @@ const usersController = {
             $('#login').addClass('hidden');
             $('#logout').removeClass('hidden');
 
+            database.watchFavorites();
+
             toastr.success(`Hi, ${user.email}!`);
         } else {
             $('#register').removeClass('hidden');
