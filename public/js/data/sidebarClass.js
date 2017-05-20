@@ -32,28 +32,23 @@ class SideBar {
             if (user !== null) {
                 Database.getFavorites()
                     .then((favs) => {
-                        // console.log(favs);
-
-                        // let indices = [];
 
                         favs.forEach((x) => {
-                            // console.log(x);
                             let prom = new Promise((resolve) => {
                                 const dataIndex = Data.getIndex(x);
                                 dataIndex.then((dataIndex) => {
-                                    // console.log('hereEee');
-                                    // console.log(dataIndex);
                                     resolve(dataIndex);
                                 });
                             });
+
                             prom.then((indexData) => {
-                                    // console.log(indexData);
                                     this._indices.push(indexData);
                                 })
                                 .then(() => {
                                     SideBar.templateCompile('#side-bar-top', 'sidebar-favorites', this._indices)
                                         .then(() => {
                                             SideBar.coloriseTable();
+
                                             //Select fist favorite by default
                                             $('.favorites-list-table').children("tr").eq(0).addClass('info');
 
@@ -64,9 +59,7 @@ class SideBar {
 
                                             });
                                         });
-
                                 });
-
                         });
                     });
             }
